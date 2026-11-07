@@ -1,0 +1,3821 @@
+{
+  "title": "Committee writing style reference",
+  "sources": {
+    "short": {
+      "full": "Elaine Schaertl Short",
+      "year": 2017,
+      "title": "Managing Multi-Party Social Dynamics for Socially Assistive Robotics",
+      "school": "University of Southern California",
+      "pdf": "dessertation_reference/Short_2017_USC_thesis.pdf"
+    },
+    "vazquez": {
+      "full": "Marynel Vázquez",
+      "year": 2017,
+      "title": "Reasoning About Spatial Patterns of Human Behavior During Group Conversations with Robots",
+      "school": "Carnegie Mellon University",
+      "pdf": "dessertation_reference/Vazquez_2017_CMU_thesis.pdf"
+    },
+    "bobu": {
+      "full": "Andreea Bobu",
+      "year": 2023,
+      "title": "Aligning Robot Representations with Humans",
+      "school": "University of California, Berkeley",
+      "pdf": "dessertation_reference/Bobu_2023_Berkeley_EECS-2023-200.pdf"
+    }
+  },
+  "measures": {
+    "short": {
+      "paragraphs": 476,
+      "words": 35300,
+      "sentences": 1389,
+      "sent_mean": 26.1,
+      "sent_median": 24,
+      "short_share": 14,
+      "long_share": 22,
+      "we": 6.7,
+      "colon": 5.3,
+      "semicolon": 2.3,
+      "question": 0.4,
+      "contraction": 0.3,
+      "suggest": 1.2,
+      "may": 0.8,
+      "might": 1.0,
+      "could": 0.7,
+      "can": 2.9,
+      "likely": 0.3,
+      "tend": 0.0,
+      "enable": 1.2,
+      "leverage": 0.2,
+      "n_this_dissertation": 31,
+      "n_this_thesis": 0,
+      "n_this_work": 55,
+      "n_this_chapter": 21,
+      "open_however": 21,
+      "open_additionally": 24,
+      "open_finally": 20,
+      "open_lastly": 0,
+      "open_for_example": 5,
+      "open_for_instance": 0,
+      "open_in_general": 1,
+      "open_in_particular": 0,
+      "open_moreover": 0,
+      "open_furthermore": 4,
+      "open_in_addition": 0,
+      "open_unfortunately": 0,
+      "open_interestingly": 0,
+      "open_thus": 0,
+      "open_therefore": 3,
+      "open_first": 1,
+      "open_second": 1,
+      "open_third": 0,
+      "open_overall": 1,
+      "open_instead": 0,
+      "open_nonetheless": 0,
+      "top_openers": [
+        [
+          "Additionally",
+          24
+        ],
+        [
+          "However",
+          21
+        ],
+        [
+          "Finally",
+          20
+        ],
+        [
+          "For example",
+          5
+        ],
+        [
+          "Furthermore",
+          4
+        ],
+        [
+          "Therefore",
+          3
+        ],
+        [
+          "Second",
+          1
+        ],
+        [
+          "Overall",
+          1
+        ]
+      ]
+    },
+    "vazquez": {
+      "paragraphs": 490,
+      "words": 33376,
+      "sentences": 1719,
+      "sent_mean": 20.3,
+      "sent_median": 19,
+      "short_share": 19,
+      "long_share": 6,
+      "we": 18.0,
+      "colon": 3.1,
+      "semicolon": 0.7,
+      "question": 0.2,
+      "contraction": 0.2,
+      "suggest": 1.3,
+      "may": 0.9,
+      "might": 0.2,
+      "could": 1.9,
+      "can": 4.3,
+      "likely": 0.6,
+      "tend": 0.7,
+      "enable": 0.9,
+      "leverage": 0.4,
+      "n_this_dissertation": 21,
+      "n_this_thesis": 0,
+      "n_this_work": 26,
+      "n_this_chapter": 9,
+      "open_however": 21,
+      "open_additionally": 0,
+      "open_finally": 16,
+      "open_lastly": 1,
+      "open_for_example": 38,
+      "open_for_instance": 2,
+      "open_in_general": 20,
+      "open_in_particular": 16,
+      "open_moreover": 15,
+      "open_furthermore": 11,
+      "open_in_addition": 8,
+      "open_unfortunately": 1,
+      "open_interestingly": 7,
+      "open_thus": 6,
+      "open_therefore": 0,
+      "open_first": 14,
+      "open_second": 9,
+      "open_third": 2,
+      "open_overall": 4,
+      "open_instead": 0,
+      "open_nonetheless": 4,
+      "top_openers": [
+        [
+          "For example",
+          38
+        ],
+        [
+          "However",
+          21
+        ],
+        [
+          "In general",
+          20
+        ],
+        [
+          "In particular",
+          16
+        ],
+        [
+          "Finally",
+          16
+        ],
+        [
+          "Moreover",
+          15
+        ],
+        [
+          "First",
+          14
+        ],
+        [
+          "Furthermore",
+          11
+        ]
+      ]
+    },
+    "bobu": {
+      "paragraphs": 445,
+      "words": 32861,
+      "sentences": 1478,
+      "sent_mean": 22.8,
+      "sent_median": 22,
+      "short_share": 17,
+      "long_share": 13,
+      "we": 25.7,
+      "colon": 6.1,
+      "semicolon": 1.1,
+      "question": 0.5,
+      "contraction": 0.9,
+      "suggest": 0.7,
+      "may": 1.9,
+      "might": 1.0,
+      "could": 1.2,
+      "can": 5.0,
+      "likely": 0.3,
+      "tend": 0.2,
+      "enable": 1.4,
+      "leverage": 0.4,
+      "n_this_dissertation": 5,
+      "n_this_thesis": 7,
+      "n_this_work": 3,
+      "n_this_chapter": 18,
+      "open_however": 31,
+      "open_additionally": 2,
+      "open_finally": 4,
+      "open_lastly": 15,
+      "open_for_example": 12,
+      "open_for_instance": 8,
+      "open_in_general": 0,
+      "open_in_particular": 2,
+      "open_moreover": 9,
+      "open_furthermore": 5,
+      "open_in_addition": 1,
+      "open_unfortunately": 15,
+      "open_interestingly": 0,
+      "open_thus": 9,
+      "open_therefore": 0,
+      "open_first": 5,
+      "open_second": 3,
+      "open_third": 2,
+      "open_overall": 8,
+      "open_instead": 8,
+      "open_nonetheless": 1,
+      "top_openers": [
+        [
+          "However",
+          31
+        ],
+        [
+          "Unfortunately",
+          15
+        ],
+        [
+          "Lastly",
+          15
+        ],
+        [
+          "For example",
+          12
+        ],
+        [
+          "Thus",
+          9
+        ],
+        [
+          "Moreover",
+          9
+        ],
+        [
+          "Overall",
+          8
+        ],
+        [
+          "Instead",
+          8
+        ]
+      ]
+    },
+    "draft": {
+      "paragraphs": 340,
+      "words": 29421,
+      "sentences": 1471,
+      "sent_mean": 20.7,
+      "sent_median": 19,
+      "short_share": 23,
+      "long_share": 10,
+      "we": 0.0,
+      "colon": 3.6,
+      "semicolon": 0.9,
+      "question": 0.1,
+      "contraction": 0.0,
+      "suggest": 1.2,
+      "may": 1.1,
+      "might": 0.3,
+      "could": 1.2,
+      "can": 5.8,
+      "likely": 0.5,
+      "tend": 0.3,
+      "enable": 0.5,
+      "leverage": 0.4,
+      "n_this_dissertation": 55,
+      "n_this_thesis": 0,
+      "n_this_work": 7,
+      "n_this_chapter": 67,
+      "open_however": 25,
+      "open_additionally": 8,
+      "open_finally": 6,
+      "open_lastly": 1,
+      "open_for_example": 4,
+      "open_for_instance": 13,
+      "open_in_general": 0,
+      "open_in_particular": 1,
+      "open_moreover": 11,
+      "open_furthermore": 7,
+      "open_in_addition": 10,
+      "open_unfortunately": 0,
+      "open_interestingly": 0,
+      "open_thus": 10,
+      "open_therefore": 1,
+      "open_first": 3,
+      "open_second": 3,
+      "open_third": 1,
+      "open_overall": 2,
+      "open_instead": 2,
+      "open_nonetheless": 0,
+      "top_openers": [
+        [
+          "However",
+          25
+        ],
+        [
+          "For instance",
+          13
+        ],
+        [
+          "Moreover",
+          11
+        ],
+        [
+          "Thus",
+          10
+        ],
+        [
+          "In addition",
+          10
+        ],
+        [
+          "Additionally",
+          8
+        ],
+        [
+          "Furthermore",
+          7
+        ],
+        [
+          "Finally",
+          6
+        ]
+      ],
+      "date": "2026-10-12",
+      "file": "main.pdf",
+      "sha256": "6024ed2ab27407d47277282c3322ec3d1692df65a85fe3dce574522ef1b96e0b",
+      "body": [
+        20,
+        142
+      ],
+      "review_markers_removed": 8
+    }
+  },
+  "patterns": [
+    {
+      "category": "Vocabulary",
+      "title": "Names for the document",
+      "slug": "names-for-the-document",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Each writer settles on a small set of names for the document and repeats them. Short writes this dissertation (31 times in the chapters) and this work (55), and also this dissertation work for what was done during the degree. Vázquez writes this dissertation (21) and this work (26). Bobu uses this dissertation and this thesis as equivalents (5 and 7). None of them calls the document a paper.",
+      "forms": [
+        "This dissertation presents [contribution].",
+        "In this work, [term] is defined as [definition].",
+        "The remainder of this document is organized as follows.",
+        "[Analysis or dataset] was [performed / collected] as part of this dissertation work."
+      ],
+      "in_hangs_dissertation": "Keep this dissertation for the whole program and this chapter for one study, as Hang's reference already says. This work is common in all three and is acceptable for a short reference to the program. Choose dissertation or thesis and use only that one. A chapter that came from a paper should not call itself this paper.",
+      "related_in_hangs_reference": [
+        "Impersonal dissertation voice",
+        "Established dissertation terminology"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 19,
+          "printed_page": "1",
+          "text": "This dissertation presents a domain-independent computational model of moderation of multi-party human-machine interactions that enables a robot or virtual agent to act as a moderator in a group interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 26,
+          "printed_page": "8",
+          "text": "The remainder of this document is organized as follows:",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 75,
+          "printed_page": "57",
+          "text": "The annotation and analyses described in the following sections were performed as part of this dissertation work.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 9,
+          "printed_page": "2",
+          "text": "This dissertation suggests to embrace dynamic group conversations in HRI.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 16,
+          "printed_page": "2",
+          "text": "Overall, this thesis approaches interaction by explicitly tackling representation alignment, rather than hoping it will naturally emerge.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "Verbs for what a chapter does",
+      "slug": "verbs-for-what-a-chapter-does",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A chapter or the dissertation is the subject of a small set of verbs. Short uses presents, introduces, describes, reviews, and discusses. Vázquez uses presents, describes, and reviews. Bobu, who writes with we, uses propose, present, introduce, formalize, and showcase. The verb says what kind of content follows, so reviews announces literature, introduces announces a new model or method, and presents announces a study or its results.",
+      "forms": [
+        "This chapter reviews [literature] in [fields].",
+        "This chapter introduces [model or method], in which [one-clause description].",
+        "This chapter presents [number] studies that [purpose].",
+        "This chapter describes [system or procedure]."
+      ],
+      "in_hangs_dissertation": "These verbs match the ones in Hang's reference. A chapter can present, introduce, review, or describe. It does not collect data or find results. Formalize promises a formal definition, so use it only where one follows.",
+      "related_in_hangs_reference": [
+        "Research actions",
+        "Impersonal dissertation voice"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 28,
+          "printed_page": "10",
+          "text": "This chapter reviews relevant literature in socially assistive robotics, computer supported collaborative work, and human-robot interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 118,
+          "printed_page": "100",
+          "text": "This chapter introduces the model of moderation and core moderation algorithm, in which the moderator monitors the interaction and takes actions to affect the social dynamics.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 13,
+          "printed_page": "6",
+          "text": "This chapter reviews relevant background from social psychology.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 25,
+          "printed_page": "18",
+          "text": "This chapter presents two experiments that we conducted to validate the idea that people establish group formations typical of human conversations with robots, and investigate various aspects of multi-party human-robot interactions.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 131,
+          "printed_page": "117",
+          "text": "In this chapter, we formalize how autonomous systems can explicitly reason about how well they can explain given human inputs.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "Develop, instantiate, validate, evaluate",
+      "slug": "develop-instantiate-validate-evaluate",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Short moves each contribution through a fixed chain of verbs. A model is formalized, an algorithm is developed from it, the algorithm is instantiated for one task, and the instance is validated or evaluated in a study. The same verbs return in every chapter opening and summary, so the reader always knows which step a sentence reports. Vázquez uses designed and built for the platform, evaluated for a method on a benchmark, and validated for an idea that an experiment tests. Bobu uses test for hypotheses and showcase for a demonstration of a framework in one setting.",
+      "forms": [
+        "[Method] is instantiated for [task type] and evaluated in [study].",
+        "[Idea] was validated in [setting] with [participants].",
+        "[Framework] was evaluated on [benchmark or task] against [baselines]."
+      ],
+      "in_hangs_dissertation": "Useful for the method chapters, where a general idea is followed by one implementation and one evaluation. Keep Hang's limit on validate, which needs a stated check. Evaluate does not say that the outcome was favorable.",
+      "related_in_hangs_reference": [
+        "Research actions",
+        "Method operations and their objects"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 135,
+          "printed_page": "117",
+          "text": "This algorithm is instantiated for collaborative tasks with individual goals, where the moderator either equalizes or reinforces performance on the task.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 187,
+          "printed_page": "169",
+          "text": "Each of the four moderation algorithms described above was instantiated into a specific application domain, with domain-specific interaction features and objective functions, and then evaluated in that domain.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 2,
+          "printed_page": "",
+          "text": "We evaluate this framework in a public computer vision benchmark for group detection, and show how it can be used to estimate the members of a robot’s group conversation in real-time.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 132,
+          "printed_page": "118",
+          "text": "we showcase the framework for learning from demonstrations using user demonstration data for an arm motion planning task;",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "Enable and leverage",
+      "slug": "enable-and-leverage",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Enable is the shared verb for what the research makes possible for a robot or a person. It appears 1.2, 0.9, and 1.4 times per 1,000 words in Short, Vázquez, and Bobu. Its object is an agent and an action, as in enable robots to detect. Leverage is rarer (0.2, 0.4, and 0.4 per 1,000 words) and means using something that already exists, such as a prior result, a dependency between two problems, or a dataset.",
+      "forms": [
+        "[Method] enables [agent] to [action] without [requirement].",
+        "This chapter leverages [existing result or structure] to [purpose]."
+      ],
+      "in_hangs_dissertation": "Both verbs are familiar to these readers, and leveraging is already in the title of the dissertation. Give enable an agent and an action. Hang's reference prefers the operation to a vague benefit, so follow enable with what the method does.",
+      "related_in_hangs_reference": [
+        "Method operations and their objects",
+        "Practical purpose"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 18,
+          "printed_page": "",
+          "text": "The model of moderation provides a framework for developing algorithms that enable robots to moderate group interactions without the need for speech recognition",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 46,
+          "printed_page": "39",
+          "text": "This chapter describes our efforts towards enabling robots to detect free-standing group conversations and their members.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 46,
+          "printed_page": "39",
+          "text": "Here, we introduce an alternating optimization procedure to leverage the dependency between two problems to detect group conversations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 18,
+          "printed_page": "4",
+          "text": "In this third part, we enable the robot to automatically detect when its representation is misaligned with the human’s and fix it.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "Insight, intuition, and observation",
+      "slug": "insight-intuition-and-observation",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The central idea of a method is named as an idea before it is implemented. Vázquez writes our main insight is that and our key methodological insight. Bobu writes the core insight of this dissertation, the intuition is that, and our observation is that. Short uses insight for what a study yields, as in provides key insight into. The sentence that follows the label is short enough to remember and is repeated in the abstract, the chapter, and the conclusion.",
+      "forms": [
+        "The main insight of this chapter is that [relationship].",
+        "The intuition is that if [condition], then [consequence].",
+        "[Study] provides insight into [question]."
+      ],
+      "in_hangs_dissertation": "This is the handoff from a finding to a method in Hang's reference. State the intuition once in a sentence and reuse that sentence. In the impersonal voice, the insight belongs to the chapter or the method.",
+      "related_in_hangs_reference": [
+        "An intuition leading to an operation",
+        "A study finding leading to a method"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 24,
+          "printed_page": "6",
+          "text": "The nutrition study provides key insight into how child-robot interactions develop over time, as well as providing insight for how a robot can use games to support cognitive skill development.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 9,
+          "printed_page": "2",
+          "text": "Our main insight is that we can exploit the mutual dependency between two problems for this task.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 10,
+          "printed_page": "3",
+          "text": "Our key methodological insight to reduce the bystander effect in this work was to design experimental protocols that assigned active roles to the participants.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 18,
+          "printed_page": "4",
+          "text": "The intuition is that if a person decides two robot behaviors are similar, they must also internally represent them similarly, enabling us to extract their representation.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 22,
+          "printed_page": "8",
+          "text": "Our observation is that many failures in robot learning, including the ones above, often result from a mismatch between the human’s representation and the one learned by the robot; in other words, their representations are misaligned.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "People in the studies",
+      "slug": "people-in-the-studies",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Participants is the word inside a study for all three. Outside a study the words differ by field. Short writes users, target users, and group members. Vázquez writes people, users, and interactants. Bobu writes the human or the person for the teacher in a method, end-users for the people a system is built for, and non-expert users or novice users when experience matters. Each study states the number of participants, how they were recruited, and the limits of the sample.",
+      "forms": [
+        "[N] participants were recruited from [population].",
+        "Participants experienced one of [N] conditions.",
+        "Non-expert users can use [approach] to [teach / provide] [signal]."
+      ],
+      "in_hangs_dissertation": "Hang's reference uses non-experts for the population, participants inside a study, demonstrators, and annotators. Bobu's non-expert users and novice users show that the term is familiar to this committee. Keep Hang's four terms and do not add novice as a synonym.",
+      "related_in_hangs_reference": [
+        "Teachers and collection settings"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 59,
+          "printed_page": "41",
+          "text": "A key component of the development of any SAR system is understanding the target users population that the robot will be assisting.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 27,
+          "printed_page": "20",
+          "text": "Twenty groups of 3 or 4 children interacted with Chester and Blink, for a total of 74 participants.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 36,
+          "printed_page": "22",
+          "text": "In a user study with the JACO2 (Kinova) robotic arm, we show that non-expert users can use our approach for learning features (Sec. 3.5.2).",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 54,
+          "printed_page": "40",
+          "text": "We recruited 12 users (11 male, aged 18-30) from the campus community to interact with our simulated JACO robot and provide feature traces for the three tasks.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "Words for imperfect human input",
+      "slug": "words-for-imperfect-human-input",
+      "seen_in": [
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Bobu's dissertation is the closest of the three to Hang's topic. Input from non-experts is called noisy, and features learned from it are called noisy or imperfect. The loss relative to experts is called degradation in input quality or degradation in performance. The claim that follows is measured against two reference points, an expert and a random baseline. Noisy input is described as input that still carries signal.",
+      "forms": [
+        "[Non-expert input] was closer to [expert level] than to [random baseline] on [measure].",
+        "When given imperfect [inputs], [method] still [outcome] relative to [baseline].",
+        "With very noisy [inputs], the results are less conclusive."
+      ],
+      "in_hangs_dissertation": "Hang's reference uses imperfections as the umbrella term and asks that noisy, sub-optimal, and unsuccessful each keep an operational definition. Bobu's wording supports the same stance, which is that imperfect teaching still contains information. The two reference points, expert and random, are a form worth reusing where the data allow it.",
+      "related_in_hangs_reference": [
+        "Imperfect teaching and structured behavior",
+        "Describing human teaching without blame"
+      ],
+      "examples": [
+        {
+          "writer": "bobu",
+          "pdf_page": 55,
+          "printed_page": "41",
+          "text": "While this does not mean that user features are as good as expert features (we expect some degradation in performance when going to non-experts), it shows that [...] the user features maintain a lot of signal despite this degradation.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 68,
+          "printed_page": "54",
+          "text": "In online FERL where a single feature was missing, the structure captured by the (noisy) non-expert features was still helpful in learning a better reward than the baseline.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 36,
+          "printed_page": "22",
+          "text": "Unfortunately, due to the current pandemic, we conducted the study online in a simulated environment; despite the inevitable degradation in input quality that this entails, the users were still able to teach features that induced informative bias.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 61,
+          "printed_page": "47",
+          "text": "when given imperfect features, the learned reward is superior to trying to learn everything implicitly from demonstrations.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "Graded words for evidence",
+      "slug": "graded-words-for-evidence",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The strength of a finding is graded in words that sit next to the number. Short writes some support, limited evidence, modest evidence, preliminary evidence, marginal significance, and a trend towards. Vázquez writes some evidence of and a trend suggested. Bobu writes provide evidence that, less conclusive, and less clear results. Strong words such as demonstrate and show are kept for results with a significant test or a clear margin.",
+      "forms": [
+        "[Analysis] provides preliminary evidence for [pattern].",
+        "There was limited evidence that [outcome] (H[n]).",
+        "[Result] showed a trend towards [direction] ([statistic]).",
+        "The results are less conclusive when [condition]."
+      ],
+      "in_hangs_dissertation": "This agrees with Hang's rule that claim strength follows the evidence. Put the value next to the graded word, as Hang's reference asks for correlations. Marginal significance and trend need the p value beside them.",
+      "related_in_hangs_reference": [
+        "Hedges and degree words",
+        "Reporting findings and interpretations"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 74,
+          "printed_page": "56",
+          "text": "In terms of the educational goal of the intervention, we find limited evidence that the children in the study learned about nutrition over the intervention",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 74,
+          "printed_page": "56",
+          "text": "Finally, although we find that children take longer to make food selections over time, contrary to H4, we have modest evidence that children choose healthier foods over time, suggesting that the increase in time may be due to greater thoughtfulness in their responses.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 94,
+          "printed_page": "76",
+          "text": "A post hoc analysis dividing the participants into two groups provides preliminary evidence for a spectrum of interpretations of a socially assistive robot among children with autism.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 33,
+          "printed_page": "26",
+          "text": "We saw some evidence of F-formations [86], especially with older participants.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 67,
+          "printed_page": "53",
+          "text": "Offline FERL similarly beats ME-IRL when the features used are of high enough quality, but the results are less conclusive when using very noisy features.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "Suggest, may, might, could",
+      "slug": "suggest-may-might-could",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Interpretations are hedged with a small set of words, and each writer has favorites. Suggest and its forms appear 1.2, 1.3, and 0.7 times per 1,000 words in Short, Vázquez, and Bobu. May appears 0.8, 0.9, and 1.9 times, might 1.0, 0.2, and 1.0 times, and could 0.7, 1.9, and 1.2 times. Short prefers might and suggesting that. Vázquez prefers could and tend to. Bobu prefers may. Hang's draft has 1.2 for suggest, 1.1 for may, 0.3 for might, and 1.2 for could, which is inside the range of the three.",
+      "forms": [
+        "[Result], suggesting that [bounded interpretation].",
+        "This finding might indicate [interpretation].",
+        "[Group] tended to [behavior] when [condition]."
+      ],
+      "in_hangs_dissertation": "Hang's reference gives each modal its own job, and the three dissertations use them the same way. No change in the amount of hedging is needed to match these readers. Keep the rule from the Chapter 8 review that can is not lowered to may as a matter of routine.",
+      "related_in_hangs_reference": [
+        "Hedges and degree words"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 73,
+          "printed_page": "55",
+          "text": "We find that over the course of the intervention, children respond more quickly to the robot’s verbal queries, suggesting that they not only maintain engagement with the SAR system over time, but likely become more comfortable with the system, perhaps even building rapport with the robot character.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 73,
+          "printed_page": "66",
+          "text": "These efforts to establish appropriate spatial arrangements suggest that people may be willing to collaborate with robots to establish F-formations and adapt to unforeseen circumstances.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 74,
+          "printed_page": "67",
+          "text": "This finding might indicate more subtle effects of the manipulation than can be gleaned from questionnaires.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 113,
+          "printed_page": "99",
+          "text": "Moreover, some users reported struggling to trade off the different features, which means that similarity queries might not be entirely preference-agnostic.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "Prior work and efforts",
+      "slug": "prior-work-and-efforts",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Prior work is the usual phrase in Short and Vázquez, and Bobu titles a section Prior Work in most chapters. Vázquez also writes prior efforts and calls her own research our efforts. Bobu names method families by their standing, such as traditional methods, typical methods, and state-of-the-art methods. A sentence about prior work says what the work focused on or assumed, so that the next sentence can state what it leaves open.",
+      "forms": [
+        "Prior work in [area] has primarily focused on [scope].",
+        "Traditional [methods] rely on [assumption or representation].",
+        "This chapter builds upon prior work on [topic]."
+      ],
+      "in_hangs_dissertation": "Same phrase and same move as Hang's reference. Claims such as few studies and first still need literature support. Refer to Hang's own earlier studies by chapter.",
+      "related_in_hangs_reference": [
+        "Prior work and research gaps"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 24,
+          "printed_page": "6",
+          "text": "Prior work in SAR has primarily focused on one-on-one interactions between robots and users: in many application domains, results from the social sciences suggest that individual attention from an assistive agent will better accomplish a user’s goals.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 15,
+          "printed_page": "8",
+          "text": "Our efforts build upon this related work.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 26,
+          "printed_page": "19",
+          "text": "A few prior efforts have explored the idea of companion or subordinate characters in HRI.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 35,
+          "printed_page": "21",
+          "text": "In order to correctly interpret and efficiently learn from human input, traditional methods resorted to structuring the reward as a (linear) function of carefully hand-engineered features – important aspects of the task [311, 2, 144, 25].",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Vocabulary",
+      "title": "Evaluative and emphatic words",
+      "slug": "evaluative-and-emphatic-words",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "differs",
+      "guidance": "The three differ most in how much evaluation their words carry. Short is restrained and uses novel, key, and particular promise in a few places. Vázquez uses essential and important for motivation and opens 7 sentences with Interestingly. Bobu is the most vivid, with notoriously challenging, vastly more complex, sorely needed, compelling evidence, and 15 sentences that open with Unfortunately. In the passages read, the strong word is usually attached to a problem or a need, and less often to the writer's own result.",
+      "forms": [
+        "[Capability] is essential for [agents] to [goal].",
+        "[Approach] has particular promise for [application].",
+        "Selecting [object] is challenging, even for [experts], since [reason]."
+      ],
+      "in_hangs_dissertation": "Hang's reference asks for value words used sparingly and next to the result that supports them. Short's restraint is the closest model. Bobu's stronger words are a personal register, and Hang's preference takes priority over it.",
+      "related_in_hangs_reference": [
+        "Value words and novelty",
+        "Emphasis"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 23,
+          "printed_page": "5",
+          "text": "Socially Assistive Robotics has particular promise for supporting group interactions in assistive contexts.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 46,
+          "printed_page": "39",
+          "text": "This ability is essential for these machine to adapt to the natural dynamics of social interactions and appropriately operate in human environments.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 35,
+          "printed_page": "21",
+          "text": "Unfortunately, selecting the right feature representation is notoriously challenging, even for expert system designers: knowing and specifying a priori an exhaustive set of all the features that might be relevant for the reward is impossible for most real-world tasks.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 196,
+          "printed_page": "182",
+          "text": "Despite these limitations, Boltzmann rationality has become so fundamental to how robots do inference and prediction, that designing a counterpart for continuous robotics domains is sorely needed.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "First person and the impersonal voice",
+      "slug": "first-person-and-the-impersonal-voice",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "differs",
+      "guidance": "This is the largest measured difference among the three, and between them and Hang's draft. We, our, and us appear 6.7 times per 1,000 words in Short, 18.0 in Vázquez, and 25.7 in Bobu. Hang's draft has 0.0. Short's abstract, introduction, chapter abstracts, and summaries are almost entirely impersonal, with this work, the model, and passive verbs as subjects, and we appears inside the study sections. Vázquez and Bobu use we throughout, also for work by the single author. Bobu changes to I in the final chapter for her own plans. Vázquez writes the author where she separates her part from a team's.",
+      "forms": [
+        "[Topic] is formalized as [problem] in which [description].",
+        "This work presents [approach] that includes [parts].",
+        "[Algorithm] is validated in [study], and it is shown that [result]."
+      ],
+      "in_hangs_dissertation": "Hang's dissertation is impersonal by default and that decision stands. Short's dissertation shows the same voice in the framing parts, so the adviser's own writing supports it. Since all three use we in study sections, a remaining we in a procedure would not look unusual to these readers. It is still replaced under Hang's own rule.",
+      "related_in_hangs_reference": [
+        "Impersonal dissertation voice"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 20,
+          "printed_page": "2",
+          "text": "Moderation is formalized as a decision-making problem in which an agent in a multi-party interaction chooses social behaviors that change the interaction state, in order to maximize performance relative to both task goals and social goals.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 135,
+          "printed_page": "117",
+          "text": "This instantiated algorithm is validated in peer group interactions, and it is shown that the moderator’s actions change both group cohesion and helpful behavior, depending on both how the moderator chooses which participant to help and how often the moderator addresses each participant.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 61,
+          "printed_page": "43",
+          "text": "In order to move towards a longer intervention, we developed a 3-week long, twice-weekly intervention for first grade children, with a within-subjects design.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 2,
+          "printed_page": "",
+          "text": "In this work, we first develop a robotic platform for studying human-robot interactions, and contribute new experimental protocols to investigate group conversations with robots.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 88,
+          "printed_page": "81",
+          "text": "The author contributed to designing and building parts of the robot, as well as setting up and integrating most software components.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 197,
+          "printed_page": "183",
+          "text": "In this final chapter, I briefly outline a few future research directions towards such seamless human-robot interaction.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "A result with its test",
+      "slug": "a-result-with-its-test",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A quantitative result is one sentence that names the measure, gives the two values with their spread in parentheses, and gives the test with its statistic and p value. Short gives M and SD, the test, and often an effect size. Vázquez gives the test in parentheses after the factor name and M and SE for each condition. Bobu names the test and its factors in words and gives F and p. The verb is plain, such as showed, revealed, was significant, or found.",
+      "forms": [
+        "Participants had higher [measure] in [condition A] (M = [a], SD = [b]) than in [condition B] (M = [c], SD = [d]).",
+        "A [test] on [measure] showed [result] (p = [value]).",
+        "[Factor] was significant ([statistic], p = [value])."
+      ],
+      "in_hangs_dissertation": "Same content as Hang's reference, which asks for the measure, baseline, condition, and uncertainty together. Hang's reference uses compared with in a sentence and against inside parentheses. Do not add a test or a spread that the chapter did not compute.",
+      "related_in_hangs_reference": [
+        "Numbers and measured comparisons",
+        "A results paragraph answering one comparison"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 131,
+          "printed_page": "113",
+          "text": "Participants had higher scores on the group cohesion questionnaire in the moderated condition (M = 3.29, SD = 0.387) than in the unmoderated condition (M = 3.03, SD = 0.349).",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 69,
+          "printed_page": "51",
+          "text": "A Cohen’s d statistic was also computed to measure this effect size (Cohen’s d = .57), which indicates a moderate intervention effect.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 73,
+          "printed_page": "66",
+          "text": "Gaze was significant (F[1, 68] = 5.67, p = 0.02): participants stood significantly farther away from the robot with RG (M = 2.29, SE=0.05) than with AG (M = 2.09, SE = 0.06).",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 55,
+          "printed_page": "41",
+          "text": "We ran an ANOVA with input type as a factor and task as a covariate, [...] finding a significant main effect (F(2, 103) = 132.7505, p < .0001).",
+          "match": "letters"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "A difference that was not found",
+      "slug": "a-difference-that-was-not-found",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A null result is reported as something the analysis did not find, and the sentence does not claim that the conditions are equal. Short writes we did not find significant differences and this trend did not reach statistical significance, and often adds a likely reason. Vázquez writes was not significant and there were no significant differences. Bobu reports no significant difference and then says what the result does not mean.",
+      "forms": [
+        "No significant difference was found in [measure] between [conditions].",
+        "[Trend with values], however this trend did not reach statistical significance.",
+        "This does not mean that [A] is as good as [B]. It shows that [bounded statement]."
+      ],
+      "in_hangs_dissertation": "Hang's preferred wording is did not detect a difference, with the warning that this does not mean the two conditions are equivalent. The three use find where Hang uses detect, and the stance is the same. Bobu's second sentence is the same warning written out.",
+      "related_in_hangs_reference": [
+        "Reporting a difference that was not detected"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 68,
+          "printed_page": "50",
+          "text": "We did not find significant differences between the pre- and post-intervention ratings, as seen in Figure 4.3, likely due to the extremely high positive evaluation.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 70,
+          "printed_page": "52",
+          "text": "There was a 2.29 mean increase in utterance length from the start to end of the intervention period, in accordance with H3, however this trend did not reach statistical significance.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 34,
+          "printed_page": "27",
+          "text": "We did not find significant differences on how much participants touched the robot between Conditions, but there were differences between Age Groups.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 33,
+          "printed_page": "26",
+          "text": "Condition was not significant, nor any interactions with Condition.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 55,
+          "printed_page": "41",
+          "text": "which showed that the MSE for Random input was significantly higher than both Expert (p < .0001) and User (p < .0001), and found no significant difference between Expert and User (p = .0964).",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "Hypotheses and verdicts",
+      "slug": "hypotheses-and-verdicts",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Hypotheses are numbered and stated before the results. The verdict is attached to the result that decides it, with supporting H1, in line with H2, contrary to H4, or a label in parentheses such as H6 and H7 unsupported. Partial support is said in words. Short separates the part of a hypothesis that held from the part that did not. Bobu adds a caution to a supported hypothesis when the evidence for one part is weaker.",
+      "forms": [
+        "[Result with statistic], supporting H[n].",
+        "Thus the first part of H[n], [content], is supported, but not [the second part].",
+        "These results support H[n], although the evidence for [part] is weaker.",
+        "No support was found for the hypothesis that [content]."
+      ],
+      "in_hangs_dissertation": "Same practice as Hang's reference. Keep the verdict in the sentence that reports the deciding result, which matches Hang's preference for keeping a result and its interpretation together.",
+      "related_in_hangs_reference": [
+        "Hypotheses and verdicts",
+        "A short verdict after the evidence"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 68,
+          "printed_page": "50",
+          "text": "Thus the first part of H1, the positive perception of the robot, is supported, but not that there is an increase in this perception over the duration of the intervention.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 132,
+          "printed_page": "114",
+          "text": "However, we did not find support for the hypothesis that the moderator robot would decrease participants’ negative attitudes towards robots.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 73,
+          "printed_page": "66",
+          "text": "This result supported our first hypothesis (H1) and is related to prior findings on the influence of gaze on the perception of a robot’s head motion [107].",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 55,
+          "printed_page": "41",
+          "text": "These results support H5, although the evidence for finding the teaching protocol intuitive is weaker, and participants might have a bias to be positive given they are in a study.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "Possible explanations",
+      "slug": "possible-explanations",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "An unexpected or weak result is followed by one or two candidate reasons, each marked as a possibility. Short writes this may have been because and may have been due to the fact that, and likely due to for the reason she finds most plausible. Vázquez writes could be attributed to the fact that, an alternative explanation is that, and part of the problem could have been. Bobu writes it is unclear whether and names the two readings that the data cannot separate.",
+      "forms": [
+        "This may have been because [reason A], or may have been due to [reason B].",
+        "[Result] could be attributed to [reason]. An alternative explanation is that [reason].",
+        "It is unclear whether [outcome] is due to [A] or to [B]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference, which presents reasons as hypotheses that could be examined. Bobu's it is unclear whether is a useful form when two explanations remain open.",
+      "related_in_hangs_reference": [
+        "Possible explanations",
+        "An unexpected result and possible reasons"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 132,
+          "printed_page": "114",
+          "text": "This may have been because many of the participants had low scores on the NARS (especially the interaction subscale) initially, or may have been due to the fact that the interaction was centered on human-human interaction, not human-robot interaction.",
+          "match": "letters"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 44,
+          "printed_page": "37",
+          "text": "The bigger separation between the robot and the participants that we observed in the experiment could be attributed to the fact that Chester is different – it is a robot, not a person.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 44,
+          "printed_page": "37",
+          "text": "An alternative explanation is that Chester’s face is planar.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 196,
+          "printed_page": "182",
+          "text": "Moreover, although our experiments in Sec. 9.3.3 reveal that LESS still performs better inference than Boltzmann, it is unclear whether this outcome is due to the effect of hypothesis H3 or if our method is truly unaffected by misalignment.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "Limitations stated plainly",
+      "slug": "limitations-stated-plainly",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A limitation is announced in a short sentence and then listed with its consequence. Vázquez opens a discussion with the experiment was limited in several ways and counts the limits with First, Second, and Third. Short names the sample size, the interaction time, and the measure used as a proxy. Bobu states who the participants were and cautions that the result speaks to that population. The limit is tied to the design, and the writer does not apologize for it.",
+      "forms": [
+        "The [study] was limited in several ways. First, [limit]. Second, [limit].",
+        "All [participants] had [property], so the results speak to [this population] and not to [the general population].",
+        "This study has a small number of participants and [other constraint]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference, where a limitation names the design constraint and the claim it limits. Bobu's caution about a technical sample is a model for the studies with recruited non-experts and crowdworkers.",
+      "related_in_hangs_reference": [
+        "Limitations and future work"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 97,
+          "printed_page": "79",
+          "text": "This study, like most, features a small number of participants and a limited amount of total interaction time with those participants (Scassellati et al., 2012).",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 97,
+          "printed_page": "79",
+          "text": "Other limitations of the study include the use of head orientation as an imperfect proxy for attention; future work would benefit from modern gaze-tracking hardware.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 35,
+          "printed_page": "28",
+          "text": "The experiment was limited in several ways.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 87,
+          "printed_page": "80",
+          "text": "Our work was limited by our simulated environment.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 54,
+          "printed_page": "40",
+          "text": "All users had technical background, so we caution that our results will speak to FERL’s usability with this population rather than the general population.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "Wording for future work",
+      "slug": "wording-for-future-work",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Future work is written with a modal that shows how firm the plan is. Short uses might, would, and could, and further research is needed to determine whether for an open question. Vázquez uses it would be interesting to explore and should. Bobu uses must for a gap in her own method, could for an option, and I plan to in the final chapter for work she intends to do. A direction is stated together with what it would make possible.",
+      "forms": [
+        "Further research is needed to determine whether [question].",
+        "Future work could [action], which would [benefit].",
+        "One possible direction for future work is [topic]. Another area of future work is [topic]."
+      ],
+      "in_hangs_dissertation": "Hang's reference uses Future work could and One planned step is to, with would for what a planned study does. Bobu's I plan to shows that planned work stated as a plan is accepted in a final chapter, and in Hang's impersonal voice this is one planned step. Write only what Hang's notes say.",
+      "related_in_hangs_reference": [
+        "Limitations and future work",
+        "Future work drafted from notes"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 152,
+          "printed_page": "134",
+          "text": "Further research is needed to determine whether the long-term social benefits of a robot moderator offset short-term decreases in task performance.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 188,
+          "printed_page": "170",
+          "text": "Future research might directly model the dynamics of the interaction in order to enable the moderator to take appropriate turns and make decisions about whether or not the moderator’s intervention is needed.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 89,
+          "printed_page": "82",
+          "text": "Moving forward, it would be interesting to explore data-driven approaches to enable robots to reason about human spatial behavior.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 90,
+          "printed_page": "83",
+          "text": "Future work should explore the problem of robot localization in crowded environments further to unlock human-robot interactions in busy human gatherings.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 69,
+          "printed_page": "55",
+          "text": "Future work must investigate ways in which the robot can determine whether to accept or reject the newly learned feature.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 198,
+          "printed_page": "184",
+          "text": "In the future, I plan to study other such proxy tasks, and even leverage unsupervised pre-training methods for improving sample efficiency.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "Contribution statements",
+      "slug": "contribution-statements",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Contributions are a list with a lead-in sentence. Short separates primary contributions from secondary ones and writes each as a noun phrase. Vázquez gives two take-home messages as full sentences and then a list of contributions with a label and a pointer to the chapter. Bobu lists contributions inside each chapter and starts each one with a verb. All three end the lead-in with a colon.",
+      "forms": [
+        "The following are the primary contributions of the dissertation:",
+        "A [type of contribution] of [object] wherein [what it does].",
+        "[Label]. [One sentence on what was built or shown] ([chapter])."
+      ],
+      "in_hangs_dissertation": "Hang's Introduction has a Contributions section, and Hang's reference asks that a contribution be distinct from an aspiration. Short's split between primary and secondary contributions could hold the datasets and code. A colon after a complete lead-in to a list is the case that Hang's reference keeps.",
+      "related_in_hangs_reference": [
+        "Contribution statements",
+        "Few colons and semicolons"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 25,
+          "printed_page": "7",
+          "text": "The following are the primary contributions of the dissertation:",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 25,
+          "printed_page": "7",
+          "text": "A computational formalization of moderation wherein an agent optimizes for the achievement of multiple social and task goals in an interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 88,
+          "printed_page": "81",
+          "text": "The main take-home messages of this dissertation are:",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 88,
+          "printed_page": "81",
+          "text": "We built a new platform for social HRI research (Chapter 4).",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 132,
+          "printed_page": "118",
+          "text": "we introduce a general framework for quantifying representation misalignment when the human and the robot are acting on the same dynamical system;",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "Definitions in a full sentence",
+      "slug": "definitions-in-a-full-sentence",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A term is defined in its own sentence when it first matters. Short writes is defined in this work as and we define, and repeats the definition in the abstract, the introduction, and the chapter that uses it. Vázquez writes a plain is sentence. Bobu introduces a new term with which we call and a dash followed by the definition. The defined term is then used without variation.",
+      "forms": [
+        "[Term] is defined in this work as [definition].",
+        "A [term] is a [category] that [distinguishing property].",
+        "[Description of the new object], which is called [term] in this dissertation."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference, which defines the signal before notation. Short's phrase in this work limits the definition to the dissertation, which fits progress and the feedback terms. Bobu's dash can be written as a which clause.",
+      "related_in_hangs_reference": [
+        "Definitions before notation",
+        "Established dissertation terminology"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 17,
+          "printed_page": "",
+          "text": "A moderator is defined in this work as an agent that regulates social and task outcomes in a goal-oriented social interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 119,
+          "printed_page": "101",
+          "text": "We define the moderator as a member of a goal-directed multi-party interaction whose role is to regulate the behavior of the other participants.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 25,
+          "printed_page": "18",
+          "text": "A sidekick is a character that is closely associated with another primary character, and regarded as a subordinate or partner.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 35,
+          "printed_page": "21",
+          "text": "We introduce a new type of representation-specific human input specifically designed to teach features, which we call feature traces – partial trajectories that describe the monotonic evolution of the value of the feature to be learned.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "Scope statements",
+      "slug": "scope-statements",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "Each writer says what the dissertation does not cover, early and in one or two sentences. Vázquez writes we limit the scope of this dissertation to and is out of the scope of this dissertation. Short writes is not directly addressed in this work and separates her topic from a neighboring one. Bobu states where a method was shown and where else it could apply. The excluded topic often returns as future work.",
+      "forms": [
+        "The scope of this dissertation is limited to [setting or population].",
+        "[Topic] is not directly addressed in this dissertation.",
+        "[Term A] is distinguished from [term B], since [the model] applies only to [condition].",
+        "Although evaluated in [domain], [method] can be used in [other settings] where [condition]."
+      ],
+      "in_hangs_dissertation": "Hang's reference has no separate pattern for scope, so this one adds to it. A scope sentence in the Introduction answers a question that a committee member would otherwise ask at the defense. The last form states an expectation and needs could or can be expected to unless it was tested.",
+      "related_in_hangs_reference": [
+        "Conditions attached to benefits"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 119,
+          "printed_page": "101",
+          "text": "We also distinguish moderation from mediation: our model applies only to interactions where the goals of the group members are not in conflict.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 188,
+          "printed_page": "170",
+          "text": "The problem of when to moderate is not directly addressed in this work.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 10,
+          "printed_page": "3",
+          "text": "We limit the scope of this dissertation to studying spatial behavior typical of group conversations were people are standing and quasi-static, as it often happens during social encounters in public, open spaces.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 10,
+          "printed_page": "3",
+          "text": "However, studying these interactions and other modalities of communication is out of the scope of this dissertation.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 36,
+          "printed_page": "22",
+          "text": "Although showcased in manipulation, our method can be used in any robot learning scenarios where feature learning is beneficial: in collaborative manufacturing users might care about the rotation of the object handed over, or in autonomous driving passengers may care about how fast to drive through curves.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "Where the work was published and who did it",
+      "slug": "where-the-work-was-published-and-who-did-it",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "All three say where the content of a chapter appeared and who contributed. Bobu opens each chapter between the introduction and the conclusion with a line that names the papers and the collaborators. Vázquez names the venue in the outline and again at the start of several chapters. Short names the collaborating institutions and the venue in the section, and marks which part was performed as part of this dissertation work when the data came from others.",
+      "forms": [
+        "This chapter is based on [paper], written in collaboration with [names].",
+        "The work presented in this chapter was originally published as [title].",
+        "The [data collection] was performed by [others]. The [analysis] was performed as part of this dissertation work."
+      ],
+      "in_hangs_dissertation": "Hang's published study chapters already carry the second form. Where a chapter uses data or systems from collaborators, Short's two sentences state the division clearly. Hang's rule of citing chapters and not Hang's own papers concerns cross-references and is not affected.",
+      "related_in_hangs_reference": [
+        "Prior work and research gaps"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 60,
+          "printed_page": "42",
+          "text": "The work described in this section was performed collaboratively with researchers at the Massachusetts Institute of Technology, Yale University, and Stanford University, and was published in the 23rd IEEE International Symposium on Robot and Human Interactive Communication",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 75,
+          "printed_page": "57",
+          "text": "The annotation and analyses described in the following sections were performed as part of this dissertation work.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 25,
+          "printed_page": "18",
+          "text": "A publication about this work appeared in the 2014 ACM/IEEE International Conference on Human-Robot Interaction [197].",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 46,
+          "printed_page": "39",
+          "text": "The proposed approach was first published in IROS’15 [199].",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 34,
+          "printed_page": "20",
+          "text": "This chapter is based on the papers “Feature Expansive Reward Learning: Rethinking Human Input” [40] and “Inducing Structure in Reward Learning by Learning Features” [41], written in collaboration with Marius Wiggert, Claire Tomlin, and Anca Dragan.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Wording preference",
+      "title": "Pointing to figures, sections, and chapters",
+      "slug": "pointing-to-figures-sections-and-chapters",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "The introduction of each dissertation has one figure that shows the whole approach, and the text points to it. Short's figure shows the overall approach, Vázquez's shows the research methodology, and Bobu's places every chapter in one diagram. Inside chapters, a figure is named as the place where something is seen or summarized, and a result often ends with the figure in parentheses. Other parts of the dissertation are cited by number.",
+      "forms": [
+        "This approach is summarized in [figure].",
+        "[Statement], as seen in [figure].",
+        "[Result] ([figure]).",
+        "[Object] is described in [section]."
+      ],
+      "in_hangs_dissertation": "Hang's Introduction has an overview figure, which matches all three. Hang's reference asks for chapter labels in place of typed numbers, which LaTeX references provide.",
+      "related_in_hangs_reference": [
+        "Established dissertation terminology",
+        "Parentheses for supporting specifics"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 20,
+          "printed_page": "2",
+          "text": "This approach is summarized in Figure 1.1.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 114,
+          "printed_page": "96",
+          "text": "These insights were used to develop a cooperation-focused robot control algorithm, described in Section 7.1.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 11,
+          "printed_page": "4",
+          "text": "We use an iterative research methodology, as depicted in Figure 1.2, to study social group conversations, develop new robot capabilities, and evaluate the effectiveness of the proposed approaches for HRI.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 16,
+          "printed_page": "2",
+          "text": "Fig. 1.1 provides a visual overview of the four main parts of the thesis (which we briefly motivate below) and how they fit in the broader space of representation alignment in human-robot interaction.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "A concrete scene before the abstraction",
+      "slug": "a-concrete-scene-before-the-abstraction",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A problem is shown in a small scene before it is named in general terms. Vázquez asks the reader to consider a figure in which two people talk near a robot. Bobu uses a robot that hands a user a cup of coffee. Short gives two users who respond differently to the same request. The scene takes one to three sentences and is followed by the general statement it illustrates.",
+      "forms": [
+        "For example, consider [figure], in which [situation].",
+        "To [goal], the robot [considers / needs] [quantities]. [What goes wrong without them].",
+        "One user might [response A], while another might [response B]."
+      ],
+      "in_hangs_dissertation": "Same as the hypothetical scenario in Hang's reference. Label a hypothetical case as one, keep it short, and return to the technical point.",
+      "related_in_hangs_reference": [
+        "A hypothetical scenario that explains a problem",
+        "An example in a few connected sentences"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 188,
+          "printed_page": "170",
+          "text": "Especially as robots move into homes and long-term interactions, it may become necessary to personalize the robot’s behavior to the preferences of the individual: one user might be more likely to take the robot’s suggestion if asked nicely, while another might prefer the robot to be more firm.",
+          "match": "letters"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 8,
+          "printed_page": "1",
+          "text": "For example, consider Figure 1.1a in which two people talk to each other.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 90,
+          "printed_page": "83",
+          "text": "For example, imagine being at a loud party.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 15,
+          "printed_page": "1",
+          "text": "To act in the world, robots rely on a representation of salient features of the task: for instance, to hand a user a cup of coffee, the robot may consider movement efficiency and cup orientation in its behavior.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "One example carried through",
+      "slug": "one-example-carried-through",
+      "seen_in": [
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "Bobu returns to one household scene, a robot that carries a cup near a laptop, in the introduction and in most chapters. Each new idea is explained by changing one detail of that scene, with phrases such as in our earlier example and in the above example. Vázquez does the same with her robot and its named behaviors. The reader learns the example once and afterwards attends only to what changed.",
+      "forms": [
+        "In the earlier example, if [changed condition], [consequence].",
+        "In the scenario in [figure], [actor] wants [goal]."
+      ],
+      "in_hangs_dissertation": "Hang's chapters use different tasks, so one example for the whole dissertation is not available. Inside a chapter, the task of that chapter can serve as the running example for the signal, the method, and the result.",
+      "related_in_hangs_reference": [
+        "An example in a few connected sentences"
+      ],
+      "examples": [
+        {
+          "writer": "vazquez",
+          "pdf_page": 25,
+          "printed_page": "18",
+          "text": "In this experiment, we made Chester the main character and Blink its sidekick.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 34,
+          "printed_page": "20",
+          "text": "For instance, in the scenario in Fig. 3.1, the human wants the robot to keep the cup away from the laptop to prevent spilling liquid over it; she may communicate this preference to the robot by providing a demonstration of the task or even by directly intervening during the robot’s task execution to correct it.",
+          "match": "letters"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 35,
+          "printed_page": "21",
+          "text": "In our earlier example, if the robot were taught about the concept of distances to laptops separately, it would be able to quickly tell what the person wants from a single demonstration.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 16,
+          "printed_page": "2",
+          "text": "In the above example, a user might care about how close to them the robot moves or whether it carries the mugful of coffee around their expensive laptop, and what “close” or “around” means will differ from person to person and be context-dependent.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "The gap, then the response",
+      "slug": "the-gap-then-the-response",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The motivation names what existing work covers, what it leaves out, and why. Vázquez writes that a problem has often been overlooked, lists the related problems that have been studied, and gives a reason for the gap. Bobu states what typical methods do, the limit of that approach, and the alternative introduced by Instead. Short states what prior work has primarily focused on and the case in which that focus does not hold. The gap is specific, and prior work is described without dismissal.",
+      "forms": [
+        "[Problem] has often been overlooked by [community]. However, these methods do not address [specific problem]. One reason for this gap is [reason].",
+        "Typical methods [approach], but [limit]. Instead, [alternative].",
+        "Prior work in [area] has primarily focused on [scope]. There are exceptions, however, when [condition]."
+      ],
+      "in_hangs_dissertation": "Same as the introduction pattern in Hang's reference, which is built around a particular assumption about human teaching. Vázquez's third sentence, the reason for the gap, is a useful addition.",
+      "related_in_hangs_reference": [
+        "An introduction built around a consequential assumption",
+        "Prior work and research gaps"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 24,
+          "printed_page": "6",
+          "text": "There are exceptions to this, however, when fostering social interactions between people is a goal of the system.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 8,
+          "printed_page": "1",
+          "text": "The problem of detecting social conversations and their members has often been overlooked by the HRI community.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 9,
+          "printed_page": "2",
+          "text": "One reason for this gap is the heavy focus of the community on studying one-on-one human-robot interactions.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 16,
+          "printed_page": "2",
+          "text": "Typical methods attempt to learn the human’s representation of what matters in a task from aggregated data sets of human behavior, but this data will also not reflect every individual, environment, and task the robot will be exposed to.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 16,
+          "printed_page": "2",
+          "text": "Instead, we suggest that we should treat humans as active participants in the interaction not as static data sources.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "The thesis in one sentence",
+      "slug": "the-thesis-in-one-sentence",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "Each dissertation can be reduced to one sentence, and the writer provides it. Vázquez sets the goal of the dissertation apart from the paragraph. Bobu sets the core insight apart in the same way. Short opens the abstract with the sentence and repeats it word for word in the introduction. The sentence names the object, such as a model or computational models, and what it makes possible.",
+      "forms": [
+        "The goal of this dissertation is to [verb] [object] for [purpose].",
+        "This dissertation presents [object] that enables [agent] to [action]."
+      ],
+      "in_hangs_dissertation": "This adds to Hang's reference. Check that the Abstract, the Overview, and the Conclusion state the thesis in the same words, and that the three stages follow from it.",
+      "related_in_hangs_reference": [
+        "The three stage dissertation arc"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 17,
+          "printed_page": "",
+          "text": "This dissertation presents a domain-independent computational model of moderation of multi-party human-machine interactions that enables a robot or virtual agent to act as a moderator in a group interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 9,
+          "printed_page": "2",
+          "text": "the goal of this dissertation is to develop computational models for robots to detect and sustain the spatial patterns of human behavior that naturally emerge during free-standing group conversations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 16,
+          "printed_page": "2",
+          "text": "successful human-robot interaction requires robots to engage with humans in an interactive process for finding a shared representation of what’s salient for the task.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "Research as iteration",
+      "slug": "research-as-iteration",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The dissertation is presented as a cycle of studying people, building a capability, and evaluating it. Short calls this an iterative approach and Vázquez an iterative research methodology, and both show it in a figure. Each study is said to inform, motivate, or enable the next step. A limitation observed in one study is named as the reason for the following chapter.",
+      "forms": [
+        "The results of this study motivate [next step].",
+        "This limitation motivated [the work in the next chapter].",
+        "These studies inform the development of [method or behavior]."
+      ],
+      "in_hangs_dissertation": "Hang's three stages, understand, mitigate, and leverage, are the same kind of story. Hang's reference adds a boundary, which is that a study can motivate a method without validating it, and that the stages are a conceptual dependency.",
+      "related_in_hangs_reference": [
+        "The three stage dissertation arc",
+        "A study finding leading to a method"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 20,
+          "printed_page": "2",
+          "text": "This work presents an iterative approach to developing the model of moderation, that includes studies and analyses to develop an understanding of the application domains for robot moderators that inform the development of algorithms based on our model of moderation.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 74,
+          "printed_page": "56",
+          "text": "The results of this study motivate our subsequent work on developing SAR interactions that support cognitive skill development in children.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 11,
+          "printed_page": "4",
+          "text": "This methodology also drives the organization of the rest of this document.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 45,
+          "printed_page": "38",
+          "text": "This limitation motivated us to work towards enabling robots to automatically detect nearby conversational groups.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 56,
+          "printed_page": "42",
+          "text": "In the following sections, we explore whether both expert and non-expert features can be used to improve reward learning generalization.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "Implications for other researchers",
+      "slug": "implications-for-other-researchers",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A discussion says what the result means for people who build or study similar systems. Short addresses designers and researchers directly and says under which goal a design choice is preferable. Vázquez states that the work has design implications and that a protocol could be used to study other questions. Bobu titles paragraphs Implications for a named setting. The implication is conditional on a goal or a setting.",
+      "forms": [
+        "For [designers / researchers] of [systems], these results [suggest / provide] [implication].",
+        "For scenarios where [goal] is most important, [design choice] may be preferable.",
+        "[Protocol or method] could be used to study [other question]."
+      ],
+      "in_hangs_dissertation": "This matches the practical purpose and the methodological implication in Hang's reference. Keep could and may for uses that were not tested.",
+      "related_in_hangs_reference": [
+        "Practical purpose",
+        "Discussion synthesis and its boundary"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 95,
+          "printed_page": "77",
+          "text": "For designers of SAR systems and researchers in SAR for children with autism, these results provides important insights for future work.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 95,
+          "printed_page": "77",
+          "text": "For scenarios where children’s enjoyment of interactions (as measured by responsiveness and positive affect) is most important, these outcomes may be maximized when the behavioral and morphological agency of the robot is matched to the developmental level of the target sub-population of children with autism.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 36,
+          "printed_page": "29",
+          "text": "Our work has design implications.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 74,
+          "printed_page": "67",
+          "text": "The brainstorming protocol could be used to study other aspects of HRI.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 67,
+          "printed_page": "53",
+          "text": "Our online FERL approach provides an alternative that allows people to teach features when the robot detects it is missing something, and then update the reward using the new feature set.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "Observations and participants' words",
+      "slug": "observations-and-participants-words",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Numbers are accompanied by what was seen and what participants said. Short reports observations with we observed and quotes single words and remarks. Vázquez quotes children's utterances and describes one session frame by frame in a figure. Bobu quotes written remarks from the survey in parentheses after the result they explain. The quotation is short, is attributed to one participant or several, and supports a point that the numbers already make.",
+      "forms": [
+        "Participants [general observation], and in the words of one participant, [quoted remark].",
+        "Several participants mentioned that [content] ([quoted remark]).",
+        "For example, one participant [action or remark], which illustrates [pattern]."
+      ],
+      "in_hangs_dissertation": "Same as the observed episode in Hang's reference. Use only episodes and remarks that the study recorded, and do not treat one remark as evidence of how common something is.",
+      "related_in_hangs_reference": [
+        "An observed episode in action order"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 132,
+          "printed_page": "114",
+          "text": "We observed that overall participants had a positive interaction with the robot, finding it engaging and, in the words of one participant, “cute”.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 71,
+          "printed_page": "53",
+          "text": "For example, one child began his interaction with “yeah” and “maybe,” and proceeded to recall what the robot had said in a previous session and said “you said you don’t like mashed potatoes!”, demonstrating both relational speech and, given the tone of the interaction, humor with the robot.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 35,
+          "printed_page": "28",
+          "text": "For example, one participant said the following when Chester was about to turn: “I feel bad for the lamp. I hope you are going to be OK”.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 55,
+          "printed_page": "41",
+          "text": "In fact, several participants mentioned in their additional remarks that they had a good idea of what traces to give, and the only frustrating part was the GUI interface",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "Candor about costs",
+      "slug": "candor-about-costs",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "All three say plainly when something did not work or came at a cost. Short reports that the robot's assistance did come at a cost and gives the lower task performance. Vázquez writes Unfortunately when a difference was too small to interpret, and of course, we pay a price for a method's flexibility. Bobu writes that a method is not the full answer and lists what it does not solve. The admission is specific and is followed by what can still be concluded.",
+      "forms": [
+        "However, [benefit] did come at a cost, since [measured cost].",
+        "This difference was small enough that it had no functional meaning.",
+        "[Method] does not solve [problem] fully. [What it improves]."
+      ],
+      "in_hangs_dissertation": "This adds to Hang's reference. It fits the dissertation's own argument, since imperfect teaching is its subject. Bobu's idioms are replaced by literal wording under Hang's rule.",
+      "related_in_hangs_reference": [
+        "Literal wording",
+        "An unexpected result and possible reasons"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 152,
+          "printed_page": "134",
+          "text": "However, the robot’s assistance did come at a cost: the performance of the group was higher in the unmoderated testing sessions (H6 and H7 unsupported)",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 44,
+          "printed_page": "37",
+          "text": "Unfortunately, this difference was small enough, that we thought it had no functional meaning.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 87,
+          "printed_page": "80",
+          "text": "Of course, we pay a price for this flexibility: the more complex the state is, the more data RL methods need to learn from.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 125,
+          "printed_page": "111",
+          "text": "That said, we need to be explicit that this is not the be-all end-all solution to our goal above.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 125,
+          "printed_page": "111",
+          "text": "The learned rewards are not perfect — they are just better than alternatives.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "A step, not an end point",
+      "slug": "a-step-not-an-end-point",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The size of the contribution is stated modestly. Vázquez calls the dissertation our first steps toward a research agenda. Bobu calls a chapter merely a step towards understanding and a step towards recovering what she wants to recover. Short says that results provide a basis for further algorithms and that evidence is preliminary. The modest frame is paired with a clear statement of what was shown.",
+      "forms": [
+        "[Work] is a step towards [larger goal].",
+        "These results provide a basis for [next development]."
+      ],
+      "in_hangs_dissertation": "This agrees with Hang's restraint on novelty claims. One such sentence in a chapter is enough, and it should not replace the statement of the finding.",
+      "related_in_hangs_reference": [
+        "Value words and novelty"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 134,
+          "printed_page": "116",
+          "text": "These results support the use of a robot as the moderator in a group interaction, and provide a basis for the development of further moderation algorithms.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 88,
+          "printed_page": "81",
+          "text": "This dissertation presented our first steps toward a research agenda where we aim to make robot perception cognizant of social behavior for HRI.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 68,
+          "printed_page": "54",
+          "text": "Our work is merely a step towards understanding how explicitly focusing on learning features can impact reward learning generalization and sample complexity.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 126,
+          "printed_page": "112",
+          "text": "Overall, similarity queries are a step towards recovering human-aligned representations.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "Register",
+      "slug": "register",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "differs",
+      "guidance": "Short and Vázquez write in a formal register throughout. Bobu mixes a formal register with conversational touches, such as contractions, idioms, and questions to the reader. Contractions appear 0.3, 0.2, and 0.9 times per 1,000 words in Short, Vázquez, and Bobu. All of Short's are inside the quoted speech of participants or of the robot, and Vázquez has a few of her own. Bobu's idioms include from the get-go and the be-all end-all solution.",
+      "forms": [
+        "[Subject] is modeled as [formal description], in which [components].",
+        "This dependency implies that [consequence]."
+      ],
+      "in_hangs_dissertation": "Hang's reference asks for literal wording, and Hang's draft has no contractions. That is the register of Short and Vázquez. Bobu's conversational touches are her own voice and are not a model for this dissertation.",
+      "related_in_hangs_reference": [
+        "Literal wording"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 119,
+          "printed_page": "101",
+          "text": "In this work, moderation is modeled as a cyclic decision-making process, in which the moderator monitors the interaction state, evaluates the state relative to some number of task and social goals, and chooses social behaviors that change the interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 74,
+          "printed_page": "67",
+          "text": "This dependency implies that robots should reason about and control their gaze and body motion jointly.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 17,
+          "printed_page": "3",
+          "text": "So far, we assumed that the human can identify every individual feature of the representation they wish to teach, but that’s not always easy.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 36,
+          "printed_page": "22",
+          "text": "First, we look at an easier online reward learning setting like the one in Fig. 3.1 (Right-Top) where the robot knows part of the feature set from the get-go, but the person’s preference also depends on other features not in the set (Sec. 3.4.2).",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Writing style",
+      "title": "Ending on the wider stake",
+      "slug": "ending-on-the-wider-stake",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "The last paragraph of each dissertation leaves the technical content and states what the work is for. Short ends with an ethical concern of her field and how her approach answers it. Vázquez ends a future direction with what it could teach about human conversation. Bobu ends by asking a broader research question and describing the systems that would benefit. The closing is short and is not a summary.",
+      "forms": [
+        "One consistent concern in [field] is that [concern]. This dissertation demonstrates another path, which is [approach].",
+        "Ultimately, these efforts could help [wider benefit]."
+      ],
+      "in_hangs_dissertation": "Hang's Conclusion closes with the hope that future work will embrace the imperfections in non-expert teaching, which is this move. Short's closing names a concern of the field and says how her approach answers it. The content of a closing has to come from Hang. A closing for the whole dissertation does not conflict with Hang's rule against adding a closing sentence to each future-work paragraph.",
+      "related_in_hangs_reference": [
+        "Future work drafted from notes",
+        "Practical purpose"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 189,
+          "printed_page": "171",
+          "text": "One consistent area of ethical concern in socially assistive robotics is that the robot interaction partner will replace human-human contact and further isolate vulnerable users.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 189,
+          "printed_page": "171",
+          "text": "This approach allows the richness of the interaction to come from the relationships between human users, and supports people in turning towards each other rather than away.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 89,
+          "printed_page": "82",
+          "text": "Ultimately, these efforts could help us better understand human conversations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 197,
+          "printed_page": "183",
+          "text": "This opens up a broader research question: how can robots help the human-robot team converge to a shared representation?",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence style",
+      "title": "Sentence length",
+      "slug": "sentence-length",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The three write sentences of different lengths, and Hang's draft is within their range. The mean is 26.1 words in Short, 20.3 in Vázquez, and 22.8 in Bobu, against 20.7 in Hang's draft. Sentences of 35 words or more make up 22 percent of Short's, 6 percent of Vázquez's, and 13 percent of Bobu's, against 10 percent of the draft's. Short's long sentences carry a result with its conditions and its interpretation. Vázquez breaks the same content into two or three sentences. All three place a short sentence where a point has to stand out.",
+      "forms": [
+        "[Short statement of the point]. [Longer sentence with the evidence and its condition].",
+        "One possible direction for future work is [topic]."
+      ],
+      "in_hangs_dissertation": "No change in sentence length is needed to suit these readers. Hang's rule of one main job for each sentence decides where to split, and a result stays with the which clause that interprets it.",
+      "related_in_hangs_reference": [
+        "One main job and varied sentence length"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 188,
+          "printed_page": "170",
+          "text": "One possible direction for future work is personalized moderation.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 118,
+          "printed_page": "100",
+          "text": "For this work, we primarily use time-based approaches to choosing when the robot should act, and focus on algorithms for selecting robot behaviors in order to achieve both task-related and social goals in the interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 34,
+          "printed_page": "27",
+          "text": "This analysis was inconclusive and there were no significant differences.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 2,
+          "printed_page": "",
+          "text": "Lower-body orientation is a key descriptor of spatial behavior and, thus, can help detect group conversations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 18,
+          "printed_page": "4",
+          "text": "Human behavior is not random – it is intentional and reflective of internal goals and preferences.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence style",
+      "title": "A short sentence that states the point",
+      "slug": "a-short-sentence-that-states-the-point",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A paragraph often begins with a short declarative sentence that says what the paragraph establishes. Vázquez sets this sentence in small capitals at the start of most discussion paragraphs, so that a discussion can be read from these sentences alone. Bobu and Short use the same kind of sentence without the typography. The sentence is a claim or a finding and has a subject and a verb.",
+      "forms": [
+        "[Factor] had effects on [outcome].",
+        "There were no differences in [measure] between conditions.",
+        "The quality of [output] depends directly on the quality of [input]."
+      ],
+      "in_hangs_dissertation": "Hang's reference asks for discussion headings with a concrete subject. Vázquez's lead sentences are a second way to do this without adding headings. A lead sentence must not claim more than the paragraph shows.",
+      "related_in_hangs_reference": [
+        "Headings that name the question or finding",
+        "Direct subjects and concrete details"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 97,
+          "printed_page": "79",
+          "text": "Challenges inherent in performing studies involving children with autism are well established.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 35,
+          "printed_page": "28",
+          "text": "The sidekick had effects on the interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 74,
+          "printed_page": "67",
+          "text": "Robot gaze and orientation can affect users’ perception of these behaviors.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 87,
+          "printed_page": "80",
+          "text": "Our findings suggest that RL has potential to succeed in motion control tasks during social conversations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 68,
+          "printed_page": "54",
+          "text": "The quality of the learned rewards depends directly on the quality of the learned features.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence style",
+      "title": "Openers that mark the step",
+      "slug": "openers-that-mark-the-step",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Sentences often open with a word that tells the reader how the sentence relates to the one before. However opens 21 sentences in Short, 21 in Vázquez, and 31 in Bobu. Short's other frequent openers are Additionally (24) and Finally (20). Vázquez's are For example (38), In general (20), In particular (16), and Moreover (15). Bobu's are Unfortunately (15), Lastly (15), and For example (12). The last item of a series is marked with Finally or Lastly.",
+      "forms": [
+        "However, [contrast].",
+        "Additionally, [further result of the same kind].",
+        "In particular, [the specific case].",
+        "Finally, [last item of the series]."
+      ],
+      "in_hangs_dissertation": "Same practice as Hang's reference, where However opens its sentence and each connector has one job. Hang's reference accepts Additionally and In addition for an added point. Unfortunately is Bobu's habit and is a value word.",
+      "related_in_hangs_reference": [
+        "Connectors with a clear job"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 131,
+          "printed_page": "113",
+          "text": "Additionally, we found that participants spoke more (M = 99.08, SD = 48.86) in the moderated than in the unmoderated condition (M = 77.08, SD = 47.06).",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 189,
+          "printed_page": "171",
+          "text": "Finally, future work might address the case where the robot can take both task actions and social actions as both a participant and moderator of a group interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 74,
+          "printed_page": "67",
+          "text": "Nonetheless, a trend suggested that MO could lead to higher feelings of ostracism than AO.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 45,
+          "printed_page": "38",
+          "text": "In both cases, we noted that the average inter-participant distance during the day phases of the games tended to be smaller than the average distance between the participants and the robot.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 196,
+          "printed_page": "182",
+          "text": "Lastly, the Mechanical Turk study in Sec. 9.2, although compelling, illustrates simplistic datasets of human choices.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence style",
+      "title": "Colons and semicolons",
+      "slug": "colons-and-semicolons",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "differs",
+      "guidance": "All three use more of these marks than Hang now wants, and Hang's draft is already near the low end of their range. Colons appear 5.3, 3.1, and 6.1 times per 1,000 words in Short, Vázquez, and Bobu, and 3.6 times in the draft. Semicolons appear 2.3, 0.7, and 1.1 times, and 0.9 times in the draft. A colon introduces a list, an explanation of the clause before it, or an example. A semicolon joins two parallel statements, and Short uses it most. Vázquez is the most sparing with both.",
+      "forms": [
+        "[Lead-in that announces a list]: [items].",
+        "One problem is [A]. The other one is [B].",
+        "[Statement], since [explanation]."
+      ],
+      "in_hangs_dissertation": "Hang's preference for few colons and semicolons takes priority, and nothing in the three dissertations argues against it. Readers who write with more of these marks will not find the draft heavy. Vázquez's sentence with one problem and the other one is the form that Hang's reference already uses, written there as two sentences.",
+      "related_in_hangs_reference": [
+        "Few colons and semicolons",
+        "Procedural series and enumerations"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 119,
+          "printed_page": "101",
+          "text": "When executed by a robot moderator, this serves as a multi-party extension of one-on-one socially assistive robotics: rather than a robot helping an individual achieve goals, the robot is helping a group achieve goals.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 121,
+          "printed_page": "103",
+          "text": "The exact interval is task-dependent and empirically-determined; in most of the application domains in this work, it is set to between 20 and 30 seconds.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 46,
+          "printed_page": "39",
+          "text": "One problem is estimating the lower-body orientation of people in a scene; the other one is detecting F-formations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 18,
+          "printed_page": "4",
+          "text": "Chapter 7 proposes that the robot should be introspective and estimate a confidence in how much to trust its representation: if the person’s behavior seems inexplicable under the robot’s current representation, then that representation must be misaligned.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence style",
+      "title": "Parentheses for specifics",
+      "slug": "parentheses-for-specifics",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Parentheses hold what a reader may want to check and does not need in order to follow the sentence. These are statistics, figure and section references, hypothesis labels, condition codes, and a short gloss on how something was measured. Bobu also uses them for a brief aside on the writer's expectation. The sentence still reads correctly when the parentheses are removed.",
+      "forms": [
+        "[Result] (as measured by [measure]).",
+        "[Statement] (a typical example is depicted in [figure]).",
+        "[Outcome] ([hypothesis label] unsupported)."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference. Keep a governing condition in the sentence and out of the parentheses.",
+      "related_in_hangs_reference": [
+        "Parentheses for supporting specifics"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 151,
+          "printed_page": "133",
+          "text": "The results show that the predicted trade-off did occur, but evidence of improved social features, including increased group cohesion scores and more looking around (as measured by variance in head pose), were found in the performance-reinforcing rather than performance-equalizing condition, in contrast to the predictions made in H1, H2, and H4.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 35,
+          "printed_page": "28",
+          "text": "The beginning and the end of the interaction were often chaotic, because the participants were not expecting to interact with the robot and frequently got distracted with their pictures (a typical example is depicted in Fig. 5.6).",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 68,
+          "printed_page": "54",
+          "text": "Further, we only tested whether users could teach features we tell them about, so we still need to test whether users can teach features they implicitly know about (as would happen when intervening to correct the robot or designing a reward from scratch).",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence style",
+      "title": "Questions",
+      "slug": "questions",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "Vázquez and Bobu sometimes put the problem to the reader as a question. Question marks appear 0.2 and 0.5 times per 1,000 words in their chapters. The question comes at the point where the motivation turns into the approach, and the next sentence begins the answer. Short does not put questions to the reader. Her questions are research questions, which she lists in the introduction and states before a study, and the quoted speech of participants.",
+      "forms": [
+        "How should [agent] [action] while [condition]? One strategy is to [approach].",
+        "This dissertation addresses the following research questions.",
+        "Q[n]. [Research question]?"
+      ],
+      "in_hangs_dissertation": "Hang's reference uses questions in headings and as research questions, which is Short's practice. A question in running text is not part of Hang's reference. If one is used, it opens a problem that the next sentence starts to answer.",
+      "related_in_hangs_reference": [
+        "Headings that name the question or finding",
+        "Study actions leading to the analytical question"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 23,
+          "printed_page": "5",
+          "text": "How do participants react to a robot in the role of moderator?",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 61,
+          "printed_page": "43",
+          "text": "Q2: Are children able to maintain engagement with a SAR system over time?",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 60,
+          "printed_page": "53",
+          "text": "How should robots cooperate to sustain F-formations while engaged in a conversation?",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 90,
+          "printed_page": "83",
+          "text": "Why can’t robots do the same and take advantage of their social environments to solve difficult perception problems?",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 15,
+          "printed_page": "1",
+          "text": "What is the reason underlying these failure modes in human-robot interaction?",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence style",
+      "title": "For example after a general claim",
+      "slug": "for-example-after-a-general-claim",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A general statement is followed at once by one case. Vázquez opens 38 sentences with For example, and it is her most frequent opener. Bobu uses For example and For instance (12 and 8 sentences). Short more often keeps the case inside the sentence with such as or for example after a comma. The example is one sentence and names the actor and what happens.",
+      "forms": [
+        "[General statement]. For example, [actor] [what happens in one case].",
+        "[General statement], such as [case A] or [case B]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference, which uses For instance for a case. One example is enough for one claim.",
+      "related_in_hangs_reference": [
+        "An example in a few connected sentences",
+        "A specific case introduced by especially"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 23,
+          "printed_page": "5",
+          "text": "For example, the task-goal controller is instantiated for collaborative tasks with individual goals, with objective functions that enable the moderator to either equalize or reinforce individual performance at the task.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 120,
+          "printed_page": "102",
+          "text": "In most cases, the task goals are the primary purpose of the interaction from the perspective of the participants, such as building something, solving a problem, or winning a game.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 10,
+          "printed_page": "3",
+          "text": "For example, in dyadic interactions it is important that both parties are involved in the conversation, or the interaction ends.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 131,
+          "printed_page": "117",
+          "text": "For example, a household robot designer may not know how an end-user would like the robot to interact with the personal possessions in the user’s home.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence style",
+      "title": "Tense by section",
+      "slug": "tense-by-section",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "Tense follows the kind of content. An overview of a chapter is in the present (this chapter presents). A procedure that was carried out is in the past (we conducted, were recruited). A model or algorithm is described in the present (the moderator monitors). A result is in the past, and its interpretation is in the present (this suggests). A summary of a chapter and the final chapter are in the past (this chapter presented, this dissertation presented). Short's study discussions state findings in the present with we find that.",
+      "forms": [
+        "This chapter presents [content].",
+        "[Study] was conducted with [participants].",
+        "[Method] infers [quantity] from [input].",
+        "[Measure] was higher in [condition], which suggests that [interpretation].",
+        "This chapter presented [content]."
+      ],
+      "in_hangs_dissertation": "This adds to Hang's reference, which has no pattern for tense. The scheme above is the one that all three follow. It gives a rule for a passage whose tense is in doubt, which is past for what was done in a study and for a summary, and present for what a method does and for what a result suggests.",
+      "related_in_hangs_reference": [
+        "Reporting findings and interpretations"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 135,
+          "printed_page": "117",
+          "text": "This chapter introduces the second moderation algorithm, in which the robot moderator takes actions based on the group members’ performance on a shared task.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 133,
+          "printed_page": "115",
+          "text": "This chapter presented the core moderation model, in which the moderator takes social actions to affect the interaction state and improve performance relative to both task and social goals.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 186,
+          "printed_page": "168",
+          "text": "This dissertation presented a model that treats moderation as a decision-making problem in which the moderator must choose social behaviors that support task goals and influence social dynamics in goal-oriented multi-party interactions.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 27,
+          "printed_page": "20",
+          "text": "We conducted the experiment as a field trial during the 2013 Summer Games event at Disney Research Pittsburgh.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 88,
+          "printed_page": "81",
+          "text": "We validated this idea further in the context of small group conversations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 67,
+          "printed_page": "53",
+          "text": "We introduced feature traces as a novel type of human input that allows for intuitive teaching of non-linear features from high-dimensional state spaces.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence structure",
+      "title": "A result with the clause that interprets it",
+      "slug": "a-result-with-the-clause-that-interprets-it",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A result and its interpretation are often one sentence. The result is the main clause, and a clause that begins with suggesting that, supporting, indicating, or which means carries the interpretation. Short uses suggesting that most often. Vázquez and Bobu use it a few times, and Bobu also uses which means that. The interpretation is hedged, and the result is not.",
+      "forms": [
+        "[Result with its values], suggesting that [bounded interpretation].",
+        "[Test result], supporting hypothesis H[n] ([figure]).",
+        "[Observation], which means that [consequence]."
+      ],
+      "in_hangs_dissertation": "This is the structure that Hang kept in the Chapter 8 review, where a result stayed together with its which suggests that clause. Hang's form is which suggests that. The three write suggesting that and do not use Hang's form, and the structure of the sentence is the same.",
+      "related_in_hangs_reference": [
+        "Known information leading to new information",
+        "One main job and varied sentence length",
+        "Observation interpretation and explanation"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 132,
+          "printed_page": "114",
+          "text": "In the group cohesion questionnaire scores and overall participant speech we found support for two of our hypotheses, suggesting that using moderation behaviors on a robot in a multi-party interaction can improve the human-human interactions.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 131,
+          "printed_page": "113",
+          "text": "A paired t-test on the group cohesion scores showed marginal significance (p = 0.06), supporting hypothesis H1 (Figure 5.4).",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 35,
+          "printed_page": "28",
+          "text": "These children tended to stay on the ground for long periods (M = 74.3 seconds, SE = 11.4), suggesting that they felt comfortable in close proximity with the robot.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 56,
+          "printed_page": "42",
+          "text": "In addition, participants found our teaching protocol intuitive, suggesting that feature traces can be useful for teaching features outside of the system designer’s setting.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence structure",
+      "title": "Concession first",
+      "slug": "concession-first",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A sentence grants a point and then states the main one. The granted point opens the sentence with While, Although, or Even though, and the main clause follows. All three open with While. Short and Bobu also use Although, and Vázquez uses Even though. The pattern is common where a result is mixed, a method has a limit, or the scope is narrower than the general case.",
+      "forms": [
+        "While [what was not found], [what was found], suggesting that [interpretation].",
+        "Although [general case], this dissertation focuses on [narrower case].",
+        "While [method] enables [benefit], there are several limitations that [consequence]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference, which keeps the focus of the sentence in the second clause. Hang also places while after the main clause for an added contrast.",
+      "related_in_hangs_reference": [
+        "Concession with while"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 74,
+          "printed_page": "56",
+          "text": "While we do not find changes in their MLU, we do find that they use more complex speech with the robot over time, suggesting that the social presence of the robot encouraged child-robot relationship building.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 119,
+          "printed_page": "101",
+          "text": "Although in general a moderator might take both task-related and social actions, we focus on the case where the moderator does not directly participate in the task, but only takes social actions to affect the interaction state.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 45,
+          "printed_page": "38",
+          "text": "Even though this difference was small and could have been influenced by the lack of counterbalancing, we suspect that Chester’s role could have induced this result.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 68,
+          "printed_page": "54",
+          "text": "While FERL enables robots to learn features and induce structure in reward learning, there are several limitations that may affect its usability.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence structure",
+      "title": "Rather than and instead",
+      "slug": "rather-than-and-instead",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The approach of the dissertation is set against the usual one inside the sentence. Rather than introduces what the work does not do, and the main clause says what it does. Bobu uses it most, and also opens sentences with Instead and By contrast. Vázquez and Short use rather than for a design decision and for the kind of claim that the data support.",
+      "forms": [
+        "[Approach] by [what it does], rather than [the usual alternative].",
+        "[Behaviors A and B] should be [treated] jointly, rather than independently of each other.",
+        "Prior work [approach]. By contrast, this chapter [approach]."
+      ],
+      "in_hangs_dissertation": "Same job as the literal alternative in Hang's reference, which also offers the short form with not and whereas. The usual alternative has to be one that the cited work takes.",
+      "related_in_hangs_reference": [
+        "A literal alternative"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 97,
+          "printed_page": "79",
+          "text": "Consequently, data analysis takes an exploratory approach towards examining patterns in the data rather than focusing on statistical rigor.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 2,
+          "printed_page": "",
+          "text": "Our results reinforce the importance of communicative motion behavior for robots, and suggest that their body and gaze behaviors should be designed and controlled jointly, rather than independently of each other.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 112,
+          "printed_page": "98",
+          "text": "By contrast, we propose that if learning generalizable representations is the goal, then we should ask the user for input that is specifically meant to teach the representation itself, rather than input meant to teach the full reward and hoping to extract a good representation along the way.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 35,
+          "printed_page": "21",
+          "text": "We argue that the robot does not have to learn everything at once; instead, it can divide-and-conquer the reward learning problem and focus on explicitly learning the features separately from learning how to combine them into the reward.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence structure",
+      "title": "First, Second, Third",
+      "slug": "first-second-third",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Reasons, limits, and steps are counted. Vázquez announces the number (the motivation was twofold, limited in several ways) and then opens each item with First, Second, and Third. Bobu counts the reasons why an approach helps in the same way. Short more often uses a numbered list for algorithms and questions, and One possible direction, Another area, and Finally for a series in a paragraph.",
+      "forms": [
+        "The motivation for [change] was twofold. First, [reason]. Second, [reason].",
+        "[Claim]. First, [reason]. Second, [reason]. Third, [reason].",
+        "One possible direction is [A]. Another area of future work is [B]. Finally, [C]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference, which uses One is and The other one is for two items and First, Then, and Finally for a real sequence. Announcing the number is a small addition that helps a long paragraph.",
+      "related_in_hangs_reference": [
+        "Procedural series and enumerations",
+        "Connectors with a clear job"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 188,
+          "printed_page": "170",
+          "text": "Another area of future work is addressing the problem of mediation, or the case where the goals of the individual group members are in conflict.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 37,
+          "printed_page": "30",
+          "text": "The motivation for these changes was twofold.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 37,
+          "printed_page": "30",
+          "text": "First, we wanted to study conversations in HRI with a different group of participants that were not as impulsive as children.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 74,
+          "printed_page": "67",
+          "text": "Third, the perception system that we implemented for the experiment required instrumentation.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 68,
+          "printed_page": "54",
+          "text": "Second, feature traces give information about states that are not on optimal trajectories, be it states with high feature values that are undesirable, or states with low feature values where other, more important features have high values.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence structure",
+      "title": "Purpose before the action",
+      "slug": "purpose-before-the-action",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A sentence that reports a step often begins with its purpose. To and In order to open the sentence, and the action follows as the main clause. All three use this for analysis steps and design decisions, so that each step is read as an answer to a need. Short often writes In order to, which Vázquez and Bobu rarely use, and all three write To.",
+      "forms": [
+        "To [purpose], [the analysis] [action].",
+        "In order to [purpose], [method] [operation] if [condition]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference. In the impersonal voice the main clause takes the analysis, the study, or a passive verb as its subject.",
+      "related_in_hangs_reference": [
+        "Purpose attached to an action"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 122,
+          "printed_page": "104",
+          "text": "In order to achieve this, the moderation algorithm triggers a moderation behavior if some participant has not spoken in a 30-second window or if any one participant has spoken for more than half of the time in that window.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 68,
+          "printed_page": "50",
+          "text": "To determine the level of engagement between the robot and the child during the intervention, we calculated the children’s mean response time (in seconds) when prompted by the robot’s verbal questions.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 60,
+          "printed_page": "53",
+          "text": "To further our understanding of robot positioning during group conversations, we conducted another experiment where our mobile robot interacted with small groups of people.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 35,
+          "printed_page": "21",
+          "text": "To provide a feature trace, the person guides the robot from states where the feature is highly expressed to states where it is not, in a monotonic fashion.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence structure",
+      "title": "This with a noun",
+      "slug": "this-with-a-noun",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The next sentence picks up the previous one with This or These and a noun that names it, such as this approach, this framework, this limitation, this validation, this dependency, or these insights. The noun classifies what was just said, which tells the reader how to take it. Short and Vázquez rarely use This without a noun, and Bobu does so more often.",
+      "forms": [
+        "This [approach / framework] provides [what it provides].",
+        "This limitation motivated [next step].",
+        "This validation is important because [reason]."
+      ],
+      "in_hangs_dissertation": "Hang's reference lets the next sentence take up what the previous one introduced, and accepts plain This when it refers to the statement just made. The noun is the safer choice when more than one referent is possible.",
+      "related_in_hangs_reference": [
+        "Known information leading to new information"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 17,
+          "printed_page": "",
+          "text": "This framework provides a basis for the development of a series of control algorithms for robot moderators to assist groups of people in improving task performance and managing the social dynamics of interactions in diverse domains.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 88,
+          "printed_page": "81",
+          "text": "This validation is important because it sets the foundations for using spatial behavior as a mechanism to improve robot perception.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 12,
+          "printed_page": "5",
+          "text": "This mutual dependency suggests that robot gaze and body motion must be designed and controlled jointly, rather than independently of each other.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 16,
+          "printed_page": "2",
+          "text": "This example illustrates that if we want robots to act for and with people, their representations must not be just functional but also reflective of what humans care about, i.e. their representations must be aligned with humans’.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 35,
+          "printed_page": "21",
+          "text": "To bypass this feature specification problem, state-of-the-art deep Inverse Reinforcement Learning (IRL) methods [291, 96, 50] learn rewards defined directly on the high-dimensional raw state (or observation) space, thereby implicitly constructing features automatically from task demonstrations.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence structure",
+      "title": "Parallel sentences for conditions",
+      "slug": "parallel-sentences-for-conditions",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Two conditions, groups, or cases are described in sentences of the same shape. Vázquez writes in the former case and in the latter. Short gives the two conditions the same clause structure with the outcomes exchanged. Bobu repeats an opening phrase across three sentences. The repeated shape lets the reader compare the parts that differ.",
+      "forms": [
+        "In the former case, [description]. In the latter, [description].",
+        "[Condition A] improved [X] but reduced [Y], and [condition B] improved [Y] but reduced [X].",
+        "Without [knowledge A], [failure A]. Without [knowledge B], [failure B]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference. Give each side of the comparison its own subject and verb, which is Hang's rule for complete clauses.",
+      "related_in_hangs_reference": [
+        "Parallel sentences for a comparison",
+        "Matched factors and endpoints",
+        "Complete clauses in place of elliptical endings"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 153,
+          "printed_page": "135",
+          "text": "In this study, there was a negative relationship between task performance and positive social features, with the performance-reinforcing robot improving group cohesion and helpful behavior but reducing task performance, and the performance-equalizing robot improving task performance but decreasing group cohesion and helpful behavior.",
+          "match": "letters"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 25,
+          "printed_page": "18",
+          "text": "In the former case, the robot had the same role as the participants.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 25,
+          "printed_page": "18",
+          "text": "In the latter, the robot acted as a leader and was more in control of the group.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 16,
+          "printed_page": "2",
+          "text": "Without an understanding of personal space, the assistive robot moves the user’s cup inches away from their face [43].",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 16,
+          "printed_page": "2",
+          "text": "Without knowing about jaywalking pedestrians, the autonomous car cannot properly detect them and fatally crashes into them [202].",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence structure",
+      "title": "The more, the more",
+      "slug": "the-more-the-more",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "A relationship between two quantities is stated as a proportion in words. Vázquez uses it for a general fact about sensing, Short for a measured relationship between how often the robot spoke to a participant and what the participant reported, and Bobu for the cost of a larger state space. The sentence gives the direction of the relationship, and the statistic follows when the relationship was measured.",
+      "forms": [
+        "The more [quantity A], the more [quantity B] ([statistic]).",
+        "The higher [quantity A], the more [quantity B] is needed."
+      ],
+      "in_hangs_dissertation": "This adds to Hang's reference. Hang's rule is to give the correlation value, so a measured relationship written this way needs its r value in the same sentence. For a general fact, a citation takes that place.",
+      "related_in_hangs_reference": [
+        "Numbers and measured comparisons",
+        "Matched factors and endpoints"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 152,
+          "printed_page": "134",
+          "text": "We found that the more the robot spoke to participants, the higher group cohesion they reported",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 10,
+          "printed_page": "3",
+          "text": "From a sensing perspective, the more people are around a robot, the more noisy and incomplete sensor data tends to be.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 37,
+          "printed_page": "23",
+          "text": "The higher dimensional the state, the more human input is needed to disambiguate between those functions sufficiently to find a reward function which accurately captures human preferences",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Sentence structure",
+      "title": "Because at the start",
+      "slug": "because-at-the-start",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A reason that governs the whole sentence is placed first. All three open sentences with Because when a design decision follows from a property of the problem or from an earlier result. Short uses it to justify the evaluation domain, Vázquez to explain why a second protocol was designed, and Bobu to explain why a class of methods has its form. Bobu more often opens such a sentence with Since.",
+      "forms": [
+        "Because [property of the problem], [design decision].",
+        "Because [earlier observation], [next study or method] was designed to [purpose]."
+      ],
+      "in_hangs_dissertation": "Hang's reference uses since for a reason and keeps a governing condition attached to its claim. Because at the start of a sentence does the same job and is common in all three.",
+      "related_in_hangs_reference": [
+        "Local reasons and governing conditions"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 20,
+          "printed_page": "2",
+          "text": "Because moderation is an inherently goal-directed process, the model is evaluated in the domain of socially assistive robotics (SAR).",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 11,
+          "printed_page": "4",
+          "text": "Because the bystander effect emerged during this experiment, we designed another more controlled protocol to further study social conversations and spatial behavior.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 67,
+          "printed_page": "53",
+          "text": "Because they have to perform updates in real time from very little input, online reward learning methods represent the reward as a linear function of a set of hand-engineered features.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "The introduction",
+      "slug": "the-introduction",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The three introductions open in different ways and cover the same ground. Vázquez starts from an application need, shows a scene, names the overlooked problem, states the goal, explains why the problem has structure, names the main insight, lists the challenges, limits the scope, and outlines the chapters. Bobu starts from failures of deployed systems, asks what is missing, builds one example, states her position and core insight, and walks through the parts. Short starts from a definition, states what the dissertation presents, explains the evaluation domain, describes the approach with a figure, and lists contributions and the outline. All three reach the statement of what the dissertation does within the first two pages.",
+      "forms": [
+        "Need → scene → gap → goal → insight → challenges → scope → outline.",
+        "Failures → question → example → position → core insight → parts.",
+        "Definition → what is presented → domain → approach figure → contributions → outline."
+      ],
+      "in_hangs_dissertation": "Hang's Introduction has an Overview, three sections on the studies, Contributions, and an Outline, which is closest to Short's. Hang's reference builds the opening around an assumption about human teaching, which is the gap move in Vázquez and Bobu.",
+      "related_in_hangs_reference": [
+        "An introduction built around a consequential assumption"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 19,
+          "printed_page": "1",
+          "text": "In this work, moderation is defined as the process of controlling or directing a group interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 8,
+          "printed_page": "1",
+          "text": "The success of many robots in unstructured, human environments hinges on their ability to appropriately interact with and around people [42, 127].",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 10,
+          "printed_page": "3",
+          "text": "Several challenges arise upon studying group conversations in HRI.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 15,
+          "printed_page": "1",
+          "text": "Despite this rise of autonomous system integration, seamless robot interaction with people remains elusive: autonomous cars still cause crashes in unconventional situations [202], flight control systems create tug of war scenarios in spite of conflicting pilot interventions [105], and, as we will see in this thesis, personal robots move objects uncomfortably close to their users [43].",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "An outline with content",
+      "slug": "an-outline-with-content",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The outline says what each chapter contributes. Short gives one sentence for each chapter with a verb that fits its content. Vázquez gives a paragraph for each chapter that includes the question, the main result, and the venue. Bobu gives a paragraph for each part that explains why the part is needed and how the chapters in it differ. Inside a chapter, Bobu also lists what each section does.",
+      "forms": [
+        "[Chapter] reviews [literature] and describes [early work] that motivates [approach].",
+        "([Chapter]) [Title]. [Question]. [Approach]. [Main result].",
+        "[Section] frames [problem]. [Section] presents [method]. [Section] presents the results of [study]."
+      ],
+      "in_hangs_dissertation": "Hang's Outline has one sentence for each chapter, which is Short's form. Hang's reference asks for a roadmap with actual content. Vázquez's version puts the main result of each chapter in the outline, which lets a reader see the argument of the dissertation on one page.",
+      "related_in_hangs_reference": [
+        "A roadmap with actual content"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 26,
+          "printed_page": "8",
+          "text": "Chapter 2 reviews related work in human-robot interaction, robot manipulation, and multi-party interaction modeling, and describes early work with children that motivates the utility of moderated group interactions with robots.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 12,
+          "printed_page": "5",
+          "text": "Our results suggest that the proposed framework can help better detect non-interacting people in social environments, like bystanders, without sacrificing group detection performance.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 17,
+          "printed_page": "3",
+          "text": "In this first part, we present a unifying lens on aligning robot and human representations that serves as the foundation on top of which the remaining three parts of the thesis are built.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 132,
+          "printed_page": "118",
+          "text": "Sec. 7.2 frames the confidence estimation problem more formally for scenarios where the human and robot operate on the same dynamical system.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "Chapter openings",
+      "slug": "chapter-openings",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A chapter opening tells the reader what the chapter contains and where it sits. Short begins each chapter before the last with a short abstract in italics that says what the chapter presents and, for a study chapter, what was found. A paragraph that places the chapter after the earlier ones follows. Vázquez begins with what the chapter presents or with what the previous experiments left open. Bobu begins with the publication note and a figure, then a scene, the problem with existing methods, her argument, and the contributions of the chapter.",
+      "forms": [
+        "This chapter introduces [method], in which [one clause]. [Method] is then [instantiated / evaluated] in [study]. The results show that [finding].",
+        "In the [earlier studies], [what was the case]. This chapter examines [what follows from it]."
+      ],
+      "in_hangs_dissertation": "Hang's study chapters open with a summary of the study and its findings, followed by where the related work is reviewed and, for the published chapters, where the work appeared. That is Short's opening. The summary states the finding and does not only announce the topic.",
+      "related_in_hangs_reference": [
+        "A roadmap with actual content",
+        "The three stage dissertation arc"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 154,
+          "printed_page": "136",
+          "text": "This chapter presents the third moderation algorithm, which directly models the social relationships between users as a directed graph and takes actions to affect those relationships.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 118,
+          "printed_page": "100",
+          "text": "We find that participants are accepting of the robot in the moderator role and that the robot moderator is able to change the interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 60,
+          "printed_page": "53",
+          "text": "In the first two experiments presented in Chapter 5, the orientation of the robot was manually controlled by a wizard during the whole interaction.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 112,
+          "printed_page": "98",
+          "text": "Just like in Chapter 3, we are motivated here by learning representations that lead to learning generalizable rewards.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "Linking a chapter to the one before",
+      "slug": "linking-a-chapter-to-the-one-before",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "The first paragraphs of a chapter say what the previous chapter established and what this one adds. Short writes that the results presented in the previous chapter support a claim and that this chapter builds on those results. Vázquez writes that a limitation or a success in the last experiment motivated the next one. Bobu writes what has been assumed so far and why that is not always enough, or that now that one thing has been tested, the next is analyzed.",
+      "forms": [
+        "The results presented in [chapter] support [claim]. This chapter builds on those results to [purpose].",
+        "This limitation motivated [the work in this chapter].",
+        "So far, [assumption]. [Why it does not always hold]. In [chapter], [what is done about it]."
+      ],
+      "in_hangs_dissertation": "Same as the handoff in Hang's reference, and Hang's chapter connections already follow Short. Keep the boundary that the studies used different tasks and participants, so the link is a motivation and not a single pipeline.",
+      "related_in_hangs_reference": [
+        "A study finding leading to a method",
+        "The three stage dissertation arc"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 135,
+          "printed_page": "117",
+          "text": "The results presented in Chapter 5 support the use of a socially assistive robot moderator in group interactions and indicate that such a moderator may be able to improve the interaction, even without the use of speech understanding.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 135,
+          "printed_page": "117",
+          "text": "In this chapter, we build on those results to develop an algorithm for moderation that provides task-related support to participants in the service of social goals.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 12,
+          "printed_page": "5",
+          "text": "The success of the orientation behaviors that we studied in our last experiment motivated us to explore reinforcement learning techniques to generate socially appropriate orientation behaviors for robots during multi-party conversations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 56,
+          "printed_page": "42",
+          "text": "Now that we have tested our method for learning features with both experts and non-experts, we analyze how the learned features affect reward learning.",
+          "match": "letters"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 18,
+          "printed_page": "4",
+          "text": "While this chapter showcases this insight in learning from physical demonstrations or corrections, Chapter 8 applies it even more broadly to teleoperation in shared autonomy.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "Chapter endings",
+      "slug": "chapter-endings",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A chapter ends by saying what it showed and what that provides for the rest of the dissertation. Short ends each chapter after the introduction with a section titled Summary, written in the past tense, that restates the method, the study, and the result, and closes with what the results support. Vázquez ends the long study chapter with a Summary whose last sentence points to the next chapter, and two later chapters with a Discussion. Bobu ends each chapter with a Discussion that restates the proposal and gives implications and limitations, and it often closes with a sentence that begins with Overall.",
+      "forms": [
+        "This chapter presented [content]. [Method] was [instantiated / evaluated] in [study]. [Result]. These results support [claim] and provide a basis for [next step].",
+        "The next chapter describes [what follows]."
+      ],
+      "in_hangs_dissertation": "Hang's study chapters end with a Discussion and a Summary, which is Short's structure. Hang's reference says to end with a link to the next chapter only when that chapter addresses the named question.",
+      "related_in_hangs_reference": [
+        "Discussion synthesis and its boundary"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 117,
+          "printed_page": "99",
+          "text": "This chapter presented four studies of human-robot interaction that inform the development of the robot controllers used in this dissertation.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 153,
+          "printed_page": "135",
+          "text": "These results demonstrate that task-related moderation can affect social factors, and show that the moderator can improve social features of the interaction even when participants report not paying close attention to the robot’s behavior.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 45,
+          "printed_page": "38",
+          "text": "The next chapter describes our efforts in this direction.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 67,
+          "printed_page": "53",
+          "text": "In this work, we propose that robots can learn more generalizable rewards by using a divide-and-conquer approach, focusing on learning features separately from learning how to combine them.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 126,
+          "printed_page": "112",
+          "text": "They improve upon the state of the art, and can benefit from further exploration in how to combine them with other inputs and self-supervision, and how to make them easier through better interfaces and query selection algorithms.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "A study in a fixed order",
+      "slug": "a-study-in-a-fixed-order",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Every study is reported in the same order, so a reader can find the same information in the same place. Short uses Methodology, Results, and Discussion, with research questions or hypotheses first, then design, setup, measures, and participants, and results grouped by measure. Vázquez uses Method, Results, and Discussion with Participants and Procedure as subsections. Bobu uses run-in labels in a fixed sequence, which are Manipulated Variables, Dependent Measures, Hypotheses, and Participants, followed by an analysis divided into objective and subjective results and a short Summary.",
+      "forms": [
+        "The study addressed [N] research questions, as follows.",
+        "Participants. [N, recruitment, sample properties]. Hypotheses. H[n]. [Statement].",
+        "This section presents the results of [study] according to the measures described in [section]."
+      ],
+      "in_hangs_dissertation": "Hang's study chapters all end with a Discussion and a Summary. The sections before them have different names in different chapters, such as Study Design and Experimental Setup in one and Methodology in others. Each of the three keeps one order and one set of headings for every study. Whether to align the headings is Hang's decision. Hang's reference handles each results paragraph.",
+      "related_in_hangs_reference": [
+        "A results paragraph answering one comparison",
+        "Study actions leading to the analytical question"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 61,
+          "printed_page": "43",
+          "text": "Our study addressed five research questions, as follows:",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 130,
+          "printed_page": "112",
+          "text": "This section presents the results of the validation study according to the measures described in Section 5.3.1.5.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 27,
+          "printed_page": "20",
+          "text": "Participants only experienced one of two conditions: without sidekick (C) or sidekick (S).",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 54,
+          "printed_page": "40",
+          "text": "Hypotheses. H4: FERL learns good features from non-expert user data.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 56,
+          "printed_page": "42",
+          "text": "Both the objective and subjective results provide evidence that non-expert users can teach the robot reasonable features using our FERL protocol.",
+          "match": "letters"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "A method from idea to steps",
+      "slug": "a-method-from-idea-to-steps",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A method is explained in words before it is given in symbols or as an algorithm. Short describes the model as a cycle of monitoring, evaluating, and acting, defines its terms, and only then gives the algorithm and one instantiation. Vázquez states the problem and its assumptions, gives the core of the framework in one sentence, and walks through the steps with First and Then. Bobu gives the intuition, says why the direct approach is difficult, and then says what is done instead.",
+      "forms": [
+        "At the core of [framework] is [procedure]. First, [step]. Then, [step].",
+        "Since [direct approach] is difficult, [method] instead [operation].",
+        "Throughout [process], [agent] [monitors / computes] [quantity], taking [action] at [interval or condition]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference, which explains the meaning of a signal and the intuition before notation and losses. A method name is the subject of its own operations.",
+      "related_in_hangs_reference": [
+        "Teaching a method from meaning to evaluation",
+        "Explaining the mechanism",
+        "An intuition leading to an operation"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 121,
+          "printed_page": "103",
+          "text": "Throughout the interaction, the moderator monitors the state, taking actions intended to serve the goals of the interaction at regular intervals.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 48,
+          "printed_page": "41",
+          "text": "At the core of the framework is an alternating optimization procedure that we named GrupO, for Group detection and Orientation tracking.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 48,
+          "printed_page": "41",
+          "text": "First, GrupO estimates likely conversations by finding F-formations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 114,
+          "printed_page": "100",
+          "text": "Our intuition is that if a human judges two behaviors to be similar, then their representations should also be similar.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 114,
+          "printed_page": "100",
+          "text": "Since directly asking if two trajectories are similar is difficult without an explicit threshold, we instead present the human with a triplet of trajectories and ask them to pick the two most similar (or, equivalently, the most dissimilar one).",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "Related work that ends on this work",
+      "slug": "related-work-that-ends-on-this-work",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A passage of related work closes by placing the dissertation next to what was just reviewed. Short says what the dissertation leverages from a field and what it contributes to it, and how her robot differs from similar ones. Vázquez ends a group of studies with what remains unclear and with our efforts build upon this work. Bobu ends each group with By contrast or We instead and the specific difference. The three place related work differently. Short has one background chapter, Vázquez has a background chapter, a related work chapter, and short sections before each experiment, and Bobu has a Prior Work section in each chapter.",
+      "forms": [
+        "This dissertation leverages results in [field] about [topic], and contributes to this area by [contribution].",
+        "It is unclear from this work whether [open question].",
+        "Prior work [approach]. This chapter instead [approach], rather than [alternative]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference. Hang's structure is Short's, with one Background chapter that each study chapter points to. A difference is not by itself an advantage.",
+      "related_in_hangs_reference": [
+        "Related work ending with the specific difference",
+        "Prior work and research gaps"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 29,
+          "printed_page": "11",
+          "text": "This dissertation leverages results in CSCW about group interactions, and contributes to this area by increasing our understanding of agents in multi-party interactions.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 46,
+          "printed_page": "28",
+          "text": "Our design occupies a similar niche, but was developed specifically for SAR research with more degrees of freedom in the body than Maki, Keepon, Travis, DragonBot, and Jibo and more degrees of freedom in the animated face than Keepon, iCat, and Maki.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 26,
+          "printed_page": "19",
+          "text": "There are logical reasons for different proxemics when robots are independent, but it is unclear from this work whether co-location, such as in the case of Chester and Blink, impacts proxemics.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 26,
+          "printed_page": "19",
+          "text": "Our efforts are inspired by these prior works.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 114,
+          "printed_page": "100",
+          "text": "We instead focus on fully learning a lower-dimensional feature representation all-at-once, rather than one at a time.",
+          "match": "letters"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "A discussion in themed paragraphs",
+      "slug": "a-discussion-in-themed-paragraphs",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A discussion is divided by theme, and each theme is visible at the start of its paragraph. Short uses a run-in heading that ends with a colon. Vázquez uses a lead sentence in small capitals. Bobu uses a run-in heading that ends with a period, such as Implications for a setting and Limitations and Future Work. The themes cover what was found, what it means for design, what limits it, and what comes next.",
+      "forms": [
+        "[Theme as a noun phrase]. [Paragraph].",
+        "[Finding as a short sentence]. [Paragraph with the evidence].",
+        "Limitations and Future Work. [Paragraph]."
+      ],
+      "in_hangs_dissertation": "Same as Hang's reference, which gives discussion run-in headings a concrete subject. Short's headings end with a colon. A period after the heading, as in Bobu, follows Hang's preference for fewer colons.",
+      "related_in_hangs_reference": [
+        "Headings that name the question or finding",
+        "Discussion synthesis and its boundary"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 112,
+          "printed_page": "94",
+          "text": "Between-Group Differences: The groups participating in this study varied in personality, gender composition, and age, but all indicated a high degree of group cohesion after interacting with the robot.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 113,
+          "printed_page": "95",
+          "text": "Towards Moderators in Intergenerational Groups: This pilot study demonstrated that the audience exists for SAR systems that serve as in-home companions and support intergenerational family interactions.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 35,
+          "printed_page": "28",
+          "text": "There were no differences for spatial behavior between conditions.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 67,
+          "printed_page": "53",
+          "text": "Implications for Online Reward Learning.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 67,
+          "printed_page": "53",
+          "text": "Implications for Learning Complex Rewards from Demonstrations.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "Discussion order",
+      "slug": "discussion-order",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "A study discussion begins by restating the goal or what was done, in one or two sentences. It then reports which hypotheses were supported, explains the results that went against expectation, states the limits of the study, and ends with what the study provides for the following work. Short and Vázquez follow this order closely. Bobu begins with the proposal and the main evidence and then gives implications before limitations.",
+      "forms": [
+        "The goal of this study was to examine [question].",
+        "[What was done, in one sentence]. [What was found]. [What was not found, with a possible reason]. [Limits]. [What this provides for the next chapter].",
+        "The results of this study motivate [subsequent work]."
+      ],
+      "in_hangs_dissertation": "Same as the discussion pattern in Hang's reference, which moves from connection to evidence, implication, boundary, and next question. A study discussion in the three ends by linking forward, and Hang's rule allows that link when the next chapter addresses the question.",
+      "related_in_hangs_reference": [
+        "Discussion synthesis and its boundary"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 73,
+          "printed_page": "55",
+          "text": "The goal of this study was to examine the feasibility of a SAR-based intervention for teaching children about nutrition.",
+          "match": "exact"
+        },
+        {
+          "writer": "short",
+          "pdf_page": 99,
+          "printed_page": "81",
+          "text": "The insights from this work informed the structure of child-robot interactions with children with autism, the focus of the fourth validation study included in this dissertation work, described in Section 8.2.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 87,
+          "printed_page": "80",
+          "text": "We explored reinforcement learning methods to control the orientation of a robot during simulated multi-party conversations.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 74,
+          "printed_page": "67",
+          "text": "The experiment described in this chapter was limited in several ways",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 196,
+          "printed_page": "182",
+          "text": "We propose a new probabilistic human behavior model and present compelling evidence that it better captures human decision making and it attenuates inference errors that arise due to similar selections, increasing accuracy and robustness.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "Future work from scope and limits",
+      "slug": "future-work-from-scope-and-limits",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "same",
+      "guidance": "Future work is derived from the choices and limits of the dissertation. Short says that a number of choices were made in scoping the work and that each choice provides a starting point, and then takes the choices one at a time. Vázquez titles the section Limitations and Avenues for Future Research and pairs each limitation with an avenue. Bobu says that the dissertation has made progress and that it opens further directions, and groups them under three headings. Each direction starts from what the dissertation did and says what would change.",
+      "forms": [
+        "A number of choices were made in scoping this dissertation, and each provides a starting point for future work.",
+        "So far, [what the dissertation did]. Moving forward, [direction] could [what it would make possible].",
+        "[What is not addressed in this dissertation]. Future research might [action] in order to [purpose]."
+      ],
+      "in_hangs_dissertation": "This is the structure of Hang's future work, which starts from the dissertation and moves to the planned step. Hang's rule for these paragraphs still applies, so each one ends on the planned step or the mechanism and takes its content from Hang's notes.",
+      "related_in_hangs_reference": [
+        "Future work drafted from notes",
+        "Limitations and future work"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 188,
+          "printed_page": "170",
+          "text": "A number of choices were made in scoping the work presented in this dissertation; each of these choices provides a starting point for future development of robot moderators.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 89,
+          "printed_page": "82",
+          "text": "While our work showed the benefits of enabling robots to reason about F-formations, it is by no means without limitations.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 89,
+          "printed_page": "82",
+          "text": "So far, our efforts have focused on building model-based approaches to enable robots to reason about human spatial behavior typical of group conversations.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 198,
+          "printed_page": "184",
+          "text": "This thesis has made progress in enabling robots to learn human-aligned representations with explicit representation-specific feedback, but it opens the door to more alternative research directions in this space.",
+          "match": "exact"
+        }
+      ]
+    },
+    {
+      "category": "Storytelling style",
+      "title": "The final chapter",
+      "slug": "the-final-chapter",
+      "seen_in": [
+        "short",
+        "vazquez",
+        "bobu"
+      ],
+      "relation": "adds",
+      "guidance": "The final chapters are short, at three to four pages each. Short's is titled Summary and has a recap paragraph, the contributions in the past tense, the future directions, and a closing paragraph on the ethical concern of the field. Vázquez's is titled Conclusion and has two take-home messages, a list of contributions, and limitations with avenues for future research. Bobu's is titled Conclusion and Future Work and has a recap of her position, the limitation that leads to a broader question, and three groups of directions. None of the three has a separate chapter that discusses the findings across chapters.",
+      "forms": [
+        "This dissertation presented [object] that [what it does]. [What the studies showed, in one sentence].",
+        "The main take-home messages of this dissertation are [two or three numbered statements]."
+      ],
+      "in_hangs_dissertation": "Hang's dissertation has an Overall Discussion chapter before the Conclusion, which goes beyond what the three did and is Hang's own structure. With that chapter in place, the Conclusion can stay as short as theirs. Vázquez's take-home messages are a form that fits a summary of contributions.",
+      "related_in_hangs_reference": [
+        "Discussion synthesis and its boundary",
+        "Contribution statements"
+      ],
+      "examples": [
+        {
+          "writer": "short",
+          "pdf_page": 186,
+          "printed_page": "168",
+          "text": "These studies showed that participants were accepting of the robot in the moderator role, and that a robot moderator could support positive features of human-human interaction such as helpfulness and group cohesion.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 88,
+          "printed_page": "81",
+          "text": "F-formations naturally emerge in HRI.",
+          "match": "exact"
+        },
+        {
+          "writer": "vazquez",
+          "pdf_page": 88,
+          "printed_page": "81",
+          "text": "Reasoning about F-formations is useful for robots.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 197,
+          "printed_page": "183",
+          "text": "In this thesis, we approached interaction by explicitly tackling representation alignment, rather than hoping it will naturally emerge.",
+          "match": "exact"
+        },
+        {
+          "writer": "bobu",
+          "pdf_page": 197,
+          "printed_page": "183",
+          "text": "However, the core of this work had the human in the teacher role feeding the robot data about their representation.",
+          "match": "exact"
+        }
+      ]
+    }
+  ]
+}

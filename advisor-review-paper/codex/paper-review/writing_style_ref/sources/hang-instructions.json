@@ -1,0 +1,254 @@
+{
+ "schema": "hang-instructions/1",
+ "collected": "2026-10-19",
+ "note": "Verbatim excerpts of messages Hang typed in Claude Code sessions for the dissertation and the dissertation talk, and of one preferences file Hang wrote. Text pasted from other reviewers is not included.",
+ "instructions": [
+  {
+   "id": "HI-01",
+   "date": "2026-09-26",
+   "time": "21:54 UTC",
+   "session": "4245c882-cdbe-4e52-ad6a-0ebde5f2609b",
+   "project": "dissertation",
+   "topic": "Measured wording that Hang supplied",
+   "source": "message",
+   "excerpts": [
+    "“mitigate these human dynamics” — [Introduction (line 54)](C:/Users/Hang Yu/Desktop/Dissertation/chapters/introduction.tex:54)“account for systematic variation in human teaching”",
+    "“With an agreement tolerance of ±2, we did not detect a difference in self-consistency between scalar and binary feedback.”",
+    "“Robot experience and educational background showed positive associations with feedback accuracy, with correlations of 0.25 and 0.16, respectively.”",
+    "“The qualitative analysis illustrates how progress alignment can discourage two examined reward-hacking behaviors.”"
+   ]
+  },
+  {
+   "id": "HI-02",
+   "date": "2026-09-26",
+   "time": "23:16 UTC",
+   "session": "8ef57b9b-8d5c-4669-8073-df595c3dee94",
+   "project": "dissertation",
+   "topic": "Terminology, one dissertation, and chapter jobs",
+   "source": "message",
+   "excerpts": [
+    "Prefer “degree of completion” to “completion rate.” “Rate” can imply speed or the proportion of successful trials.",
+    "I'd use \"under-explored as a human teaching signal\" everywhere except the paper title.",
+    "Write as a dissertation, not as separate papers.",
+    "Reduce the feeling of repeatedly starting a new paper.",
+    "Preserve the bridges and shorten repeated general motivation. End each chapter by identifying the question that remains and why the next chapter addresses it."
+   ]
+  },
+  {
+   "id": "HI-03",
+   "date": "2026-10-11",
+   "time": "15:39 UTC",
+   "session": "ad821a57-9624-4cc8-8cb6-f03c2dfea068",
+   "project": "dissertation",
+   "topic": "Impersonal voice",
+   "source": "message",
+   "excerpts": [
+    "in our work -> in this work, we conducted a study -> a study was conducted,  we found that xx in results -> results suggested that, our intuition is -> the intuition is, our final step is -> the final step is"
+   ]
+  },
+  {
+   "id": "HI-04",
+   "date": "2026-10-12",
+   "time": "13:04 UTC",
+   "session": "d7a599e4-1038-4a8f-bab9-0749c6e155ef",
+   "project": "dissertation",
+   "topic": "Writing that reads as AI-generated",
+   "source": "message",
+   "excerpts": [
+    "suggestING improvement FOR THE AI WRITING TO MAKE THEM LESS AI LIKE"
+   ]
+  },
+  {
+   "id": "HI-05",
+   "date": "2026-10-12",
+   "time": "16:57 UTC",
+   "session": "8c3778a6-d6be-4a57-9194-aa069e7d582e",
+   "project": "dissertation",
+   "topic": "Colons and semicolons",
+   "source": "message",
+   "excerpts": [
+    "use less \":\" and \";\""
+   ]
+  },
+  {
+   "id": "HI-06",
+   "date": "2026-10-12",
+   "time": "18:41 UTC",
+   "session": "6fe58263-83d7-4900-88ff-c08b5d3ea369",
+   "project": "dissertation",
+   "topic": "Hang's wording of the third question",
+   "source": "message",
+   "excerpts": [
+    "use Chapter 1: \"lower quality requirements for human teaching and reduce human effort in annotating\""
+   ]
+  },
+  {
+   "id": "HI-07",
+   "date": "2026-10-14",
+   "time": "13:37 UTC",
+   "session": "b793af3d-d40f-41e5-9bb1-6b38bde4bb62",
+   "project": "dissertation",
+   "topic": "Minimal added text",
+   "source": "message",
+   "excerpts": [
+    "with a minimal text description add to dissertation"
+   ]
+  },
+  {
+   "id": "HI-08",
+   "date": "2026-10-14",
+   "time": "13:59 UTC",
+   "session": "7c56002b-90b7-427e-9df6-a4c81bd1bf7e",
+   "project": "dissertation",
+   "topic": "This chapter",
+   "source": "message",
+   "excerpts": [
+    "\"this chapter\" has been used so many times, propose replacement suggestions."
+   ]
+  },
+  {
+   "id": "HI-09",
+   "date": "2026-10-15",
+   "time": "06:28 UTC",
+   "session": "a4c83d06-b428-4b77-8757-8d9e3ff9f7e6",
+   "project": "dissertation",
+   "topic": "Redundant chapter introductions",
+   "source": "message",
+   "excerpts": [
+    "the introduction section in chapter 3 to chapter 7 are redundant with the pre-face paragraphs, can i just delete them?"
+   ]
+  },
+  {
+   "id": "HI-10",
+   "date": "2026-10-15",
+   "time": "08:07 UTC",
+   "session": "c4014f33-05f9-4a02-9238-18631157daa6",
+   "project": "dissertation",
+   "topic": "Openings: move and cut rather than write",
+   "source": "message",
+   "excerpts": [
+    "focus on reducing redundancy and improve smoothness of writing and logic.",
+    "mostly focus on re-orgnizing (moving sentences around), and cut, avode creating new ones."
+   ]
+  },
+  {
+   "id": "HI-11",
+   "date": "2026-09-27",
+   "time": "",
+   "session": "",
+   "project": "presentation",
+   "topic": "Slide preferences Hang wrote before the first slide session",
+   "source": "file",
+   "file": "dissertation_presentation/reference_templates/ppt_preference.md",
+   "excerpts": [
+    "2. figures are more preferred than text.",
+    "8. Scentific but causual tone.",
+    "9. goal is to keep the listeners engage."
+   ]
+  },
+  {
+   "id": "HI-12",
+   "date": "2026-10-17",
+   "time": "15:25 UTC",
+   "session": "ef6c5038-968a-40f0-9762-576185a3957a",
+   "project": "presentation",
+   "topic": "Motivation slides",
+   "source": "message",
+   "excerpts": [
+    "i do not like page 3 to page 5 due to a. the tone, too seriously; b. too many words; c. not illustrative and appealling as motivation story; rework on it"
+   ]
+  },
+  {
+   "id": "HI-13",
+   "date": "2026-10-17",
+   "time": "18:05 UTC",
+   "session": "742830a8-912b-46ce-8176-78a6fa1ef3f8",
+   "project": "presentation",
+   "topic": "What the motivation is about",
+   "source": "message",
+   "excerpts": [
+    "the story should be about: non-expert teaching should recive attetion and is important while they are noisy"
+   ]
+  },
+  {
+   "id": "HI-14",
+   "date": "2026-10-17",
+   "time": "21:59 UTC",
+   "session": "742830a8-912b-46ce-8176-78a6fa1ef3f8",
+   "project": "presentation",
+   "topic": "The motivation story",
+   "source": "message",
+   "excerpts": [
+    "reject this version for: being too specific about the work that has already been done in this dissertation rather than setting up the problem and illustrate about motivation.",
+    "robots are already in our daily life, but most of training data are produced in lab, and many learning methods require clean data -> if we want robots to actually be part of our day to day life, they need to learn from everyone (key motivation) -> however, not everyone can provide clean data -> in addition, human teaching human use multiple modalities(what is insufficent, i.e., challenge)  and  non-expert data is more accessible (merits of using non expert data) -> it will make the trained model more robust to real world ( merits of out come)",
+    "you dont need to use exact words, but get the idea."
+   ]
+  },
+  {
+   "id": "HI-15",
+   "date": "2026-10-18",
+   "time": "15:03 UTC",
+   "session": "f13ad2c2-e135-41c4-af39-e6d6364865b6",
+   "project": "presentation",
+   "topic": "From benefits to challenge to this work",
+   "source": "message",
+   "excerpts": [
+    "rework and reshpae page 5 to connect to our work ( page 4 benefits -> page 5 challenge -> page 6 our work). It is almost there, just do light twist and re-orgnize the page",
+    "the example shows that expection of guess is > 0 thus LLM tends to hallucinate."
+   ]
+  },
+  {
+   "id": "HI-16",
+   "date": "2026-10-18",
+   "time": "15:14 UTC",
+   "session": "5eb6bfc5-2599-4af6-8c5e-dfb605b0f9f8",
+   "project": "presentation",
+   "topic": "Future work and the closing slide",
+   "source": "message",
+   "excerpts": [
+    "6.simplify page 61 and 62 on text",
+    "8. reduce what has been done in page 66 and 67, focusing on what is agentic HRI and what are the benefits of agentic HRI",
+    "9. improve page 68, focusing on the relationship (i.e., how each stage builds on each other) with very high level takeaways and summarizations"
+   ]
+  },
+  {
+   "id": "HI-17",
+   "date": "2026-10-18",
+   "time": "17:39 UTC",
+   "session": "17226202-1a35-48a5-ad81-c743b366743f",
+   "project": "presentation",
+   "topic": "Film captions",
+   "source": "message",
+   "excerpts": [
+    "5. for the word at 80s, it should sth like, all these relies on data from recorded in the lab or data farms",
+    "6. for caption at 118scond, it could change from need -> could, and thus to be constrast to they need to be in data farm",
+    "7. the noise tag at 140 s comes out of no where, while i know the meaning is that these teachings contain noise, but they did not get expressed well in the video.",
+    "10. i do not need the monet impression paint name in my video, use imperfection directly is good."
+   ]
+  },
+  {
+   "id": "HI-18",
+   "date": "2026-10-17",
+   "time": "13:56 UTC",
+   "session": "b391acba-10d2-4732-aada-23f66bc44fae",
+   "project": "presentation",
+   "topic": "The reference is used for slide wording",
+   "source": "message",
+   "excerpts": [
+    "5. improve wording for newly generated/added slides ( between the newest version and C:\\Users\\Hang Yu\\Desktop\\dissertation_presentation\\Hang_dissertation_talk_Claude.pptx) using C:\\Users\\Hang Yu\\Desktop\\dissertation_presentation\\writing_style_ref"
+   ]
+  },
+  {
+   "id": "HI-19",
+   "date": "2026-09-26",
+   "time": "22:12 UTC",
+   "session": "639565df-49cb-4f08-af59-edc8e6a3f811",
+   "project": "dissertation",
+   "topic": "A result Hang asked to drop",
+   "source": "message",
+   "excerpts": [
+    "The paper drops the Can-MH result for removing completion shaping (116.99 → 63.77). drop it as well."
+   ]
+  }
+ ]
+}

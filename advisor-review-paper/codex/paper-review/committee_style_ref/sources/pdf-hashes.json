@@ -1,0 +1,17 @@
+{
+  "short": {
+    "file": "dessertation_reference/Short_2017_USC_thesis.pdf",
+    "sha256": "d27f3087a1795ab05e1f8f444538f7046b49a0053430a0f000075560f5a92a47",
+    "pages": 209
+  },
+  "vazquez": {
+    "file": "dessertation_reference/Vazquez_2017_CMU_thesis.pdf",
+    "sha256": "cb03fb97fd578379f28e2b31098e1aa3a8b0e41c5f6a5691e650d80bae59d9cc",
+    "pages": 114
+  },
+  "bobu": {
+    "file": "dessertation_reference/Bobu_2023_Berkeley_EECS-2023-200.pdf",
+    "sha256": "778fffd1fd52592c030776fcdf08e7c6de8b2ecfdda5e3911efd59e4e9db2735",
+    "pages": 227
+  }
+}

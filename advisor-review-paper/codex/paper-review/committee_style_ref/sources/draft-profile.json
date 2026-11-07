@@ -1,0 +1,90 @@
+{
+  "paragraphs": 340,
+  "words": 29421,
+  "sentences": 1471,
+  "sent_mean": 20.7,
+  "sent_median": 19,
+  "short_share": 23,
+  "long_share": 10,
+  "we": 0.0,
+  "colon": 3.6,
+  "semicolon": 0.9,
+  "question": 0.1,
+  "contraction": 0.0,
+  "suggest": 1.2,
+  "may": 1.1,
+  "might": 0.3,
+  "could": 1.2,
+  "can": 5.8,
+  "likely": 0.5,
+  "tend": 0.3,
+  "enable": 0.5,
+  "leverage": 0.4,
+  "n_this_dissertation": 55,
+  "n_this_thesis": 0,
+  "n_this_work": 7,
+  "n_this_chapter": 67,
+  "open_however": 25,
+  "open_additionally": 8,
+  "open_finally": 6,
+  "open_lastly": 1,
+  "open_for_example": 4,
+  "open_for_instance": 13,
+  "open_in_general": 0,
+  "open_in_particular": 1,
+  "open_moreover": 11,
+  "open_furthermore": 7,
+  "open_in_addition": 10,
+  "open_unfortunately": 0,
+  "open_interestingly": 0,
+  "open_thus": 10,
+  "open_therefore": 1,
+  "open_first": 3,
+  "open_second": 3,
+  "open_third": 1,
+  "open_overall": 2,
+  "open_instead": 2,
+  "open_nonetheless": 0,
+  "top_openers": [
+    [
+      "However",
+      25
+    ],
+    [
+      "For instance",
+      13
+    ],
+    [
+      "Moreover",
+      11
+    ],
+    [
+      "Thus",
+      10
+    ],
+    [
+      "In addition",
+      10
+    ],
+    [
+      "Additionally",
+      8
+    ],
+    [
+      "Furthermore",
+      7
+    ],
+    [
+      "Finally",
+      6
+    ]
+  ],
+  "date": "2026-10-12",
+  "file": "main.pdf",
+  "sha256": "6024ed2ab27407d47277282c3322ec3d1692df65a85fe3dce574522ef1b96e0b",
+  "body": [
+    20,
+    142
+  ],
+  "review_markers_removed": 8
+}
