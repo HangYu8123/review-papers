@@ -31,6 +31,7 @@ HERE = vc.HERE
 A = runpy.run_path(str(HERE / 'tools' / 'vocab_authored.py'))
 CATEGORIES = A['CATEGORIES']
 NOTES = A['NOTES']
+EXAMPLE_SENSE = {k: re.compile(v, re.I) for k, v in A.get('EXAMPLE_SENSE', {}).items()}
 GENERAL = vc.general_english()
 DISSERTATION_TERMS = A['DISSERTATION_TERMS']
 REFS = list(vc.REFERENCES)
@@ -47,7 +48,7 @@ TIER_RULES = [
     ('Once', 'Used once.',
      'Hang has written it once. Prefer a Core or Familiar word, or check the sense.'),
     ('Reference only', 'Not in the papers, but used in a reference dissertation: Short, Vázquez, or Bobu, or one of the 12 recent lab dissertations.',
-     'The field uses it, but Hang has not written it. Define it on first use, and check that the field meaning fits.'),
+     'A reference dissertation uses it, but Hang has not written it. Define it on first use, and check that the field meaning fits.'),
     ('Cited only', 'Not in the papers or the reference dissertations, but in the title of a cited work.',
      'Hang has seen it in a title. Gloss it on first use, or ask before relying on it.'),
 ]
@@ -154,7 +155,13 @@ def example_score(doc, m):
     return score
 
 
-def best_example(per_doc):
+def best_example(per_doc, sense=None):
+    if sense:
+        # a word with several senses: take the example from a sentence in the intended sense when there is one
+        kept = [(d, [m for m in ms if sense.search(d['flat'][slice(*sentence_span(d, m))])]) for d, ms in per_doc]
+        kept = [(d, ms) for d, ms in kept if ms]
+        if kept:
+            per_doc = kept
     best = None
     for order, (d, ms) in enumerate(per_doc):
         for m in ms[:40]:
@@ -172,8 +179,9 @@ def best_example(per_doc):
     return ex
 
 
-def scan(rx):
-    """Uses of a term in Hang's text and in the reference dissertations, the best examples, and the cited titles."""
+def scan(rx, sense=None):
+    """Uses of a term in Hang's text and in the reference dissertations, the best examples, and the cited titles.
+    With sense, a pattern from EXAMPLE_SENSE, the examples come from sentences in that sense where possible."""
     st = {'paper': 0, 'draft': 0, 'families': Counter(), 'example': None, 'cited': 0, 'cited_families': set(),
           'cited_example': None, 'reference': Counter(), 'reference_example': None}
     own, ref = [], []
@@ -188,8 +196,8 @@ def scan(rx):
             st[d['kind']] += len(ms)
             st['families'][d['family']] += len(ms)
             own.append((d, ms))
-    st['example'] = best_example(own)
-    st['reference_example'] = best_example(ref)
+    st['example'] = best_example(own, sense)
+    st['reference_example'] = best_example(ref, sense)
     for t in TITLES.values():
         if rx.search(t['title']):
             st['cited'] += 1
@@ -282,7 +290,11 @@ for cat in CATEGORIES:
                 for w in f.lower().split():
                     covered.add(w)
                     covered |= {x.lower() for x in vc.inflect(w, True) | vc.inflect(w, False)}
-            st = scan(vc.term_regex(forms, flags))
+            sense = EXAMPLE_SENSE.get(display)
+            st = scan(vc.term_regex(forms, flags), sense)
+            if sense and not any(ex and sense.search(ex['text'].replace('**', ''))
+                                 for ex in (st['example'], st['reference_example'])):
+                WARN.append(f'"{display}" has no example in the sense that EXAMPLE_SENSE names')
             uses = st['paper'] + st['draft']
             chosen = DISSERTATION_TERMS.get(display)
             note = NOTES.get(display, '')
@@ -370,6 +382,9 @@ for acr, exp in A['ACRONYMS']:
     else:
         expansion = exp or ''
         how = 'Not written out in the papers' if st['paper'] + st['draft'] else 'Not written out in the sources'
+        if exp:
+            # an expansion written into vocab_authored.py, not taken from any source
+            how = 'Authored; ' + how[0].lower() + how[1:]
     uses = st['paper'] + st['draft']
     ACRS.append({'acronym': acr, 'expansion': expansion, 'how': how, 'uses': uses,
                  'paper': st['paper'], 'draft': st['draft'], 'families': dict(st['families']),
@@ -469,7 +484,7 @@ ref_only = [r for r in TERMS if r['tier'] == 'Reference only']
 
 md = [f"""# Hang's technical vocabulary
 
-This list collects technical terms and estimates how familiar each one is to Hang. The estimate comes from how often, and in how many studies, Hang's papers use a term. {len(RDOCS)} dissertations are a second source. Three of them, by Short, Vázquez, and Bobu, are the committee's style that Hang named. The other {len(vc.LAB)} are recent dissertations from the labs of Matarić, Song, Li, Vázquez, and Scassellati, and show the vocabulary that current readers in robot learning and human-robot interaction know. The dissertations are counted in their own column and never raise a tier. The list covers {len(TERMS)} terms in {len(CATEGORIES)} groups, {len(ACRS)} acronyms, and {len(CITED)} terms that Hang has met only in the titles of cited work. {len(ref_only)} of the terms are Reference only. [word-list.md](word-list.md) lists every word the papers use, with the same familiarity estimate, and the words only the reference dissertations use.
+This list collects technical terms and estimates how familiar each one is to Hang. The estimate comes from how often, and in how many studies, Hang's papers use a term. {len(RDOCS)} dissertations are a second source. Three of them, by Short, Vázquez, and Bobu, are the committee's style that Hang named. The other {len(vc.LAB)} are recent dissertations from the labs of Matarić, Song, Li, Vázquez, and Scassellati. These counts describe vocabulary observed in the selected dissertations. The collection is incomplete, and two of the lab dissertations are drafts (see Sources). The dissertations are counted in their own column and never raise a tier. The list covers {len(TERMS)} terms in {len(CATEGORIES)} groups, {len(ACRS)} acronyms, and {len(CITED)} terms that Hang has met only in the titles of cited work. {len(ref_only)} of the terms are Reference only. [word-list.md](word-list.md) lists every word the papers use, with the same familiarity estimate, and the words only the reference dissertations use.
 
 Use it together with [Hang's writing style reference](hangs-writing-style-reference.md). When drafting or revising dissertation prose, prefer terms marked Core or Familiar. A term marked Once, Reference only, or Cited only is one Hang seldom or never writes, so check its sense or define it. A word that is in none of the lists falls outside the vocabulary. `python writing_style_ref/tools/check_vocabulary.py <file>` lists such words in a draft.
 
@@ -485,7 +500,7 @@ Terms per tier: {', '.join(f'{tier_count[t]} {t}' for t in TIERS if tier_count[t
 
 A use is one occurrence in a paper or a draft. A study is one of the six paper families below. The count is by word form, so a common word such as state, return, or progress is counted in every sense, and a term also counts inside a longer term (reward function inside learned reward function). Drafts count as Hang's own writing, since they are earlier versions written for the same studies. Each paper was coauthored, and CHARM was written with a co-first author, so a term found only in CHARM is weaker evidence of Hang's own word choice. The prospectus is single-authored. Comments, math, citations, and the notes of coauthors and advisors in the LaTeX are not counted.
 
-The Reference dissertations column counts the same term in the reference dissertations. Each committee dissertation is named with its count. The lab dissertations are summed, with the number of the {len(vc.LAB)} that use the term and the one that uses it most, so "lab 212 in 9/{len(vc.LAB)} (Tsoi 80)" means 212 uses in nine lab dissertations, 80 of them by Tsoi, and "lab: Klein 30" means that only Klein uses it. A high count there and none in the papers means the term belongs to the field, or to a neighboring field, more than to Hang's own writing. A term used by many lab dissertations is common in the field today; one used heavily by a single dissertation may be that writer's topic. Where the papers have no example, the example comes from a reference dissertation and is marked *Reference*. Those examples quote another writer and are not models of Hang's wording.
+The Reference dissertations column counts the same term in the reference dissertations. Each committee dissertation is named with its count. The lab dissertations are summed, with the number of the {len(vc.LAB)} that use the term and the one that uses it most, so "lab 212 in 9/{len(vc.LAB)} (Tsoi 80)" means 212 uses in nine lab dissertations, 80 of them by Tsoi, and "lab: Klein 30" means that only Klein uses it. A high count there and none in the papers means the term belongs to the field, or to a neighboring field, more than to Hang's own writing. A term used by many lab dissertations is common across these dissertations; one used heavily by a single dissertation may be that writer's topic. Counts are by word form in every sense, so a word such as recall or encoder also counts its everyday or hardware sense, and dissertations from one lab may share text. Where the papers have no example, the example comes from a reference dissertation and is marked *Reference*. Those examples quote another writer and are not models of Hang's wording.
 
 ## Sources
 
@@ -561,8 +576,9 @@ for r in missing:
 md.append('')
 
 md.append('## Acronyms\n')
-md.append('The expansion is the one the papers define, where they define one, and otherwise the one a reference '
-          'dissertation defines. Uses count the short form only.\n')
+md.append('The expansion is the one the papers define or write out, where they do, and otherwise the one a reference '
+          'dissertation defines. Where no source gives it, the expansion is written into `tools/vocab_authored.py`, '
+          'and its source says Authored. Uses count the short form only.\n')
 md.append('| Acronym | Stands for | Source of the expansion | Familiarity | Uses | Studies | Reference dissertations |\n'
           '| --- | --- | --- | --- | --- | --- | --- |')
 for a in sorted(ACRS, key=lambda a: (tier_rank[a['tier']], -a['uses'], -sum(a['reference'].values()), a['acronym'].lower())):
@@ -666,7 +682,7 @@ wl.append(f'Words that the reference dissertations use at least three times and 
           'general English list, which removes most of the symbols that the PDF equations turn into. A word that only lab '
           'dissertations use is kept when three of them use it, which leaves out words of a single writer\'s topic. Names (words the '
           'dissertations write only with a capital, such as the robot Chester) and short abbreviations are left out, and so '
-          'are very common words. Reference only in the sense of the tiers: the field uses them, but Hang has not written them.\n')
+          'are very common words. Reference only in the sense of the tiers: the reference dissertations use them, but Hang has not written them.\n')
 for letter in sorted({w[0] for w, _, _ in ref_words_only}):
     row = [f'{w} {n} ({s})' for w, n, s in ref_words_only if w[0] == letter]
     wl.append(f'**{letter.upper()}** ' + ' · '.join(row) + '\n')

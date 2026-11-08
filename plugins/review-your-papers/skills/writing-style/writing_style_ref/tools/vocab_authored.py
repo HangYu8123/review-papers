@@ -339,8 +339,8 @@ CATEGORIES = [
             'attention check', 'open-ended', 'self-report | self-reported',
             'semi-structured interview', 'inter-rater reliability | interrater reliability',
             'independent variable', 'dependent variable', 'study design',
-            'longitudinal study | longitudinal', 'in-the-wild | in the wild',
-            'in-home study | in-home', 'Godspeed ~c', 'System Usability Scale',
+            'longitudinal study', 'in-the-wild | in the wild',
+            'in-home study', 'Godspeed ~c', 'System Usability Scale',
         ],
     },
     {
@@ -453,9 +453,22 @@ NOTES = {
     'Proficient Human': 'Robomimic dataset type (PH).',
     'Multi Human': 'Robomimic dataset type (MH).',
     'open-coded book': 'The papers\' wording; the dissertation writes a codebook developed through open coding.',
-    'recall': 'Counts every use of the word, including its everyday sense (recall that).',
-    'precision': 'Counts every use of the word, including numerical precision.',
+    'recall': ('Counts every use of the word, including its everyday sense (recall that) and remembering. '
+               'The example shows the metric sense.'),
+    'precision': ('Counts every use of the word. The papers use it for numerical and spatial precision, not the '
+                  'classification metric, so the tier does not show familiarity with the metric.'),
+    'encoder': ('Counts every use of the word, including position encoders on robot hardware (Shi). '
+                'The example shows the neural-network sense.'),
+    'transparency': ('Counts every use of the word, including the optical transparency of rendered objects '
+                     '(Gokmen, Wong).'),
     'sim-to-real': 'Also counts sim-to-real gap, which the papers use.',
+}
+
+# Words with more than one sense. The example comes from a sentence that matches the pattern, so it
+# shows the sense the group means; the counts still include every sense, as the note says.
+EXAMPLE_SENSE = {
+    'encoder': r'\bdecoders?\b|\bneural\b|\blatent\b|\btransformer|\bimages?\b|\btokens?\b',
+    'recall': r'\bprecision\b|\bF1\b|true positives?|false negatives?',
 }
 
 # Terms that the writing style reference sets as the dissertation's wording.
@@ -500,20 +513,26 @@ NEAREST = {
     'expressive': 'expressiveness',
     'usability': 'applicability',
     'informativeness': 'informative',
-    'explicit feedback': 'evaluative feedback',
     'user preference': 'human preference',
-    'action space': 'action, action sequence',
     'simulator': 'simulation, Robosuite',
     'simulation environment': 'simulation, environment',
     'benchmark': 'Robosuite, Robomimic',
     'online survey': 'online study, questionnaire',
     'study design': 'study setup, study procedure',
-    'independent variable': 'condition',
-    'F1 score': 'accuracy',
     'cross-validation': 'cross-validate',
     'evaluation metric': 'performance, success rate',
-    'human partner': 'human teacher',
-    'human behavior': 'human characteristics, teaching style',
+}
+
+# For a field term the papers do not use, a related term that they do use but that means something else.
+# The checker shows these as related, not equivalent, so that a draft keeps the field term when
+# changing it would change the study, the metric, or the role.
+RELATED = {
+    'F1 score': 'accuracy, a different metric',
+    'action space': 'action, action sequence; an action space is the set of available actions',
+    'independent variable': 'condition, a level or combination of levels of the variables',
+    'explicit feedback': 'evaluative feedback, a narrower kind of signal',
+    'human partner': 'human teacher, one role a partner can have',
+    'human behavior': 'human characteristics, teaching style; both are narrower',
 }
 
 # Acronyms: (acronym, expansion as the papers write it, or None to take the expansion the papers define).

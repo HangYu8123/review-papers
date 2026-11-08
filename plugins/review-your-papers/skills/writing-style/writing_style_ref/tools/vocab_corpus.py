@@ -334,9 +334,10 @@ def documents():
 # Two groups. The committee dissertations (Short, Vázquez, Bobu) are the ones Hang named as
 # the committee's style. The lab dissertations are the most recent PhD dissertations from the
 # labs of Matarić, Song, Li, Vázquez, and Scassellati that could be retrieved in November 2026
-# (12 of 21 requested; see dissertation_reference/README.md). They show the vocabulary that
-# current readers in robot learning and HRI know. Bobu's dissertation is in both collections
-# and is counted once, as a committee dissertation.
+# (12 of 21 requested; see dissertation_reference/README.md). Their counts describe the vocabulary
+# observed in these selected dissertations, two of which (Candon, Thompson) are drafts; they do not
+# measure what readers know. Bobu's dissertation is in both collections and is counted once, as a
+# committee dissertation.
 
 REFERENCE_GROUPS = {
     'committee': 'Committee dissertations',

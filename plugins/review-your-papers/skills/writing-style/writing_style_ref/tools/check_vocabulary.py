@@ -46,11 +46,13 @@ ABOUT = {
     'avoid': 'Hang has not used these in the papers. Prefer a word from tech-vocabulary.md unless Hang chose this one.',
     'new': 'Neither the papers nor common English use these much. They are the likeliest words to be outside Hang\'s vocabulary.',
     'field': ('Terms from tech-vocabulary.md that the papers never use, with their tier, their uses in the reference '
-              'dissertations, and the nearest term the papers use where there is one.'),
+              'dissertations, and the nearest term the papers use where there is one. A term marked related, not '
+              'equivalent, means something else: keep the field term when changing it would change the study, the '
+              'metric, or the role.'),
     'acronym': 'Check that each is defined, or use the full term. The last column shows uses in the reference dissertations.',
     'reference': ('Hang has not written these, but the reference dissertations use them. The last column names the '
-                  'committee dissertations (Short, Vázquez, Bobu) and sums the recent lab dissertations as "lab". A word only one lab dissertation uses is '
-                  'weak evidence that the field knows it. Define a technical one on first use, and prefer a paper word '
+                  'committee dissertations (Short, Vázquez, Bobu) and sums the recent lab dissertations as "lab". A word only one lab dissertation uses '
+                  'may be that writer\'s topic. Define a technical one on first use, and prefer a paper word '
                   'when one says the same thing.'),
     'related': 'The papers use a different word of the same family, shown in the last column. Usually fine; prefer the paper\'s form when it says the same thing.',
     'cited': 'Hang has read these in cited titles but has not written them. Gloss on first use.',
@@ -107,6 +109,7 @@ def main():
         return vc.ref_summary(counts)
     authored = runpy.run_path(str(HERE / 'tools' / 'vocab_authored.py'))
     nearest = authored.get('NEAREST', {})
+    related = authored.get('RELATED', {})
     also_known = {w.lower() for w in authored.get('ALSO_KNOWN', [])}
     for t in data['terms']:
         if t['tier'] == 'Dissertation term':   # chosen by Hang for the dissertation
@@ -187,6 +190,8 @@ def main():
                 h['count'] += 1
                 bits = [t['tier'], ref_note(t.get('reference', {})), nearest.get(t['term'], '')]
                 h['note'] = '; '.join(b for b in bits[:2] if b) + (f"; nearest: {bits[2]}" if bits[2] else '')
+                if related.get(t['term']):
+                    h['note'] += f"; related, not equivalent: {related[t['term']]}"
                 where = f'{path.as_posix()}:{text.count(chr(10), 0, m.start()) + 1}'
                 if len(h['where']) < 3 and where not in h['where']:
                     h['where'].append(where)
@@ -211,7 +216,7 @@ def main():
             continue
         out.append(f'## {title} ({len(rows)})\n')
         out.append(ABOUT[g] + '\n')
-        last = {'related': 'Paper words of the same family', 'field': 'Tier, reference uses, nearest paper term',
+        last = {'related': 'Paper words of the same family', 'field': 'Tier, reference uses, nearest or related paper term',
                 'reference': 'Uses in the reference dissertations',
                 'acronym': 'Uses in the reference dissertations'}.get(g, 'General English (Zipf)')
         out.append(f'| Word | Uses here | Where | {last} |\n| --- | --- | --- | --- |')

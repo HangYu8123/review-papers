@@ -33,9 +33,9 @@ Neither the papers nor common English use these much. They are the likeliest wor
 
 ## Listed terms the papers do not use (4)
 
-Terms from tech-vocabulary.md that the papers never use, with their tier, their uses in the reference dissertations, and the nearest term the papers use where there is one.
+Terms from tech-vocabulary.md that the papers never use, with their tier, their uses in the reference dissertations, and the nearest term the papers use where there is one. A term marked related, not equivalent, means something else: keep the field term when changing it would change the study, the metric, or the role.
 
-| Word | Uses here | Where | Tier, reference uses, nearest paper term |
+| Word | Uses here | Where | Tier, reference uses, nearest or related paper term |
 | --- | --- | --- | --- |
 | foundation model | 6 | chapters/discussion.tex:94, chapters/discussion.tex:121, chapters/discussion.tex:131 | Reference only; Bobu 1 · lab 3 in 2/12 (Sargent 2) |
 | annotation interface | 2 | chapters/conclusion.tex:98, chapters/introduction.tex:173 | Not found; nearest: graphical user interface |
@@ -56,7 +56,7 @@ Check that each is defined, or use the full term. The last column shows uses in 
 
 ## Words from the reference dissertations (43)
 
-Hang has not written these, but the reference dissertations use them. The last column names the committee dissertations (Short, Vázquez, Bobu) and sums the recent lab dissertations as "lab". A word only one lab dissertation uses is weak evidence that the field knows it. Define a technical one on first use, and prefer a paper word when one says the same thing.
+Hang has not written these, but the reference dissertations use them. The last column names the committee dissertations (Short, Vázquez, Bobu) and sums the recent lab dissertations as "lab". A word only one lab dissertation uses may be that writer's topic. Define a technical one on first use, and prefer a paper word when one says the same thing.
 
 | Word | Uses here | Where | Uses in the reference dissertations |
 | --- | --- | --- | --- |
