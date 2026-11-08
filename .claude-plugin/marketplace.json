@@ -1,0 +1,20 @@
+{
+  "name": "review-your-papers",
+  "owner": {
+    "name": "Hang Yu",
+    "url": "https://github.com/HangYu8123"
+  },
+  "metadata": {
+    "description": "Paper-review skills for advisors, students, and peer reviewers."
+  },
+  "plugins": [
+    {
+      "name": "review-your-papers",
+      "source": "./plugins/review-your-papers",
+      "description": "Advisor-guided review of a student's paper draft, and peer reviews in Hang Yu's reviewing style, with accept-or-reject pages for every suggestion.",
+      "version": "1.0.0",
+      "category": "productivity",
+      "keywords": ["paper review", "peer review", "academic writing"]
+    }
+  ]
+}

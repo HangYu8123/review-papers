@@ -1,0 +1,103 @@
+# A worked example of every kind of item. It edits the toy document in sample/,
+# never the dissertation. Build it with:
+#     python waiting_for_review/_template/build_review.py waiting_for_review/_template/example
+
+@review
+title: Example review
+description: Seven items on a toy document, one of each kind, to show how the page, the batches and the apply step behave. Nothing here touches the dissertation.
+root: sample
+type.pronoun: Pronoun
+type.delete: Deletion
+type.create: New text
+type.update: Update
+macro.\toolname{}: the sorting robot
+
+@request R1
+asked: 2026-10-11
+by: Hang
+--- text
+replace the first-person pronouns in the study chapter
+
+@request R2
+asked: 2026-10-11
+by: Hang
+--- text
+cut anything the reader has already been told
+
+@request R3
+asked: 2026-10-11
+by: a committee member
+source: sample/notes.txt
+--- text
+Why does the method rescale ratings instead of dividing by the maximum?
+
+@item S-001
+type: pronoun
+request: R1
+file: chapters/study.tex
+note: First person replaced by a passive; the citation stays where it was.
+--- original
+We conducted a study with 24 participants to see how people rate a robot that sorts blocks \cite{toy2024}.
+--- revised
+A study with 24 participants was conducted to see how people rate a robot that sorts blocks \cite{toy2024}.
+
+@item S-002
+type: pronoun
+request: R1
+file: chapters/study.tex
+--- original
+Our intuition is that ratings drift as a session goes on.
+--- revised
+The intuition is that ratings drift as a session goes on.
+
+@item S-003
+type: delete
+request: R2
+file: chapters/study.tex
+note: The order of the clips is already given in the Methodology. With no revised text, accepting this removes the sentence.
+--- original
+The clips were shown in a random order.
+
+@item S-004
+type: pronoun
+request: R1
+file: chapters/study.tex
+note: Results as the subject, following the "results suggested that" pattern.
+--- original
+We found that ratings fell by $0.4 \pm 0.1$ points between the first and the last block, as shown in \autoref{fig:drift}.
+--- revised
+Ratings fell by $0.4 \pm 0.1$ points between the first and the last block, as shown in \autoref{fig:drift}.
+
+@item S-005
+type: delete
+request: R2
+file: chapters/study.tex
+delete_style: mark
+note: Repeats the previous paragraph. Kept in the file with delete tags, so it can be seen in the PDF before it goes.
+--- original
+The effect was the same for both groups.
+
+@item S-006
+type: create
+request: none
+file: chapters/study.tex
+title: A closing sentence for the Discussion
+note: The section ends without saying what the drift means for the method chapter.
+--- anchor
+It is, however, consistent across participants.
+--- revised
+This consistency is what the method in \autoref{ch:method} relies on: a drift that
+every participant shares can be corrected with a single adjustment.
+
+@item M-001
+type: update
+request: R3
+file: chapters/method.tex
+title: Rewritten description of the rescaling
+note: This one was put into the text directly, between update tags. Rejecting it puts the original back.
+--- original
+The method divides each rating by the largest rating the participant gave.
+--- revised
+The method rescales each rating by the participant's own range before it is used
+as a reward. This keeps the order of a participant's ratings and removes the
+difference in how widely participants spread them.

@@ -1,0 +1,26 @@
+{
+  "name": "review-your-papers",
+  "version": "1.0.0",
+  "description": "Two paper-review skills: an advisor-guided review of a student's draft that proposes small revisions to accept or reject on an editing page, and peer reviews of others' papers in Hang Yu's reviewing style on a review page with evidence under each point.",
+  "author": {
+    "name": "Hang Yu",
+    "url": "https://github.com/HangYu8123"
+  },
+  "homepage": "https://github.com/HangYu8123/review-your-papers",
+  "repository": "https://github.com/HangYu8123/review-your-papers",
+  "keywords": ["paper review", "peer review", "academic writing", "HRI", "robotics", "LaTeX", "writing style"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Review Your Papers",
+    "shortDescription": "Advisor-guided paper reviews and peer reviews",
+    "longDescription": "Review a student's paper draft with Elaine Schaertl Short's advisor guide, proposing small revisions with reasons that the author accepts, rejects, or edits on a page before they are applied to the LaTeX source. Or draft a peer review of someone else's paper in Hang Yu's reviewing style, with the evidence for every point on a review page. Wording follows a bundled portable writing style guide.",
+    "developerName": "Hang Yu",
+    "category": "Education & Research",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://github.com/HangYu8123/review-your-papers",
+    "defaultPrompt": [
+      "Use advisor-review-paper to review my paper draft, proposing small revisions with reasons for me to accept or reject.",
+      "Use review-paper to draft a peer review of the manuscript in this folder."
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Paper"
+  short_description: "Draft a peer review in Hang's reviewing style"
+  default_prompt: "Use $review-paper to draft a peer review of this manuscript on the review page, with evidence under each point for me to accept, edit, or reject."

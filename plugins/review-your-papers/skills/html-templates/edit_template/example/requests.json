@@ -1,0 +1,46 @@
+{
+ "about": "Written by build_review.py from the items file. Read by apply_decisions.py for change-record.md. The review page does not read it.",
+ "review_id": "example",
+ "requests": [
+  {
+   "id": "R1",
+   "asked": "2026-10-11",
+   "by": "Hang",
+   "text": "replace the first-person pronouns in the study chapter"
+  },
+  {
+   "id": "R2",
+   "asked": "2026-10-11",
+   "by": "Hang",
+   "text": "cut anything the reader has already been told"
+  },
+  {
+   "id": "R3",
+   "asked": "2026-10-11",
+   "by": "a committee member",
+   "source": "sample/notes.txt",
+   "text": "Why does the method rescale ratings instead of dividing by the maximum?"
+  }
+ ],
+ "items": {
+  "S-001": [
+   "R1"
+  ],
+  "S-002": [
+   "R1"
+  ],
+  "S-003": [
+   "R2"
+  ],
+  "S-004": [
+   "R1"
+  ],
+  "S-005": [
+   "R2"
+  ],
+  "S-006": [],
+  "M-001": [
+   "R3"
+  ]
+ }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "review-your-papers",
+  "interface": {
+    "displayName": "Review Your Papers"
+  },
+  "plugins": [
+    {
+      "name": "review-your-papers",
+      "source": {
+        "source": "local",
+        "path": "./plugins/review-your-papers"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education & Research"
+    }
+  ]
+}

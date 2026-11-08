@@ -1,0 +1,2651 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paper Review Desk</title>
+<!--
+  Paper review template, following guideline.md, laid out like a formal review report.
+  To review a paper, copy this review.html into <paper folder>/review/ and fill in review-data.js next to it.
+
+  The Review tab reads as one report. Each section (summary, strengths, weaknesses, areas for improvement,
+  overall recommendation) is a card with its guideline. Every point has accept, edit, and reject buttons, and
+  right after it come its references: the evidence and reason behind it, with optional agree and disagree.
+  After the five sections come the final review, which prints as a formal report, and a state machine of the paper.
+  The Connections tab maps what each section needs, and shows which links the loaded review has.
+
+  review-data.js holds window.REVIEW_DATA, an object with these fields:
+    review_id   short name, used for autosave and for the decisions file name
+    title       paper title
+    generated   optional time the review was generated
+    paper       optional object with id, venue
+    items       one entry per block of review text
+      id        unique, such as "weakness-1"
+      group     summary, strength, weakness, improvement, or recommendation
+      category  optional subheading inside strength, weakness, or improvement, as in a formal report.
+                Points with the same category are shown together, where the category first appears.
+                Strength: Technical novelty and innovation, Significance of contributions,
+                  Experimental rigor and validation, Clarity of presentation.
+                Weakness: Unclear contributions, Insufficient evidence for claims,
+                  Technical limitations or concerns, Missing comparisons or related work.
+                Leave it out of summary and recommendation, and leave it out when a section has one or two points.
+      type      "review"
+      op        "insert"
+      revised   the generated review text
+      evidence  list of objects, shown right after the point
+        where   location, such as "Sec. IV-B, p. 4"
+        text    what the paper says
+        reason  why this leads to the review text
+        source  what the reference draws on, which the Connections tab counts:
+                claims, method, experiments, baselines, presentation (the paper)
+                prior, field (external sources)
+                guideline, previous, style (your rules)
+                summary, strength, weakness, improvement (this review)
+        url     optional link, for an external source
+    machine     optional state machine of the paper, drawn after the review
+      title     such as "Contributions and supporting evidence"
+      caption   one or two sentences: the key intuition, and how well the experiments cover the contributions
+      layout    optional "TB" (top to bottom) or "LR" (left to right). Left out, the page picks one.
+      states    list of objects
+        id      unique, such as "work-1"
+        role    intuition, contribution, work, experiment, or context. The role sets the layer, the color,
+                and the tag on the box, and the page numbers the contributions and the experiments.
+        label   short name, at most about 28 characters
+        sub     optional second line. For an experiment, the environment and the total workload,
+                such as "benchmark setting, 3 datasets, 5 runs per method".
+        kind    optional: start, end, choice, or state (the default). Leave it out when role is set.
+        novel   optional, true for what the paper adds
+        where   optional location, such as "Sec. III-A, Theorem 1"
+        text    optional sentences on the state, shown in the table
+        points  optional list of the ids of review items about this state, such as ["strength-1", "weakness-2"]
+        rank    optional number that pins the layer of the state. The role sets it when left out.
+        order   optional number that pins its place in the layer
+      transitions  list of objects
+        from, to   state ids
+        label      optional and short: the relation or the result, such as "lower error" or "relies on"
+        weak       optional, true when the link is weak or partial, such as an experiment that does not
+                   isolate the work it is linked from
+        optional   optional, true for a path the method does not always take
+
+  How to write the machine, once the five sections are written:
+    The machine maps the argument of the paper, not its pipeline and not the order of its sections. It answers
+    four questions, one role each, and the page draws the roles as layers from top to bottom.
+    1. Key intuition and key contributions. One intuition state, two at most: the one idea the method rests on,
+       in a sentence that a reader outside the area can follow. Then 2 to 4 contribution states, judged as
+       fairly as in the summary and not copied from the claimed list. Merge claims that are the same thing, and
+       leave out claims that are only results. A transition runs from the intuition to each contribution it
+       leads to.
+    2. Where the actual work is. For each contribution, the work states that carry it: the module, derivation,
+       proof, system, or dataset the paper builds, with where pointing to the sections, equations, and figures.
+       In text, say what the paper does itself, what it takes from earlier work, and how much of the paper it
+       fills. Set novel only on work that is new. A transition runs from each contribution to its work. A
+       contribution with little work behind it, or work that serves no contribution, is worth showing.
+    3. What the experiments are and what they support. One experiment state for each experiment that matters,
+       such as a benchmark comparison, an ablation, a timing study, or a real-robot test. The sub line gives the
+       environment and the total workload. In text, give the environment (simulator or robot, sensor, dataset,
+       objects), the total workload (scenes, trials, runs, seeds, and the total when the paper gives only the
+       parts, saying when it is computed or not reported), the baselines, the metrics, and the main result. A
+       transition runs from each work state to the experiments that test it, labeled with the result. Use a
+       transition from a contribution instead when the experiment tests the contribution as a whole. Set weak
+       on a transition when the experiment does not isolate that work, is in simulation only for a real-world
+       claim, or is too small to separate the methods. The page then lists the experiments behind each
+       contribution, and names any contribution that no experiment backs.
+    4. Other components, only when they help to understand the paper or reveal an important weakness, such as
+       a component the method depends on, an assumption, or a limit of the setup. Use role context, with a
+       transition from the state it explains, labeled with the relation, such as "relies on" or "only tested
+       with". Leave out the rest of the pipeline.
+    List the states by role, in the order above, and use about 8 to 16 states. A transition to a state listed
+    earlier is drawn as a loop, so every transition runs down the list. Keep edge labels to a few words.
+    Link each state to the review points about it, especially the weaknesses, so that a gap in the evidence and
+    the weakness about it sit together. Keep to what the paper states, and say so in text when a state is inferred.
+    A machine without roles is still drawn as before, as the stages a method moves through.
+
+  The part of review-data.js from the first opening brace to the last closing brace must be
+  strict JSON, because writing_style_ref/tools/import_review.py reads it that way.
+
+  Save decisions downloads <review_id>.decisions.<timestamp>.json. Each decision has
+  id, status (accepted, rejected, or undecided), decided_at, and when present
+  revised_override (the edited text), comment (why it was rejected), and
+  logic (list of evidence id, verdict, and note).
+-->
+<style>
+:root {
+  color-scheme: light;
+  --ink: #18342e; --muted: #68766e; --paper: #f6f5ef; --white: #fff; --line: #dce2d9;
+  --green: #25664e; --soft: #eaf2e9; --red: #98483c; --redsoft: #fff4ef; --gold: #947043; --goldsoft: #f7efe0;
+  --focus: #daae63; --orig: #fdf8f4; --rev: #f4f8f0; --ins: #d0e9d3; --del: #f6d8cf;
+  --ext: #e6eef5; --ext-ink: #2f5673; --rules: #ecefe4;
+  --shadow: 0 1px 2px rgba(24, 52, 46, .05), 0 8px 26px rgba(24, 52, 46, .06);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, "Courier New", monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.55 var(--sans); }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; border: 1px solid var(--line); background: white; border-radius: 7px; color: var(--ink); padding: 9px 14px; font-weight: 600; }
+button:hover { border-color: var(--green); background: var(--soft); }
+button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible, pre:focus-visible, summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+button.primary { background: var(--ink); color: white; border-color: var(--ink); }
+button.primary:hover { background: var(--green); }
+button:disabled { opacity: .45; cursor: default; }
+button:disabled:hover { border-color: var(--line); background: white; }
+button.primary:disabled:hover { background: var(--ink); border-color: var(--ink); }
+button.quiet { font-size: 12px; padding: 7px 10px; font-weight: 400; }
+a { color: var(--green); }
+.shell { max-width: 1480px; margin: auto; padding: 0 38px; }
+.icon { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- masthead and stats ---------- */
+.masthead { padding: 36px 0 26px; border-bottom: 1px solid var(--line); display: flex; gap: 28px; justify-content: space-between; align-items: flex-end; }
+.title-block { min-width: 0; }
+.eyebrow { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: var(--green); }
+h1 { font: 700 34px/1.2 var(--sans); letter-spacing: -.02em; margin: 9px 0 12px; text-wrap: balance; max-width: 980px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.meta span { display: inline-flex; align-items: center; gap: 6px; }
+.meta .venue { color: var(--red); }
+.meta .icon { width: 15px; height: 15px; }
+.lede { max-width: 700px; color: var(--muted); margin: 0; }
+.header-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; flex: none; max-width: 100%; }
+.dest { flex-basis: 100%; display: flex; gap: 7px; align-items: center; justify-content: flex-end; font-size: 12px; color: var(--muted); }
+.dest .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); flex: none; }
+.dest.on .dot { background: var(--green); }
+.dest.off .dot { background: var(--gold); }
+.dest.bad { color: var(--red); font-weight: 600; }
+.dest.bad .dot { background: var(--red); }
+.stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; border: 1px solid var(--line); background: var(--line); border-radius: 10px; overflow: hidden; margin: 25px 0; }
+.stat { background: #fcfcf7; padding: 15px 21px; }
+.stat strong { display: block; font-size: 28px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 12px; color: var(--muted); }
+
+/* ---------- sidebar ---------- */
+.workspace { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 34px; padding-bottom: 70px; }
+.workspace main { max-width: 1080px; min-width: 0; }
+.sidebar { align-self: start; position: sticky; top: 18px; max-height: calc(100vh - 36px); overflow: auto; padding: 3px; }
+.sidebar h2 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.chapter { display: flex; width: 100%; justify-content: space-between; gap: 10px; text-align: left; margin: 2px 0; padding: 9px 11px; font-size: 13px; color: var(--ink); text-decoration: none; border-radius: 7px; }
+.chapter:hover { background: var(--soft); }
+.chapter.active, .chapter.active:hover { background: var(--ink); color: white; }
+.chapter .count { opacity: .65; font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chapter.after { margin-top: 10px; }
+.progress-track { height: 4px; border-radius: 10px; background: var(--line); overflow: hidden; margin: 14px 10px; }
+.progress-fill { background: var(--green); height: 100%; width: 0; transition: width .15s; }
+.side-tools { padding: 0 10px; font-size: 12px; }
+.side-save { border-top: 1px solid var(--line); margin-top: 18px; padding: 18px 10px 0; }
+.side-save button { width: 100%; }
+.side-save p { font-size: 12px; color: var(--muted); margin: 10px 0 0; }
+.linklike { border: 0; background: none; padding: 0; color: var(--green); font-weight: 400; font-size: inherit; text-decoration: underline; }
+.linklike:hover { background: none; color: var(--ink); }
+.linklike.armed, .linklike.armed:hover { color: var(--red); font-weight: 600; }
+
+/* ---------- notices ---------- */
+.notice { font-size: 12px; background: var(--rules); padding: 12px 17px; border-radius: 8px; margin-bottom: 22px; color: #526451; display: flex; gap: 12px; align-items: flex-start; }
+.notice > div { flex: 1; min-width: 0; }
+.notice.warn { background: var(--goldsoft); color: #6f5226; }
+.notice.bad { background: var(--redsoft); color: var(--red); border: 1px solid #e9cdc3; }
+.notice .x { border: 0; background: none; color: inherit; padding: 0 4px; font-size: 16px; line-height: 1.1; font-weight: 400; }
+.intro { font-size: 13px; color: var(--muted); margin: 0 0 18px; }
+.empty { padding: 26px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 12px; font-size: 13px; margin: 0; }
+
+/* ---------- section cards ---------- */
+.part { scroll-margin-top: 18px; }
+.sec { background: var(--white); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 26px 30px 30px; }
+.part + .part { margin-top: 26px; }
+.part-final { margin-top: 44px !important; }
+.sec-head { display: flex; justify-content: space-between; align-items: center; gap: 10px 20px; flex-wrap: wrap; margin: 0 0 12px; }
+.sec-head h3 { display: flex; align-items: center; gap: 11px; font: 700 23px/1.25 var(--sans); letter-spacing: -.01em; margin: 0; }
+.sec-head h3:focus { outline: none; }
+.ic-summary, .ic-weakness { color: var(--red); }
+.ic-strength { color: var(--green); }
+.ic-improvement, .ic-machine { color: var(--ext-ink); }
+.ic-recommendation { color: var(--gold); }
+.ic-final { color: var(--ink); }
+.list-label { display: flex; align-items: center; gap: 6px 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.bulk { display: flex; gap: 6px 14px; align-items: center; flex-wrap: wrap; }
+.guide { font-size: 12.5px; line-height: 1.55; color: #526451; background: var(--rules); border-radius: 8px; padding: 10px 14px; margin: 0 0 14px; }
+.check { display: block; width: fit-content; max-width: 100%; margin: 0 0 14px; border-radius: 20px; padding: 3px 12px; font-size: 12px; }
+.check.good { background: var(--soft); color: var(--green); }
+.check.flag { background: var(--goldsoft); color: #6f5226; }
+.check.info { background: var(--ext); color: var(--ext-ink); }
+.cat { font: 700 15px/1.4 var(--sans); margin: 26px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.sec .cat:first-of-type { margin-top: 18px; }
+
+/* ---------- points ---------- */
+.point { border-left: 3px solid #dfe4dc; padding: 2px 0 2px 20px; margin: 18px 0 0; scroll-margin-top: 20px; }
+.point.accepted { border-left-color: #75a68c; }
+.point.edited { border-left-color: #c9b083; }
+.point.rejected { border-left-color: #c7988c; }
+.point:target { outline: 3px solid var(--focus); outline-offset: 6px; border-radius: 2px; }
+.cat + .point { margin-top: 0; }
+.point + .point { margin-top: 26px; }
+.point-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0 0 6px; }
+.point-title { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.status { border-radius: 20px; padding: 3px 11px; font-size: 11px; font-weight: 600; background: #f1f2ec; color: var(--muted); white-space: nowrap; }
+.accepted .status { background: var(--soft); color: var(--green); }
+.edited .status { background: var(--goldsoft); color: var(--gold); }
+.rejected .status { background: var(--redsoft); color: var(--red); }
+.point-text, .passage-text { font: 16px/1.72 var(--sans); margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; text-align: justify; hyphens: auto; }
+.rejected .point-text, .rejected .compare .passage-text { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 1px; }
+.compare { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+.passage { padding: 14px 18px 16px; min-width: 0; }
+.passage.original, .passage.evidence { background: var(--orig); border-right: 1px solid var(--line); }
+.passage.revised, .passage.why { background: var(--rev); }
+.passage-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.original .passage-label { color: var(--red); }
+.revised .passage-label, .why .passage-label { color: var(--green); }
+.evidence .passage-label { color: var(--gold); }
+.passage-text del { background: var(--del); color: #7c3327; text-decoration: none; border-radius: 3px; padding: 1px 0; }
+.passage-text ins { background: var(--ins); text-decoration: none; border-radius: 3px; padding: 1px 0; }
+.src { border-radius: 20px; padding: 1px 9px; font-weight: 600; letter-spacing: .02em; text-transform: none; background: var(--goldsoft); color: var(--gold); }
+.src.external { background: var(--ext); color: var(--ext-ink); }
+.src.rules { background: var(--rules); color: #526451; }
+.src.review { background: var(--soft); color: var(--green); }
+textarea { display: block; width: 100%; border: 1px solid var(--line); border-radius: 7px; background: white; color: var(--ink); padding: 10px 12px; resize: vertical; }
+textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
+.editor { border: 1px solid #c9b083; border-radius: 9px; background: var(--rev); padding: 12px 14px 14px; }
+.edit-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
+.edit-error { font-size: 12px; color: var(--red); }
+.point-foot { margin-top: 12px; }
+.actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.accept { border-color: #b6d1bf; color: var(--green); }
+.reject { border-color: #e0c3b8; color: var(--red); }
+.accept[aria-pressed=true], .accept[aria-pressed=true]:hover { background: var(--green); color: white; border-color: var(--green); }
+.reject[aria-pressed=true], .reject[aria-pressed=true]:hover { background: var(--red); color: white; border-color: var(--red); }
+.edit-btn[aria-pressed=true], .edit-btn[aria-pressed=true]:hover { background: var(--gold); color: white; border-color: var(--gold); }
+.accept:disabled, .accept:disabled:hover { color: var(--green); border-color: #b6d1bf; }
+.note-box { margin-top: 12px; }
+.note-box textarea { min-height: 62px; font-size: 13px; }
+.doubt { font-size: 12px; color: #6f5226; background: var(--goldsoft); border-radius: 7px; padding: 8px 12px; margin: 12px 0 0; }
+
+/* ---------- references, right after each point ---------- */
+.refs { margin-top: 14px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: white; }
+.refs > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 9px; padding: 9px 14px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); background: #fcfaf5; user-select: none; }
+.refs > summary::-webkit-details-marker { display: none; }
+.refs > summary::before { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); margin: 0 3px 0 1px; transition: transform .12s; }
+.refs[open] > summary::before { transform: rotate(45deg); }
+.refs[open] > summary { border-bottom: 1px solid var(--line); }
+.refs .refs-count { font-variant-numeric: tabular-nums; color: var(--muted); }
+.refs .refs-flag { text-transform: none; letter-spacing: 0; font-weight: 600; color: var(--red); background: var(--redsoft); border-radius: 20px; padding: 1px 9px; }
+.ref-row + .ref-row { border-top: 1px solid var(--line); }
+.ref-row .compare { border: 0; border-radius: 0; }
+.ref-row .passage { padding: 13px 18px 14px; }
+.ref-row .passage-text { font-size: 14px; line-height: 1.6; text-align: left; }
+.location { font: 12px/1.4 var(--mono); color: var(--muted); margin: 0 0 6px; overflow-wrap: anywhere; }
+.logic { padding: 8px 18px 10px; border-top: 1px dashed var(--line); }
+.logic .actions { gap: 6px; }
+.logic-label { font-size: 12px; color: var(--muted); margin-right: 6px; }
+.refs-none { font-size: 12px; color: var(--muted); margin: 12px 0 0; }
+
+/* ---------- final review ---------- */
+.final-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; background: white; margin-bottom: 25px; max-width: 100%; }
+.seg button { border: 0; border-radius: 0; padding: 10px 16px; font-size: 13px; font-weight: 400; color: var(--muted); background: white; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed=true], .seg button[aria-pressed=true]:hover { background: var(--ink); color: white; }
+.seg.seg-small { margin: 0; }
+.seg.seg-small button { padding: 8px 13px; }
+.doc { background: white; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: 38px 42px 36px; }
+.doc-head { border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 26px; }
+.doc-title { font: 700 28px/1.25 var(--sans); letter-spacing: -.015em; margin: 0 0 12px; text-wrap: balance; }
+.doc-sec { border: 1px solid var(--line); border-radius: 12px; padding: 22px 26px 24px; }
+.doc-sec + .doc-sec { margin-top: 16px; }
+.doc-sec h3 { display: flex; align-items: center; gap: 10px; font: 700 20px/1.3 var(--sans); margin: 0 0 12px; }
+.doc-sec h4 { font: 700 14px/1.4 var(--sans); margin: 16px 0 6px; }
+.doc-sec h3 + h4 { margin-top: 4px; }
+.doc-sec p, .doc-sec li { font-size: 15px; line-height: 1.7; text-align: justify; hyphens: auto; }
+.doc-sec p { margin: 0; }
+.doc-sec p + p { margin-top: 10px; }
+.doc-sec ol { margin: 0; padding-left: 1.6em; }
+.doc-sec li { padding-left: .2em; }
+.doc-sec li + li { margin-top: 7px; }
+.doc-sec li::marker { font-weight: 600; color: var(--muted); }
+.doc-empty { margin: 0; padding: 24px; text-align: center; color: var(--muted); font-size: 13px; }
+.card { background: white; border: 1px solid var(--line); border-radius: 11px; overflow: hidden; }
+.final-text { margin: 0; min-height: 90px; padding: 19px 23px 23px; white-space: pre-wrap; overflow-wrap: anywhere; font: 12.5px/1.7 var(--mono); }
+.final-text:empty::before { content: "Accepted and edited points will appear here."; color: var(--muted); font-family: var(--sans); }
+.final-foot { display: flex; justify-content: flex-end; font-size: 12px; margin-top: 10px; }
+
+/* ---------- paper state machine ---------- */
+.m-figure { margin: 0 0 22px; }
+.m-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 11px; background: #fcfcf8; padding: 14px; }
+#machine-svg { display: block; margin: 0 auto; max-width: 100%; height: auto; font-family: var(--sans); }
+#machine-svg .m-box { fill: white; stroke: #9db0a3; stroke-width: 1.3; }
+#machine-svg .m-inner { fill: none; stroke: #9db0a3; stroke-width: 1.1; }
+#machine-svg .r-intuition .m-box { stroke: var(--ink); stroke-width: 1.7; }
+#machine-svg .r-contribution .m-box { fill: var(--soft); stroke: var(--green); stroke-width: 1.5; }
+#machine-svg .r-experiment .m-box { fill: var(--ext); stroke: #8fa9be; }
+#machine-svg .r-context .m-box { fill: #f3f3ee; stroke: #aab3ac; stroke-dasharray: 4 3; }
+#machine-svg .m-tag { font-size: 9.5px; font-weight: 700; letter-spacing: .08em; fill: var(--muted); }
+#machine-svg .r-intuition .m-tag { fill: var(--ink); }
+#machine-svg .r-contribution .m-tag { fill: var(--green); }
+#machine-svg .r-experiment .m-tag { fill: var(--ext-ink); }
+#machine-svg .m-novel .m-box { fill: var(--goldsoft); stroke: var(--gold); stroke-width: 1.6; }
+#machine-svg .m-novel .m-inner { stroke: var(--gold); }
+#machine-svg .m-label { font-size: 13px; font-weight: 600; fill: var(--ink); }
+#machine-svg .m-sub { font-size: 11.5px; fill: var(--muted); }
+#machine-svg .m-badge rect { fill: var(--gold); }
+#machine-svg .m-badge text { fill: white; font-size: 9px; font-weight: 700; letter-spacing: .08em; }
+#machine-svg .m-dot { fill: var(--ink); }
+#machine-svg .m-edge, #machine-svg .m-entry { fill: none; stroke: #7f8d85; stroke-width: 1.4; }
+#machine-svg .m-optional { stroke-dasharray: 5 4; }
+#machine-svg .mk-edge { fill: #7f8d85; }
+#machine-svg .mk-on { fill: var(--ink); }
+#machine-svg .m-elabel { font-size: 11.5px; fill: var(--ink); paint-order: stroke; stroke: #fcfcf8; stroke-width: 4px; stroke-linejoin: round; }
+#machine-svg .m-state { cursor: pointer; outline: none; }
+#machine-svg .m-state:hover .m-box { stroke: var(--green); }
+#machine-svg .m-state:focus-visible .m-box { stroke: var(--ink); stroke-width: 2.2; }
+#machine-svg .m-state.sel .m-box { stroke: var(--focus); stroke-width: 3; }
+#machine-svg .m-chip { cursor: pointer; }
+#machine-svg .m-chip rect { fill: #eef0ea; }
+#machine-svg .m-chip text { font-size: 11px; font-weight: 700; fill: var(--muted); }
+#machine-svg .m-chip:hover rect { stroke: var(--ink); stroke-width: 1; }
+#machine-svg .g-strength rect { fill: var(--soft); }
+#machine-svg .g-strength text { fill: var(--green); }
+#machine-svg .g-weakness rect { fill: var(--redsoft); stroke: #ecd2c9; }
+#machine-svg .g-weakness text { fill: var(--red); }
+#machine-svg .g-improvement rect { fill: var(--ext); }
+#machine-svg .g-improvement text { fill: var(--ext-ink); }
+#machine-svg .st-rejected { opacity: .38; }
+#machine-svg.m-focus .m-state:not(.on), #machine-svg.m-focus .m-edge:not(.on), #machine-svg.m-focus .m-elabel:not(.on), #machine-svg.m-focus .m-start:not(.on) { opacity: .18; }
+#machine-svg .m-edge.on { stroke: var(--ink); stroke-width: 1.8; marker-end: url(#mm-on); }
+#machine-svg .m-weak, #machine-svg .m-edge.m-weak.on { stroke: var(--red); stroke-dasharray: 5 4; marker-end: url(#mm-weak); }
+#machine-svg .mk-weak { fill: var(--red); }
+#machine-svg .m-elabel.m-weak-label { fill: var(--red); }
+@media (prefers-reduced-motion: no-preference) {
+  #machine-svg .m-state, #machine-svg .m-edge, #machine-svg .m-elabel, #machine-svg .m-start { transition: opacity .12s; }
+}
+.m-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--muted); margin: 10px 2px 0; }
+.m-legend > span { display: inline-flex; align-items: center; gap: 7px; }
+.m-legend svg { flex: none; }
+.m-legend .lg-box { fill: white; stroke: #9db0a3; stroke-width: 1.2; }
+.m-legend .lg-novel { fill: var(--goldsoft); stroke: var(--gold); stroke-width: 1.4; }
+.m-legend .lg-dot { fill: var(--ink); }
+.m-legend .lg-line { stroke: #7f8d85; stroke-width: 1.4; fill: none; }
+.m-legend .lg-dash { stroke-dasharray: 5 4; }
+.m-legend .lg-weak { stroke: var(--red); }
+.m-legend .lg-intuition { fill: white; stroke: var(--ink); stroke-width: 1.5; }
+.m-legend .lg-contribution { fill: var(--soft); stroke: var(--green); stroke-width: 1.3; }
+.m-legend .lg-experiment { fill: var(--ext); stroke: #8fa9be; stroke-width: 1.2; }
+.m-legend .lg-context { fill: #f3f3ee; stroke: #aab3ac; stroke-width: 1.2; stroke-dasharray: 3 2; }
+.m-support { font-size: 12px; font-weight: 400; color: var(--muted); margin-top: 5px; }
+.m-support.bad { color: var(--red); font-weight: 600; }
+.m-figure figcaption { font-size: 13.5px; line-height: 1.6; color: var(--muted); margin-top: 12px; text-align: justify; }
+.m-figure figcaption b { color: var(--ink); }
+.pt-chip { display: inline-block; border-radius: 20px; padding: 1px 8px; margin: 1px 3px 1px 0; font-size: 11px; font-weight: 700; text-decoration: none; background: #eef0ea; color: var(--muted); }
+.pt-chip.g-strength { background: var(--soft); color: var(--green); }
+.pt-chip.g-weakness { background: var(--redsoft); color: var(--red); }
+.pt-chip.g-improvement { background: var(--ext); color: var(--ext-ink); }
+.pt-chip.st-rejected { opacity: .45; text-decoration: line-through; }
+.muted { color: var(--muted); }
+
+/* ---------- connections ---------- */
+#tab-connections { padding-bottom: 60px; }
+#tab-connections > * { max-width: 1240px; }
+.session-head { margin-bottom: 26px; }
+.session-head h2 { font: 700 28px/1.2 var(--sans); letter-spacing: -.015em; margin: 0 0 6px; }
+#tab-connections .part h3 { font: 700 20px/1.25 var(--sans); margin: 0; }
+#tab-connections .list-label { justify-content: space-between; margin: 0 0 12px; }
+.map-figure { margin: 0 0 40px; }
+.map-scroll { overflow-x: auto; background: white; border: 1px solid var(--line); border-radius: 11px; padding: 8px; }
+.map-figure figcaption { font-size: 13px; color: var(--muted); margin-top: 10px; max-width: 900px; }
+#map { display: block; width: 100%; min-width: 980px; height: auto; font-family: var(--sans); }
+#map text { fill: var(--ink); }
+#map .lane { fill: #fcfcf7; stroke: var(--line); }
+#map .lane-paper { fill: var(--orig); }
+#map .lane-external { fill: var(--ext); }
+#map .lane-rules { fill: var(--rules); }
+#map .lane-review { fill: var(--rev); }
+#map .lane-decisions { fill: white; }
+#map .legend-box { fill: white; stroke: var(--line); }
+#map .t-lane { font-size: 10.5px; font-weight: 700; letter-spacing: .12em; fill: var(--muted); }
+#map .t-note { font: 11px var(--mono); fill: var(--muted); }
+#map .node { cursor: pointer; outline: none; }
+#map .box { fill: white; stroke: #b4c0b5; stroke-width: 1; }
+#map .box-inner { fill: none; stroke: #b4c0b5; stroke-width: 1; }
+#map .external-node .box { fill: var(--ext); }
+#map .node:hover .box { stroke: var(--green); }
+#map .node.has-missing .box { stroke: var(--gold); stroke-width: 1.6; }
+#map .node.is-current .box { stroke: var(--focus); stroke-width: 3; }
+#map .node:focus-visible .box, #map .node[aria-pressed=true] .box { stroke: var(--ink); stroke-width: 2; }
+#map .start { fill: var(--ink); }
+#map .start-ring { fill: none; stroke: var(--focus); stroke-width: 3; }
+#map .t-title { font-size: 13px; font-weight: 700; }
+#map .t-sub { font-size: 11px; fill: var(--muted); }
+#map .t-count { font-size: 12px; font-weight: 700; fill: var(--muted); font-variant-numeric: tabular-nums; }
+#map .t-row { font-size: 11.5px; }
+#map .row-status { font-size: 10.5px; font-weight: 600; fill: var(--muted); }
+#map .row-covered .row-status { fill: var(--green); }
+#map .row-missing .row-status, #map .row-over .row-status { fill: var(--gold); }
+#map .row-disputed .row-status { fill: var(--red); }
+#map .edge, #map .edge-legend { fill: none; stroke: var(--muted); }
+#map .kind-needed { stroke-width: 1.8; }
+#map .kind-check { stroke-width: 1.1; }
+#map .kind-sparing, #map .kind-optional { stroke-width: 1.1; stroke-dasharray: 4 3; }
+#map .kind-flow { stroke: var(--ink); stroke-width: 1.3; }
+#map .st-covered { stroke: var(--green); }
+#map .st-missing, #map .st-over { stroke: var(--gold); }
+#map .st-disputed { stroke: var(--red); }
+#map .st-unused { stroke: #c6cfc6; }
+#map .mk-ink { fill: var(--ink); }
+#map .mk-muted { fill: var(--muted); }
+#map .mk-green { fill: var(--green); }
+#map .mk-gold { fill: var(--gold); }
+#map .mk-red { fill: var(--red); }
+#map .t-edge { font-size: 11px; fill: var(--ink); paint-order: stroke; stroke: white; stroke-width: 3px; stroke-linejoin: round; }
+#map .t-legend { font-size: 11px; }
+#map .t-legend-head { font-size: 10.5px; font-weight: 700; fill: var(--muted); }
+#map .swatch-current { fill: white; stroke: var(--focus); stroke-width: 3; }
+#map.map-focus .node:not(.on), #map.map-focus .edge:not(.on), #map.map-focus .t-edge:not(.on), #map.map-focus .row:not(.on) { opacity: .16; }
+@media (prefers-reduced-motion: no-preference) {
+  #map .node, #map .edge, #map .t-edge, #map .row { transition: opacity .12s; }
+}
+.map-table-wrap { overflow-x: auto; background: white; border: 1px solid var(--line); border-radius: 11px; }
+.map-table { width: 100%; min-width: 800px; border-collapse: collapse; font-size: 13px; }
+.map-table th { text-align: left; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 12px 16px; }
+.map-table td { padding: 10px 16px; border-top: 1px solid var(--line); vertical-align: top; }
+.map-table td:nth-child(1), .map-table td:nth-child(2) { font-weight: 600; white-space: nowrap; }
+.map-table.no-status .col-status { display: none; }
+.m-table td:nth-child(2) { font-weight: 400; white-space: normal; }
+.m-table td:nth-child(1) { white-space: normal; min-width: 150px; }
+.m-table td:nth-child(3) { font: 12px/1.45 var(--mono); color: var(--muted); }
+.m-table tr.on td { background: var(--goldsoft); }
+.m-table .chip { margin: 4px 4px 0 0; }
+.chip { display: inline-block; border-radius: 20px; padding: 1px 9px; font-size: 11px; background: #f1f2ec; color: var(--muted); white-space: nowrap; }
+.chip.flag { background: var(--goldsoft); color: var(--gold); }
+.chip.good { background: var(--soft); color: var(--green); }
+.chip.bad { background: var(--redsoft); color: var(--red); }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); max-width: 90%; background: var(--ink); color: white; padding: 12px 20px; border-radius: 8px; box-shadow: 0 5px 25px #0002; font-size: 13px; z-index: 30; overflow-wrap: anywhere; }
+
+@media (max-width: 1000px) {
+  .shell { padding: 0 22px; }
+  .workspace { grid-template-columns: 180px minmax(0, 1fr); gap: 22px; }
+  .masthead { align-items: start; flex-direction: column; gap: 18px; }
+  .header-tools, .dest { justify-content: flex-start; }
+  .stats { grid-template-columns: repeat(3, 1fr); }
+  .sec, .doc { padding: 22px 22px 24px; }
+}
+@media (max-width: 720px) {
+  .shell { padding: 0 16px; }
+  .masthead { padding: 26px 0 20px; }
+  h1 { font-size: 27px; }
+  .stats { grid-template-columns: repeat(2, 1fr); margin: 20px 0; }
+  .stat { padding: 13px 16px; }
+  .workspace { display: block; }
+  .sidebar { position: static; max-height: none; margin-bottom: 22px; }
+  .chapter-nav { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 8px; }
+  .chapter { width: auto; min-width: 150px; border: 1px solid var(--line); }
+  .chapter.after { margin-top: 2px; }
+  .progress-track, .side-save, .side-tools { display: none; }
+  .sec, .doc { padding: 18px 16px 20px; border-radius: 12px; }
+  .doc-sec { padding: 16px 16px 18px; }
+  .point { padding-left: 14px; }
+  .point-text, .passage-text, .doc-sec p, .doc-sec li { text-align: left; }
+  .compare { grid-template-columns: 1fr; }
+  .passage.original, .passage.evidence { border-right: 0; border-bottom: 1px solid var(--line); }
+  .ref-row .passage, .logic { padding-left: 14px; padding-right: 14px; }
+  .final-text { padding-left: 16px; padding-right: 16px; }
+  .toast { bottom: 16px; }
+}
+
+/* Print: the formal review, then the state machine. */
+@media print {
+  @page { margin: 15mm 14mm; }
+  body { background: white; font-size: 10.5pt; }
+  .shell { max-width: none; padding: 0; }
+  .masthead, .stats, #notices, #tabs, .sidebar, #tab-connections, .intro, #review-parts, #final > .sec-head,
+  #final .notice, #final-plain, .final-foot, .toast, #machine .guide, #machine-check, #machine-flag, #machine-caption { display: none !important; }
+  #tab-main { display: block !important; }
+  .workspace { display: block; padding: 0; }
+  .workspace main { max-width: none; }
+  .part-final { margin-top: 0 !important; }
+  #final-doc { display: block !important; border: 0; box-shadow: none; padding: 0; border-radius: 0; }
+  .doc-sec h3, .doc-sec h4 { break-after: avoid; }
+  .doc-sec p, .doc-sec li { orphans: 3; widows: 3; }
+  #machine { break-before: page; border: 0; box-shadow: none; padding: 0; margin: 0; }
+  #machine .sec-head { break-after: avoid; }
+  .m-figure { break-inside: avoid; }
+  .m-scroll { overflow: visible; border: 0; padding: 0; background: none; }
+  #machine-svg { width: auto; max-width: 100%; max-height: 190mm; }
+  .m-table tr { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header class="masthead">
+    <div class="title-block">
+      <div class="eyebrow">Paper review</div>
+      <h1 id="title">No review loaded</h1>
+      <div class="meta" id="meta" hidden></div>
+      <p class="lede" id="lede"></p>
+    </div>
+    <div class="header-tools">
+      <button id="load-btn" type="button">Load review</button>
+      <button class="primary js-save" id="save-btn" type="button">Save decisions &darr;</button>
+      <input id="load-file" type="file" accept=".js,.json" aria-label="Choose a review or decisions file" hidden>
+      <div class="dest" id="dest"><span class="dot"></span><span id="dest-text"></span></div>
+    </div>
+  </header>
+  <section class="stats" aria-label="Review progress">
+    <div class="stat"><strong id="s-total">0</strong><span>points to review</span></div>
+    <div class="stat"><strong id="s-accepted">0</strong><span>accepted</span></div>
+    <div class="stat"><strong id="s-edited">0</strong><span>edited</span></div>
+    <div class="stat"><strong id="s-rejected">0</strong><span>rejected</span></div>
+    <div class="stat"><strong id="s-undecided">0</strong><span>still undecided</span></div>
+    <div class="stat"><strong id="s-disagreed">0</strong><span>references disagreed with</span></div>
+  </section>
+  <div id="notices"></div>
+  <div class="seg" id="tabs" role="group" aria-label="Page view">
+    <button type="button" id="tab-btn-main" aria-pressed="true">Review</button>
+    <button type="button" id="tab-btn-connections" aria-pressed="false">Connections</button>
+  </div>
+  <div class="workspace" id="tab-main">
+    <aside class="sidebar">
+      <h2>Review</h2>
+      <nav class="chapter-nav" id="nav" aria-label="Review sections"></nav>
+      <div class="progress-track"><div id="progress" class="progress-fill"></div></div>
+      <div class="side-tools"><button id="refs-toggle" class="linklike" type="button" hidden>Hide all references</button></div>
+      <div class="side-save">
+        <button class="primary js-save" id="save-btn-side" type="button">Save decisions &darr;</button>
+        <p id="side-status"></p>
+      </div>
+    </aside>
+    <main>
+      <p class="intro">Accept, edit, or reject each point. Its references, the evidence and reason behind it, come right after it. Agreeing or disagreeing with a reference is optional and does not change a decision.</p>
+      <div id="review-parts"></div>
+      <section class="part part-final" id="final" aria-labelledby="final-heading">
+        <div class="sec-head">
+          <h3 id="final-heading">Final review</h3>
+          <div class="final-tools">
+            <div class="seg seg-small" role="group" aria-label="Final review view">
+              <button type="button" id="view-doc" aria-pressed="true">Formatted</button>
+              <button type="button" id="view-text" aria-pressed="false">Plain text</button>
+            </div>
+            <button id="copy-btn" type="button">Copy text</button>
+            <button id="print-btn" type="button">Print or save as PDF</button>
+          </div>
+        </div>
+        <div class="notice"><div>Accepted and edited points, renumbered. Formatted is the formal layout, which Print uses, followed by the state machine. Plain text follows the layout of your earlier reviews, ready to paste into the venue form. Rejected and undecided points are left out.</div></div>
+        <div class="notice warn" id="final-flag" hidden></div>
+        <article class="doc" id="final-doc"></article>
+        <div class="card" id="final-plain" hidden><pre id="final-text" class="final-text" tabindex="0"></pre></div>
+        <div class="final-foot"><button id="clear-btn" class="linklike" type="button">Clear all decisions</button></div>
+      </section>
+      <section class="part sec" id="machine" aria-labelledby="machine-heading">
+        <div class="sec-head"><h3 id="machine-heading">Paper state machine</h3></div>
+        <p class="guide"><b>Guideline. </b>Map the argument of the paper, not its pipeline. Start from the key intuition and the key contributions, judged fairly. Under each contribution, show the work that carries it and where it is in the paper. Then show each experiment with its environment and total workload, linked to the work it tests, with the result on the link and weak links in red. Add other components only when they help to understand the paper or reveal an important weakness. Each state lists the review points about it.</p>
+        <p class="check info" id="machine-check" hidden></p>
+        <div class="notice warn" id="machine-flag" hidden></div>
+        <div id="machine-body"></div>
+      </section>
+    </main>
+  </div>
+  <div id="tab-connections" hidden>
+    <header class="session-head">
+      <h2>Connections</h2>
+      <p class="lede">What each review section needs, where it comes from, and where each point goes after your decision.</p>
+    </header>
+    <div class="notice" id="map-caption"></div>
+    <div class="notice warn" id="map-untagged" hidden></div>
+    <figure class="map-figure">
+      <div class="map-scroll">
+        <svg id="map" viewBox="0 0 1180 790" role="group" aria-label="Paper contents, external sources, and your rules feed the five review sections. Each generated point then moves through your decisions to the final review, the venue form, or a new generation. The review also feeds the paper state machine."></svg>
+      </div>
+      <figcaption>Review sections run top to bottom, and each line ends on the row it supports. Each point then moves through your decisions, and only accepted or edited text reaches the final review. An edited point needs Reset before Accept. Agreeing or disagreeing with a reference never changes a decision.</figcaption>
+    </figure>
+    <section class="part">
+      <div class="list-label">
+        <h3 id="map-table-title">Every connection</h3>
+        <button class="linklike" id="map-show-all" type="button" hidden>Show all connections</button>
+      </div>
+      <div class="map-table-wrap">
+        <table class="map-table" id="map-table">
+          <thead><tr><th>From</th><th>To</th><th>Type</th><th>Why it matters</th><th class="col-status">In this review</th></tr></thead>
+          <tbody id="map-rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="review-data.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+
+  // Section order and rules come from guideline.md. Labels and icons follow the formal review report.
+  const SECTIONS = [
+    {
+      key: 'summary', label: 'Summary', one: 'Summary', exportLabel: 'Summary', list: false, icon: 'summary', chip: 'Sum',
+      guide: 'Summarize the contributions from a fair perspective instead of repeating the claimed ones. Cover the work, key contributions, and key novelties, and mention experiments only slightly unless they are a key contribution. Keep the tone positive, conciliatory, and considerate.',
+    },
+    {
+      key: 'strength', label: 'Strengths', one: 'Strength', exportLabel: 'Strength', list: true, icon: 'strength', chip: 'S',
+      guide: 'Highlight the novelty, what is new, the contributions, what the paper can bring to the community, and other strengths. Subheadings, such as Technical novelty and innovation, can group the points.',
+    },
+    {
+      key: 'weakness', label: 'Weaknesses', one: 'Weakness', exportLabel: 'Weakness', list: true, icon: 'weakness', chip: 'W',
+      guide: 'Point out weaknesses in a nice tone and ignore minor ones. Use no more than two points like more baselines or more recent work. Focus on what is really insufficient, such as unclear contributions, insufficient evidence for claimed contributions, or wrong or very outdated methods.',
+      check(kept) {
+        const n = kept.filter(function (it) { return /baselines?\b|recent (work|method|approach)|more recent|newer (work|method)/i.test(textOf(it)); }).length;
+        return { ok: n <= 2, text: n + (n === 1 ? ' point looks like' : ' points look like') + ' more baselines or more recent work. The guideline allows at most two.' };
+      },
+    },
+    {
+      key: 'improvement', label: 'Areas for improvement', one: 'Area for improvement', exportLabel: 'Area for Improvements', list: true, icon: 'improvement', chip: 'I',
+      guide: 'Say what would help the paper improve or get accepted with a reasonable workload, in a nice tone. Weakness is what is wrong or insufficient, and this is what would make the paper better. One or two decent, fair points are enough.',
+      check(kept) {
+        const n = kept.length;
+        return { ok: n >= 1 && n <= 2, text: n + (n === 1 ? ' point' : ' points') + ' kept. The guideline asks for one or two.' };
+      },
+    },
+    {
+      key: 'recommendation', label: 'Overall recommendation', one: 'Overall recommendation', exportLabel: 'Recommendation', list: false, icon: 'recommendation', chip: 'Rec',
+      guide: 'Follow the earlier recommendations as a template. Slightly summarize the review, explain the recommendation in one short sentence, and say that you are not an expert and would not argue if it largely disagrees with other reviewers.',
+      check(kept) {
+        const ok = kept.some(function (it) { return /not an expert|would not (argue|defend)/i.test(textOf(it)); });
+        return { ok: ok, text: ok ? 'Includes the not-an-expert line.' : 'The not-an-expert line is missing.' };
+      },
+    },
+  ];
+  const KEYS = SECTIONS.map(function (s) { return s.key; });
+  const STATUS_LABEL = { undecided: 'Undecided', accepted: 'Accepted', edited: 'Edited', rejected: 'Rejected' };
+
+  const ICONS = {
+    summary: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+    strength: '<path d="M7 11v10H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h3zM7 11l4-8a3 3 0 0 1 3 3v4h5.5a2 2 0 0 1 2 2.3l-1.3 7.5A2 2 0 0 1 18.2 21H7"/>',
+    weakness: '<path d="M17 13V3h3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-3zM17 13l-4 8a3 3 0 0 1-3-3v-4H4.5a2 2 0 0 1-2-2.3l1.3-7.5A2 2 0 0 1 5.8 3H17"/>',
+    improvement: '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+    recommendation: '<circle cx="12" cy="9" r="6"/><path d="M8.5 13.8L7 22l5-3 5 3-1.5-8.2"/>',
+    final: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 14.5l2 2 4-4"/>',
+    machine: '<rect x="2.5" y="3.5" width="7" height="5.5" rx="1.5"/><rect x="14.5" y="3.5" width="7" height="5.5" rx="1.5"/><rect x="8.5" y="15" width="7" height="5.5" rx="1.5"/><path d="M9.5 6.25h5M6 9v2.5a2 2 0 0 0 2 2h1.5M18 9v2.5a2 2 0 0 1-2 2h-1.5"/>',
+    venue: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+    paper: '<path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/>',
+    date: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/>',
+  };
+
+  // The Connections map. Links into the sections follow guideline.md. The links from external sources are
+  // inferred from it, since what is new and what is outdated cannot be judged from the paper alone.
+  const MAP_LANES = [
+    { key: 'paper', x: 8, y: 14, w: 254, h: 322, label: 'Paper contents' },
+    { key: 'external', x: 8, y: 348, w: 254, h: 150, label: 'External sources' },
+    { key: 'rules', x: 8, y: 510, w: 254, h: 223, label: 'Your rules' },
+    { key: 'review', x: 404, y: 14, w: 332, h: 719, label: 'Generated review', note: 'review-data.js' },
+    { key: 'decisions', x: 752, y: 14, w: 420, h: 274, label: 'Your decisions' },
+    { key: 'outputs', x: 752, y: 300, w: 420, h: 322, label: 'Outputs' },
+  ];
+  const MAP_NODES = {
+    claims: { lane: 'paper', x: 20, y: 44, w: 230, h: 46, title: 'Claimed contributions', sub: 'Abstract and introduction', about: 'What the authors say they contributed. The review compares this with what the paper shows.' },
+    method: { lane: 'paper', x: 20, y: 102, w: 230, h: 46, title: 'Method and novelty', sub: 'What is new in the approach', about: 'The approach itself, and the part of it that is new.' },
+    experiments: { lane: 'paper', x: 20, y: 160, w: 230, h: 46, title: 'Experiments and results', sub: 'Setup, results, analysis', about: 'The evidence the paper offers for its claims, and the setup any new test would build on.' },
+    baselines: { lane: 'paper', x: 20, y: 218, w: 230, h: 46, title: 'Baselines and related work', sub: 'What the paper compares and cites', about: 'What the paper compares against and cites.' },
+    presentation: { lane: 'paper', x: 20, y: 276, w: 230, h: 46, title: 'Writing and figures', sub: 'Clarity of the presentation', about: 'How clearly the paper is written and illustrated.' },
+    prior: { lane: 'external', x: 20, y: 378, w: 230, h: 46, title: 'Prior and recent work', sub: 'Beyond the citations in the paper', about: 'Work beyond the citations in the paper. It shows what is really new and what is outdated.' },
+    field: { lane: 'external', x: 20, y: 436, w: 230, h: 46, title: 'Field needs and benchmarks', sub: 'What the community lacks', about: 'Shared benchmarks and open problems. They show what the paper can bring to the community.' },
+    guideline: { lane: 'rules', x: 20, y: 540, w: 230, h: 46, title: 'Review guideline', sub: 'guideline.md', about: 'The order of the sections and the rules for each one.' },
+    previous: { lane: 'rules', x: 20, y: 598, w: 230, h: 46, title: 'Previous reviews', sub: 'previous_reviews', about: 'Your earlier reviews, used as the template for the recommendation.' },
+    style: { lane: 'rules', x: 20, y: 656, w: 230, h: 46, title: 'Writing style', sub: 'writing_style_ref', about: 'The wording and voice of the generated text.' },
+    summary: { lane: 'review', x: 420, y: 68, w: 236, h: 85, title: 'Summary', about: 'A fair view of the work, its key contributions, and its key novelties.' },
+    strength: { lane: 'review', x: 420, y: 193, w: 236, h: 119, title: 'Strength', about: 'The novelty, the contributions, and what the community can gain.' },
+    weakness: { lane: 'review', x: 420, y: 352, w: 236, h: 119, title: 'Weakness', about: 'What is really insufficient, in a nice tone. Minor issues are left out.' },
+    improvement: { lane: 'review', x: 420, y: 511, w: 236, h: 68, title: 'Area for improvement', about: 'One or two fair points that would make the paper better with a reasonable workload.' },
+    recommendation: { lane: 'review', x: 420, y: 619, w: 236, h: 102, title: 'Overall recommendation', about: 'A slight summary of the review, one short reason, and the not-an-expert line.' },
+    undecided: { lane: 'decisions', x: 897, y: 48, w: 130, h: 48, title: 'Undecided', about: 'Every generated point starts here.' },
+    accepted: { lane: 'decisions', x: 772, y: 176, w: 100, h: 48, title: 'Accepted', about: 'The generated text is kept as written.' },
+    edited: { lane: 'decisions', x: 912, y: 176, w: 100, h: 48, title: 'Edited', about: 'Your wording is kept instead of the generated text.' },
+    rejected: { lane: 'decisions', x: 1052, y: 176, w: 100, h: 48, title: 'Rejected', about: 'The point is left out of the final review.' },
+    final: { lane: 'outputs', x: 772, y: 336, w: 180, h: 50, title: 'Final review', sub: 'Accepted and edited text', about: 'The accepted and edited text, renumbered, as a formal report and as plain text in the layout of your earlier reviews.' },
+    decisionsFile: { lane: 'outputs', x: 992, y: 336, w: 160, h: 50, title: 'Decisions file', sub: 'Every decision and note', about: 'The file from Save decisions. It holds every decision, edit, reason, and logic verdict.' },
+    form: { lane: 'outputs', x: 772, y: 446, w: 180, h: 50, end: true, title: 'Venue form', sub: 'Paste text, add scores', about: 'Where the review ends up. Paste the final review, then fill in what this page does not cover.' },
+    regenerate: { lane: 'outputs', x: 992, y: 446, w: 160, h: 50, title: 'Regenerate', sub: 'New review-data.js', about: 'A new review-data.js made from your decisions. Changed points start undecided again.' },
+    venue: { lane: 'outputs', external: true, x: 772, y: 556, w: 180, h: 50, title: 'Venue rules', sub: 'LLM policy, required fields', about: 'The rules of the venue, such as its LLM policy and required fields.' },
+    machine: { lane: 'outputs', x: 992, y: 556, w: 160, h: 50, title: 'State machine', sub: 'Claims and evidence', about: 'A state machine of the argument of the paper, drawn after the review: the key intuition, the contributions, the work behind each one, and the experiments that back them. Each state lists the review points about it, so you can check which parts of the paper the review covers.' },
+  };
+  const MAP_GROUPS = { review: KEYS, decisions: ['undecided', 'accepted', 'edited', 'rejected'] };
+  const KIND_LABEL = { needed: 'Necessary', check: 'Check', sparing: 'Use sparingly', optional: 'Optional', flow: 'Step' };
+  // A link with a row ends on that labeled row of its section, and is counted against the references.
+  const LINKS = [
+    { from: 'claims', to: 'summary', row: 'fair view, not a copy', kind: 'needed', why: 'The guideline asks for a fair view of the contributions, so compare the claims with the work instead of repeating them.' },
+    { from: 'method', to: 'summary', row: 'the work and novelties', kind: 'needed', why: 'The summary covers the work, the key contributions, and the key novelties.' },
+    { from: 'experiments', to: 'summary', row: 'only slightly', kind: 'sparing', why: 'Mention experiments only slightly, unless they are a key contribution.' },
+    { from: 'claims', to: 'strength', row: 'contributions that hold', kind: 'needed', why: 'Strength highlights the contributions that the paper supports.' },
+    { from: 'method', to: 'strength', row: 'what is new', kind: 'needed', why: 'Strength starts from the novelty and what is new.' },
+    { from: 'presentation', to: 'strength', row: 'other strengths', kind: 'optional', why: 'Clear writing and figures can count as other strengths.' },
+    { from: 'prior', to: 'strength', row: 'is it really new', kind: 'needed', why: 'Whether something is new cannot be judged from the paper alone.' },
+    { from: 'field', to: 'strength', row: 'community benefit', kind: 'needed', why: 'What the paper can bring to the community depends on what the community lacks.' },
+    { from: 'claims', to: 'weakness', row: 'unclear contributions', kind: 'check', why: 'Check whether each claimed contribution is clear.' },
+    { from: 'method', to: 'weakness', row: 'wrong methods', kind: 'check', why: 'Check the approach for wrong methods.' },
+    { from: 'experiments', to: 'weakness', row: 'evidence for each claim', kind: 'check', why: 'Check whether the results give sufficient evidence for each claimed contribution.' },
+    { from: 'baselines', to: 'weakness', row: 'at most two points', kind: 'sparing', limit: 2, why: 'Use at most two points like more baselines or more recent work.' },
+    { from: 'prior', to: 'weakness', row: 'very outdated methods', kind: 'check', why: 'Whether a method is very outdated needs a comparison with current work.' },
+    { from: 'experiments', to: 'improvement', row: 'reasonable workload', kind: 'needed', why: 'The existing setup shows what can be added with a reasonable workload.' },
+    { from: 'weakness', to: 'improvement', row: 'different, not a repeat', kind: 'check', fromY: 412, bulge: 700, why: 'Improvement says what would make the paper better. It should not repeat the weaknesses.' },
+    { from: 'strength', to: 'recommendation', row: 'main strengths', kind: 'needed', fromY: 252, bulge: 728, why: 'The recommendation slightly summarizes the review.' },
+    { from: 'weakness', to: 'recommendation', row: 'main concerns', kind: 'needed', fromY: 430, bulge: 712, why: 'The recommendation slightly summarizes the review, and the concerns shape the decision.' },
+    { from: 'improvement', to: 'recommendation', row: 'what would help', kind: 'check', fromY: 572, bulge: 690, why: 'A recommendation can say what would push the paper toward acceptance.' },
+    { from: 'previous', to: 'recommendation', row: 'earlier recommendations', kind: 'needed', why: 'Follow the earlier recommendations as a template, including the not-an-expert line.' },
+    { from: 'guideline', to: 'review', kind: 'needed', d: 'M250 563 C320 563 340 491 402 491', labels: [{ x: 268, y: 580, text: 'all five sections' }], why: 'Sets the order of the sections and the rules for each one.' },
+    { from: 'style', to: 'review', kind: 'needed', d: 'M250 679 C320 679 340 725 402 725', labels: [{ x: 268, y: 728, text: 'all five sections' }], why: 'Sets the wording and voice of the generated text.' },
+    { from: 'review', to: 'undecided', kind: 'flow', d: 'M736 72 L895 72', labels: [{ x: 815, y: 63, text: 'every point starts here', anchor: 'middle' }], why: 'Each generated point starts undecided.' },
+    { from: 'review', to: 'machine', kind: 'flow', d: 'M736 614 L1062 614 Q1072 614 1072 608', why: 'review-data.js also holds the state machine of the paper, and its states link the points of the review.' },
+    { from: 'accepted', to: 'final', kind: 'flow', d: 'M815 224 C815 275 835 290 835 334', why: 'Only accepted and edited text reaches the final review.' },
+    { from: 'edited', to: 'final', kind: 'flow', d: 'M962 224 C962 285 905 285 905 334', labels: [{ x: 862, y: 326, text: 'kept text', anchor: 'middle' }], why: 'Only accepted and edited text reaches the final review.' },
+    { from: 'final', to: 'form', kind: 'flow', d: 'M862 386 L862 444', labels: [{ x: 870, y: 419, text: 'Copy text' }], why: 'The final review holds the review text only.' },
+    { from: 'venue', to: 'form', kind: 'flow', d: 'M862 556 L862 498', labels: [{ x: 870, y: 531, text: 'scores, policy statements' }], why: 'Scores, confidence, key questions, and policy statements go on the venue form. This page does not fill them in.' },
+    { from: 'decisions', to: 'decisionsFile', kind: 'flow', d: 'M1072 288 L1072 334', labels: [{ x: 1080, y: 314, text: 'Save decisions' }], why: 'Saves every decision, edit, reason, and logic verdict.' },
+    { from: 'decisionsFile', to: 'regenerate', kind: 'flow', d: 'M1072 386 L1072 444', labels: [{ x: 1080, y: 411, text: 'rejected points,' }, { x: 1080, y: 425, text: 'disagreed logic' }], why: 'Rejected points, reasons, and disagreed logic show what to change next.' },
+    { from: 'regenerate', to: 'review', kind: 'flow', d: 'M1152 471 Q1158 471 1158 477 L1158 742 Q1158 754 1146 754 L582 754 Q570 754 570 742 L570 735', labels: [{ x: 820, y: 748, text: 'changed text loses only its own decision', anchor: 'middle' }], why: 'A point whose text or evidence changed becomes undecided. Unchanged points keep their decisions.' },
+    { from: 'decisionsFile', to: 'style', kind: 'optional', d: 'M1152 361 L1160 361 Q1166 361 1166 367 L1166 766 Q1166 778 1154 778 L147 778 Q135 778 135 766 L135 704', labels: [{ x: 640, y: 772, text: 'optional, with import_review.py', anchor: 'middle' }], why: 'import_review.py can add your decisions to the style reference.' },
+  ];
+  // Drawn on the map, but not listed as connections: the section order and the decision buttons.
+  const TRANSITIONS = [
+    { from: 'start', to: 'summary', d: 'M538 52 L538 66' },
+    { from: 'summary', to: 'strength', d: 'M538 153 L538 191', labels: [{ x: 548, y: 177, text: 'fair view of the work' }] },
+    { from: 'strength', to: 'weakness', d: 'M538 312 L538 350', labels: [{ x: 548, y: 336, text: 'what is new is clear' }] },
+    { from: 'weakness', to: 'improvement', d: 'M538 471 L538 509', labels: [{ x: 548, y: 495, text: 'real gaps only' }] },
+    { from: 'improvement', to: 'recommendation', d: 'M538 579 L538 617', labels: [{ x: 548, y: 603, text: 'one or two points' }] },
+    { from: 'undecided', to: 'accepted', both: true, d: 'M925 98 C905 135 822 130 822 174', labels: [{ x: 836, y: 124, text: 'accept' }] },
+    { from: 'undecided', to: 'edited', both: true, d: 'M962 98 L962 174', labels: [{ x: 970, y: 131, text: 'save edit' }, { x: 970, y: 145, text: 'reset' }] },
+    { from: 'undecided', to: 'rejected', both: true, d: 'M999 98 C1019 135 1102 130 1102 174', labels: [{ x: 1062, y: 124, text: 'reject' }] },
+    { from: 'accepted', to: 'edited', d: 'M872 200 L910 200', labels: [{ x: 891, y: 192, text: 'edit', anchor: 'middle' }] },
+    { from: 'edited', to: 'rejected', both: true, d: 'M1014 200 L1050 200', labels: [{ x: 1032, y: 192, text: 'reject', anchor: 'middle' }] },
+    { from: 'accepted', to: 'rejected', both: true, d: 'M840 226 C840 270 1084 270 1084 226', labels: [{ x: 1016, y: 274, text: 'reject / accept', anchor: 'middle' }] },
+  ];
+
+  // Layout sizes of the paper state machine, in pixels.
+  const MS = { padX: 14, padY: 11, line: 17, sub: 15, tag: 14, minW: 150, minH: 42, text: 210, chipH: 18, chipStep: 22, chipGap: 5, slant: 13 };
+  const STATE_KIND = { start: 'Start', end: 'End', choice: 'Choice' };
+  // Roles of a state when the machine maps the argument of the paper, in the order they are listed.
+  // rank is the default layer. A context state has none, so it sits below the state it explains.
+  const ROLES = {
+    intuition: { label: 'Key intuition', rank: 0 },
+    contribution: { label: 'Contribution', rank: 1, numbered: true },
+    work: { label: 'Work', rank: 2 },
+    experiment: { label: 'Experiment', rank: 3, numbered: true },
+    context: { label: 'Context', rank: NaN },
+  };
+  const ROLE_KEYS = Object.keys(ROLES);
+
+  let review = { items: [] };
+  let state = {};
+  let storageOk = true;
+  let drafts = {};
+  let refsClosed = {};
+  let toastTimer = null;
+  let clearTimer = null;
+  let activeTab = 'main';
+  let mainScroll = 0;
+  let selectedNode = null;
+  let finalView = 'doc';
+  let machine = null;
+  let machineSel = null;
+  let measureCtx = null;
+  let fontFamily = '';
+
+  const $ = function (id) { return document.getElementById(id); };
+  const hrefTo = function (id) { return '#' + encodeURIComponent(id); };
+
+  function el(tag, attrs) {
+    const node = document.createElement(tag);
+    Object.entries(attrs || {}).forEach(function (pair) {
+      const k = pair[0], v = pair[1];
+      if (v == null || v === false) return;
+      if (k.indexOf('on') === 0) node.addEventListener(k.slice(2), v);
+      else if (k === 'value') node.value = v;
+      else node.setAttribute(k, v === true ? '' : v);
+    });
+    const kids = Array.prototype.slice.call(arguments, 2).flat().filter(function (k) { return k != null && k !== false; });
+    node.append.apply(node, kids);
+    return node;
+  }
+
+  function svgEl(tag, attrs) {
+    const node = document.createElementNS(SVG_NS, tag);
+    Object.entries(attrs || {}).forEach(function (pair) {
+      if (pair[1] != null && pair[1] !== false) node.setAttribute(pair[0], pair[1]);
+    });
+    const kids = Array.prototype.slice.call(arguments, 2).flat().filter(function (k) { return k != null && k !== false; });
+    node.append.apply(node, kids);
+    return node;
+  }
+
+  function icon(name) {
+    const node = svgEl('svg', { class: 'icon ic-' + name, viewBox: '0 0 24 24', 'aria-hidden': 'true', focusable: 'false' });
+    node.innerHTML = ICONS[name];
+    return node;
+  }
+
+  function stamp() {
+    const d = new Date();
+    const p = function (n) { return String(n).padStart(2, '0'); };
+    const off = -d.getTimezoneOffset(), abs = Math.abs(off);
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()) +
+      (off < 0 ? '-' : '+') + p(Math.floor(abs / 60)) + ':' + p(abs % 60);
+  }
+
+  function fingerprint(item) {
+    const text = JSON.stringify([item.revised, item.evidence || []]);
+    let h = 0x811c9dc5;
+    for (let i = 0; i < text.length; i++) {
+      h ^= text.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+    return (h >>> 0).toString(16);
+  }
+
+  function clip(text, n) {
+    return text.length > n ? text.slice(0, n - 1).trimEnd() + '…' : text;
+  }
+
+  // State
+
+  function entry(id) {
+    if (!state[id]) state[id] = { status: null, logic: {} };
+    return state[id];
+  }
+  function statusOf(id) {
+    const s = state[id];
+    if (!s || !s.status) return 'undecided';
+    if (s.status === 'accepted' && s.override != null) return 'edited';
+    return s.status;
+  }
+  function textOf(item) {
+    const s = state[item.id];
+    return s && s.override != null ? s.override : item.revised;
+  }
+  function catOf(item) {
+    return typeof item.category === 'string' ? item.category.trim() : '';
+  }
+  // Points in reading order: grouped by category, where each category first appears.
+  function itemsOf(sec) {
+    const list = review.items.filter(function (it) { return it.group === sec.key; });
+    const cats = [];
+    list.forEach(function (it) { if (cats.indexOf(catOf(it)) < 0) cats.push(catOf(it)); });
+    return cats.flatMap(function (c) { return list.filter(function (it) { return catOf(it) === c; }); });
+  }
+  function isKept(item) {
+    const st = statusOf(item.id);
+    return st === 'accepted' || st === 'edited';
+  }
+  function keptOf(sec) {
+    return itemsOf(sec).filter(isKept);
+  }
+  function sectionOf(item) {
+    return SECTIONS[KEYS.indexOf(item.group)];
+  }
+  function numberOf(item) {
+    return itemsOf(sectionOf(item)).indexOf(item) + 1;
+  }
+  function evidenceOf(item) {
+    return (item.evidence || []).map(function (e, i) {
+      return Object.assign({}, e, { id: e.id || item.id + '-e' + (i + 1) });
+    });
+  }
+  function pointName(item) {
+    const sec = sectionOf(item);
+    if (sec.list) return sec.one + ' ' + numberOf(item);
+    return itemsOf(sec).length > 1 ? sec.one + ', paragraph ' + numberOf(item) : sec.one;
+  }
+  function pointTitle(item) {
+    const sec = sectionOf(item);
+    if (sec.list) return 'Point ' + numberOf(item);
+    return itemsOf(sec).length > 1 ? 'Paragraph ' + numberOf(item) : 'Review text';
+  }
+  function chipLabel(item) {
+    const sec = sectionOf(item);
+    return sec.chip + (sec.list || itemsOf(sec).length > 1 ? numberOf(item) : '');
+  }
+  function isBlank() {
+    return !review.items.length;
+  }
+
+  function storageKey() { return 'paper-review/' + review.review_id; }
+
+  function hasInput(s) {
+    return s && (s.status || s.override != null || Object.values(s.logic).some(function (v) { return v.verdict; }));
+  }
+
+  function persist() {
+    if (isBlank()) return;
+    try {
+      const items = {};
+      review.items.forEach(function (it) {
+        if (hasInput(state[it.id])) items[it.id] = Object.assign({ fp: fingerprint(it) }, state[it.id]);
+      });
+      localStorage.setItem(storageKey(), JSON.stringify({ items: items }));
+      storageOk = true;
+    } catch (e) {
+      storageOk = false;
+    }
+    drawDest();
+  }
+
+  // A decision is dropped when the generated text or evidence under it has changed.
+  function restore() {
+    state = {};
+    let dropped = 0;
+    if (isBlank()) return dropped;
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey()) || '{}').items || {};
+      review.items.forEach(function (it) {
+        const s = saved[it.id];
+        if (!s) return;
+        if (s.fp !== fingerprint(it)) { dropped++; return; }
+        delete s.fp;
+        state[it.id] = Object.assign({ logic: {} }, s);
+      });
+    } catch (e) {
+      storageOk = false;
+    }
+    return dropped;
+  }
+
+  function validate(data) {
+    if (!data || !Array.isArray(data.items)) return 'It has no list of review items.';
+    if (!data.items.length) return null;
+    if (!data.review_id) return 'It has no review_id.';
+    const seen = {};
+    for (let i = 0; i < data.items.length; i++) {
+      const it = data.items[i];
+      if (!it.id) return 'Item ' + (i + 1) + ' has no id.';
+      if (seen[it.id]) return 'The id ' + it.id + ' is used twice.';
+      seen[it.id] = true;
+      if (KEYS.indexOf(it.group) < 0) return it.id + ' has the group "' + it.group + '". Use one of: ' + KEYS.join(', ') + '.';
+      if (typeof it.revised !== 'string' || !it.revised.trim()) return it.id + ' has no review text.';
+    }
+    return null;
+  }
+
+  // Decisions
+
+  function decide(id, action) {
+    const s = entry(id);
+    if (action === 'accept') {
+      s.status = s.status === 'accepted' ? null : 'accepted';
+    } else if (s.status === 'rejected') {
+      s.status = s.override != null ? 'accepted' : null;
+    } else {
+      s.status = 'rejected';
+    }
+    s.decided_at = s.status ? stamp() : undefined;
+    commit(id);
+  }
+
+  function startEdit(item) {
+    drafts[item.id] = textOf(item);
+    redrawItem(item.id);
+    const ta = $('edit-' + item.id);
+    if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+  }
+
+  function saveEdit(item) {
+    const text = drafts[item.id].trim();
+    if (!text) {
+      const err = $('edit-error-' + item.id);
+      err.textContent = 'Write some text, or cancel and use Reject to drop this point.';
+      err.hidden = false;
+      return;
+    }
+    const s = entry(item.id);
+    delete drafts[item.id];
+    if (text === item.revised.trim()) {
+      if (s.override != null) { delete s.override; s.status = null; s.decided_at = undefined; }
+    } else {
+      s.override = text;
+      s.status = 'accepted';
+      s.decided_at = stamp();
+    }
+    commit(item.id, 'action-' + item.id + '-edit');
+  }
+
+  function undoEdit(id) {
+    const s = entry(id);
+    delete s.override;
+    s.status = null;
+    s.decided_at = undefined;
+    commit(id, 'action-' + id + '-edit');
+  }
+
+  function setLogic(id, evidenceId, verdict) {
+    const logic = entry(id).logic;
+    const v = logic[evidenceId] || {};
+    if (v.verdict === verdict) delete v.verdict; else v.verdict = verdict;
+    logic[evidenceId] = v;
+    commit(id);
+  }
+
+  function bulk(sec, status) {
+    itemsOf(sec).forEach(function (it) {
+      if (statusOf(it.id) !== 'undecided' || it.id in drafts) return;
+      const s = entry(it.id);
+      s.status = status;
+      s.decided_at = stamp();
+    });
+    persist();
+    drawParts();
+    refresh();
+    $('heading-' + sec.key).focus();
+  }
+
+  function commit(id, focusKey) {
+    persist();
+    redrawItem(id, focusKey);
+    refresh();
+  }
+
+  // Word comparison
+
+  function wordDiff(a, b) {
+    const A = a.split(/(\s+)/), B = b.split(/(\s+)/);
+    const T = [];
+    for (let i = A.length; i >= 0; i--) {
+      T[i] = new Uint32Array(B.length + 1);
+      if (i === A.length) continue;
+      for (let j = B.length - 1; j >= 0; j--) {
+        T[i][j] = A[i] === B[j] ? T[i + 1][j + 1] + 1 : Math.max(T[i + 1][j], T[i][j + 1]);
+      }
+    }
+    const out = [];
+    const push = function (kind, word) {
+      const last = out[out.length - 1];
+      if (last && last.kind === kind) last.text += word; else out.push({ kind: kind, text: word });
+    };
+    let i = 0, j = 0;
+    while (i < A.length || j < B.length) {
+      if (i < A.length && j < B.length && A[i] === B[j]) { push('same', A[i]); i++; j++; }
+      else if (j >= B.length || (i < A.length && T[i + 1][j] >= T[i][j + 1])) { push('del', A[i]); i++; }
+      else { push('ins', B[j]); j++; }
+    }
+    return out;
+  }
+
+  // Drawing a point, with its references right after it
+
+  function drawReviewText(item) {
+    const s = entry(item.id);
+    if (s.override == null) return el('div', { class: 'point-text' }, item.revised);
+    const parts = wordDiff(item.revised, s.override);
+    const pane = function (side, label, leftOut) {
+      return el('div', { class: 'passage ' + side },
+        el('div', { class: 'passage-label' }, label),
+        el('div', { class: 'passage-text' }, parts.filter(function (p) { return p.kind !== leftOut; }).map(function (p) {
+          return p.kind === 'same' ? document.createTextNode(p.text) : el(p.kind, null, p.text);
+        })));
+    };
+    return el('div', { class: 'compare' }, pane('original', 'Generated review', 'ins'), pane('revised', 'Your wording', 'del'));
+  }
+
+  function drawEditor(item) {
+    const ta = el('textarea', {
+      class: 'edit', id: 'edit-' + item.id, 'aria-label': 'Edit ' + pointName(item), value: drafts[item.id],
+      oninput: function () { drafts[item.id] = ta.value; size(); },
+    });
+    function size() { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 2 + 'px'; }
+    requestAnimationFrame(size);
+    return el('div', { class: 'editor' },
+      el('div', { class: 'passage-label' }, 'Edit the review text'),
+      ta,
+      el('div', { class: 'edit-actions' },
+        el('button', { class: 'primary js-save-edit', type: 'button', onclick: function () { saveEdit(item); } }, 'Save edit'),
+        el('button', {
+          class: 'quiet js-cancel-edit', type: 'button',
+          onclick: function () { delete drafts[item.id]; redrawItem(item.id, 'action-' + item.id + '-edit'); },
+        }, 'Cancel'),
+        el('span', { class: 'edit-error', id: 'edit-error-' + item.id, role: 'alert', hidden: true })));
+  }
+
+  function drawDecide(item, status) {
+    const s = entry(item.id);
+    const edited = status === 'edited';
+    const doubted = evidenceOf(item).some(function (e) { return (s.logic[e.id] || {}).verdict === 'disagree'; });
+    return el('div', { class: 'point-foot' },
+      el('div', { class: 'actions', role: 'group', 'aria-label': 'Decision on ' + pointName(item) },
+        el('button', {
+          class: 'accept', type: 'button', 'data-key': 'action-' + item.id + '-accept',
+          'aria-pressed': String(status === 'accepted'), disabled: edited,
+          title: edited ? 'Reset to the generated text to accept it instead' : null,
+          onclick: function () { decide(item.id, 'accept'); },
+        }, '✓ Accept'),
+        el('button', {
+          class: 'edit-btn', type: 'button', 'data-key': 'action-' + item.id + '-edit',
+          'aria-pressed': String(edited), onclick: function () { startEdit(item); },
+        }, 'Edit'),
+        el('button', {
+          class: 'reject', type: 'button', 'data-key': 'action-' + item.id + '-reject',
+          'aria-pressed': String(status === 'rejected'), onclick: function () { decide(item.id, 'reject'); },
+        }, '✕ Reject'),
+        s.override != null ? el('button', {
+          class: 'quiet', type: 'button', 'data-key': 'undo-' + item.id, onclick: function () { undoEdit(item.id); },
+        }, 'Reset to the generated text') : null),
+      status === 'rejected' ? el('div', { class: 'note-box' }, el('textarea', {
+        id: 'reject-note-' + item.id, value: s.comment || '',
+        placeholder: 'Why reject this? (optional)', 'aria-label': 'Why reject ' + pointName(item),
+        oninput: function (ev) { s.comment = ev.target.value; persist(); },
+      })) : null,
+      doubted && (status === 'accepted' || edited) ? el('p', { class: 'doubt' }, 'You disagreed with a reference for this point, below.') : null);
+  }
+
+  function drawReferenceRow(item, e) {
+    const v = entry(item.id).logic[e.id] || {};
+    const src = sourceLabel(e.source);
+    const url = /^https?:\/\//i.test(e.url || '') ? e.url : null;
+    const verdictBtn = function (verdict, cls, label) {
+      return el('button', {
+        class: 'quiet ' + cls, type: 'button', 'data-key': 'logic-' + e.id + '-' + verdict,
+        'aria-pressed': String(v.verdict === verdict), 'aria-label': label.slice(2) + ' with the logic of this reference',
+        onclick: function () { setLogic(item.id, e.id, verdict); },
+      }, label);
+    };
+    return el('div', { class: 'ref-row', 'data-evidence': e.id },
+      el('div', { class: 'compare' },
+        el('div', { class: 'passage evidence' },
+          el('div', { class: 'passage-label' }, el('span', null, 'Evidence'), src ? el('span', { class: 'src ' + src.kind }, src.text) : null),
+          e.where || url ? el('p', { class: 'location' }, url ? el('a', { href: url, target: '_blank', rel: 'noopener' }, (e.where || url) + ' ↗') : e.where) : null,
+          e.text ? el('div', { class: 'passage-text' }, e.text) : null),
+        el('div', { class: 'passage why' },
+          el('div', { class: 'passage-label' }, 'Reason'),
+          el('div', { class: 'passage-text' }, e.reason || 'No reason was generated.'))),
+      el('div', { class: 'logic' },
+        el('div', { class: 'actions' },
+          el('span', { class: 'logic-label' }, 'Logic (optional)'),
+          verdictBtn('agree', 'accept', '✓ Agree'),
+          verdictBtn('disagree', 'reject', '✕ Disagree')),
+        v.verdict === 'disagree' ? el('div', { class: 'note-box' }, el('textarea', {
+          id: 'logic-note-' + e.id, value: v.note || '',
+          placeholder: 'What does not hold? (optional)', 'aria-label': 'What does not hold in this reference',
+          oninput: function (ev) { entry(item.id).logic[e.id].note = ev.target.value; persist(); },
+        })) : null));
+  }
+
+  function drawRefs(item) {
+    const list = evidenceOf(item);
+    if (!list.length) return el('p', { class: 'refs-none' }, 'No references were generated for this point.');
+    const logic = entry(item.id).logic;
+    const disagreed = list.filter(function (e) { return (logic[e.id] || {}).verdict === 'disagree'; }).length;
+    const box = el('details', { class: 'refs', id: 'ref-' + item.id, 'data-item': item.id, open: !refsClosed[item.id] },
+      el('summary', null,
+        el('span', null, 'References'),
+        el('span', { class: 'refs-count' }, String(list.length)),
+        disagreed ? el('span', { class: 'refs-flag' }, disagreed + ' disagreed') : null),
+      list.map(function (e) { return drawReferenceRow(item, e); }));
+    box.addEventListener('toggle', function () {
+      if (box.open) delete refsClosed[item.id]; else refsClosed[item.id] = true;
+      drawRefsToggle();
+    });
+    return box;
+  }
+
+  function drawPoint(item) {
+    const status = statusOf(item.id);
+    const editing = item.id in drafts;
+    return el('article', { class: 'point ' + status, id: 'pt-' + item.id },
+      el('div', { class: 'point-head' },
+        el('h4', { class: 'point-title' }, pointTitle(item)),
+        el('span', { class: 'status' }, STATUS_LABEL[status])),
+      editing ? drawEditor(item) : drawReviewText(item),
+      editing ? null : drawDecide(item, status),
+      drawRefs(item));
+  }
+
+  function redrawItem(id, focusKey) {
+    const item = review.items.find(function (it) { return it.id === id; });
+    const active = document.activeElement;
+    const key = focusKey || (active && active.dataset && active.dataset.key);
+    $('pt-' + id).replaceWith(drawPoint(item));
+    if (key) {
+      const target = document.querySelector('[data-key="' + CSS.escape(key) + '"]');
+      if (target && !target.disabled) target.focus();
+    }
+  }
+
+  function withRefs() {
+    return review.items.filter(function (it) { return evidenceOf(it).length; });
+  }
+
+  function drawRefsToggle() {
+    const list = withRefs();
+    const btn = $('refs-toggle');
+    btn.hidden = !list.length;
+    btn.textContent = list.length && list.every(function (it) { return refsClosed[it.id]; }) ? 'Show all references' : 'Hide all references';
+  }
+
+  function toggleAllRefs() {
+    const list = withRefs();
+    const close = !list.every(function (it) { return refsClosed[it.id]; });
+    refsClosed = {};
+    if (close) list.forEach(function (it) { refsClosed[it.id] = true; });
+    document.querySelectorAll('details.refs').forEach(function (d) { d.open = !refsClosed[d.dataset.item]; });
+    drawRefsToggle();
+  }
+
+  // Drawing the page
+
+  function drawNav() {
+    const links = SECTIONS.map(function (sec) {
+      return el('a', { class: 'chapter', href: '#review-' + sec.key, 'data-rail': 'review-' + sec.key },
+        el('span', null, sec.label), el('span', { class: 'count', id: 'count-review-' + sec.key }));
+    }).concat(
+      el('a', { class: 'chapter after', href: '#final', 'data-rail': 'final' }, el('span', null, 'Final review')),
+      el('a', { class: 'chapter', href: '#machine', 'data-rail': 'machine' }, el('span', null, 'Paper state machine'), el('span', { class: 'count', id: 'count-machine' })));
+    $('nav').replaceChildren.apply($('nav'), links);
+  }
+
+  function drawParts() {
+    $('review-parts').replaceChildren.apply($('review-parts'), SECTIONS.map(function (sec) {
+      const items = itemsOf(sec);
+      const body = [];
+      let cat = null;
+      items.forEach(function (it) {
+        const c = catOf(it);
+        if (c !== cat && c && sec.list) body.push(el('h4', { class: 'cat' }, c));
+        cat = c;
+        body.push(drawPoint(it));
+      });
+      return el('section', { class: 'part sec', id: 'review-' + sec.key, 'aria-labelledby': 'heading-' + sec.key },
+        el('div', { class: 'sec-head' },
+          el('h3', { id: 'heading-' + sec.key, tabindex: '-1' }, icon(sec.icon), sec.label),
+          items.length ? el('div', { class: 'list-label', id: 'label-' + sec.key }) : null),
+        el('p', { class: 'guide' }, el('b', null, 'Guideline. '), sec.guide),
+        sec.check ? el('p', { class: 'check', id: 'check-' + sec.key, hidden: !items.length }) : null,
+        items.length ? body : el('p', { class: 'empty' }, 'No review text yet.'));
+    }));
+  }
+
+  function divider(label) {
+    const width = 64, left = Math.floor((width - label.length) / 2);
+    return '-'.repeat(left) + label + '-'.repeat(width - left - label.length);
+  }
+
+  // Plain text in the layout of the earlier reviews, with category lines when the points have them.
+  function assemble() {
+    const parts = [];
+    SECTIONS.forEach(function (sec) {
+      const kept = keptOf(sec);
+      if (!kept.length) return;
+      let body;
+      if (sec.list) {
+        const lines = [];
+        let cat = null;
+        kept.forEach(function (it, i) {
+          const c = catOf(it);
+          if (c && c !== cat) { if (lines.length) lines.push(''); lines.push(c); }
+          cat = c;
+          lines.push((i + 1) + '. ' + textOf(it));
+        });
+        body = lines.join('\n');
+      } else {
+        body = kept.map(textOf).join('\n\n');
+      }
+      parts.push(divider(sec.exportLabel) + '\n\n' + body);
+    });
+    return parts.join('\n\n');
+  }
+
+  function generatedDate() {
+    const when = new Date(review.generated || '');
+    return isNaN(when) ? '' : when.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  function metaRow() {
+    const paper = review.paper || {};
+    const date = generatedDate();
+    return [
+      paper.venue ? el('span', { class: 'venue' }, icon('venue'), paper.venue) : null,
+      paper.id ? el('span', null, icon('paper'), paper.id) : null,
+      date ? el('span', null, icon('date'), 'Reviewed ' + date) : null,
+    ].filter(Boolean);
+  }
+
+  // The final review as a formal report: a title block, then one card per section.
+  function drawFinalDoc() {
+    const secs = [];
+    SECTIONS.forEach(function (sec) {
+      const kept = keptOf(sec);
+      if (!kept.length) return;
+      const body = [];
+      if (sec.list) {
+        let cat = null, list = null;
+        kept.forEach(function (it, i) {
+          const c = catOf(it);
+          if (!list || c !== cat) {
+            if (c) body.push(el('h4', null, c));
+            list = el('ol', { start: String(i + 1) });
+            body.push(list);
+            cat = c;
+          }
+          list.append(el('li', null, textOf(it)));
+        });
+      } else {
+        kept.forEach(function (it) { body.push(el('p', null, textOf(it))); });
+      }
+      secs.push(el('section', { class: 'doc-sec' }, el('h3', null, icon(sec.icon), sec.label), body));
+    });
+    $('final-doc').replaceChildren(
+      el('header', { class: 'doc-head' },
+        el('h2', { class: 'doc-title' }, isBlank() ? 'No review loaded' : review.title || review.review_id),
+        isBlank() ? null : el('div', { class: 'meta' }, metaRow())),
+      secs.length ? el('div', null, secs) : el('p', { class: 'doc-empty' }, 'Accepted and edited points will appear here, laid out as a formal review.'));
+  }
+
+  function setFinalView(view) {
+    finalView = view;
+    $('final-doc').hidden = view !== 'doc';
+    $('final-plain').hidden = view === 'doc';
+    $('view-doc').setAttribute('aria-pressed', String(view === 'doc'));
+    $('view-text').setAttribute('aria-pressed', String(view !== 'doc'));
+  }
+
+  function refresh() {
+    const counts = { accepted: 0, edited: 0, rejected: 0, undecided: 0 };
+    let disagreed = 0;
+    review.items.forEach(function (it) {
+      counts[statusOf(it.id)]++;
+      const s = state[it.id];
+      if (s) Object.values(s.logic).forEach(function (v) { if (v.verdict === 'disagree') disagreed++; });
+    });
+    const total = review.items.length;
+    const decided = total - counts.undecided;
+    $('s-total').textContent = total;
+    $('s-accepted').textContent = counts.accepted;
+    $('s-edited').textContent = counts.edited;
+    $('s-rejected').textContent = counts.rejected;
+    $('s-undecided').textContent = counts.undecided;
+    $('s-disagreed').textContent = disagreed;
+    $('progress').style.width = total ? (decided / total * 100) + '%' : '0';
+    $('side-status').textContent = total ? decided + ' of ' + total + ' points decided.' : 'No review loaded.';
+    document.querySelectorAll('.js-save').forEach(function (b) { b.disabled = !total; });
+    $('clear-btn').hidden = !total;
+    $('print-btn').disabled = !total;
+
+    SECTIONS.forEach(function (sec) {
+      const items = itemsOf(sec);
+      const open = items.filter(function (it) { return statusOf(it.id) === 'undecided'; }).length;
+      $('count-review-' + sec.key).textContent = (items.length - open) + '/' + items.length;
+      if (!items.length) return;
+
+      $('label-' + sec.key).replaceChildren(
+        el('span', null, (items.length - open) + ' of ' + items.length + ' decided'),
+        sec.list && open ? el('span', { class: 'bulk' },
+          el('button', { class: 'linklike js-accept-rest', type: 'button', onclick: function () { bulk(sec, 'accepted'); } }, 'Accept the rest'),
+          el('button', { class: 'linklike js-reject-rest', type: 'button', onclick: function () { bulk(sec, 'rejected'); } }, 'Reject the rest')) : '');
+
+      if (sec.check) {
+        const result = sec.check(items.filter(function (it) { return statusOf(it.id) !== 'rejected'; }));
+        const node = $('check-' + sec.key);
+        node.className = 'check ' + (result.ok ? 'good' : 'flag');
+        node.textContent = result.text;
+      }
+    });
+
+    const text = assemble();
+    $('final-text').textContent = text;
+    $('copy-btn').disabled = !text;
+    drawFinalDoc();
+    const open = SECTIONS.flatMap(itemsOf).filter(function (it) { return statusOf(it.id) === 'undecided'; });
+    const flag = $('final-flag');
+    flag.hidden = !open.length;
+    if (open.length) {
+      const links = [];
+      open.forEach(function (it, i) {
+        if (i) links.push(', ');
+        links.push(el('a', { href: hrefTo('pt-' + it.id) }, pointName(it)));
+      });
+      flag.replaceChildren(el('div', null, open.length + (open.length === 1 ? ' point is' : ' points are') + ' undecided and left out: ', links, '.'));
+    }
+    drawMachine();
+    drawRefsToggle();
+    if (activeTab === 'connections') drawMap();
+  }
+
+  function drawAll() {
+    drawNav();
+    drawParts();
+    refresh();
+    markCurrent();
+  }
+
+  // Marks the part being read in the sidebar.
+  function markCurrent() {
+    if (activeTab !== 'main') return;
+    const links = Array.prototype.slice.call(document.querySelectorAll('.chapter'));
+    const line = window.innerHeight * 0.3;
+    let current = links[0];
+    links.forEach(function (a) {
+      if ($(a.dataset.rail).getBoundingClientRect().top <= line) current = a;
+    });
+    if (window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) current = links[links.length - 1];
+    links.forEach(function (a) {
+      a.classList.toggle('active', a === current);
+      if (a === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+  }
+
+  function drawDest() {
+    const dest = $('dest');
+    const blank = isBlank();
+    dest.className = 'dest ' + (blank ? 'off' : storageOk ? 'on' : 'bad');
+    $('dest-text').textContent = blank ? 'Nothing to save yet'
+      : storageOk ? 'Decisions autosave in this browser' : 'Autosave is off in this browser. Use Save decisions.';
+  }
+
+  function drawMasthead() {
+    const paper = review.paper || {};
+    $('title').textContent = isBlank() ? 'No review loaded' : review.title || review.review_id;
+    $('meta').replaceChildren.apply($('meta'), isBlank() ? [] : metaRow());
+    $('meta').hidden = isBlank() || !$('meta').childNodes.length;
+    $('lede').textContent = isBlank() ? 'Fill in review-data.js next to this page, or use Load review to open a generated review.' : '';
+    $('lede').hidden = !isBlank();
+    document.title = isBlank() ? 'Paper Review Desk' : (paper.id || review.review_id) + ' review';
+  }
+
+  function toast(message) {
+    clearTimeout(toastTimer);
+    $('toast').textContent = message;
+    $('toast').hidden = false;
+    toastTimer = setTimeout(function () { $('toast').hidden = true; }, 4200);
+  }
+
+  function setNotice(text, kind) {
+    const box = $('notices');
+    if (!text) { box.replaceChildren(); return; }
+    box.replaceChildren(el('div', { class: 'notice ' + (kind || 'warn') },
+      el('div', null, text),
+      el('button', { class: 'x', type: 'button', 'aria-label': 'Dismiss', onclick: function () { box.replaceChildren(); } }, '×')));
+  }
+
+  function openReview(data, source) {
+    const problem = validate(data);
+    if (problem) {
+      setNotice(source + ' cannot be used as a review. ' + problem, 'bad');
+      return;
+    }
+    review = data;
+    drafts = {};
+    refsClosed = {};
+    selectedNode = null;
+    machineSel = null;
+    const dropped = restore();
+    setNotice(dropped ? dropped + (dropped === 1 ? ' saved decision was' : ' saved decisions were') + ' dropped because the generated text or evidence changed.' : '');
+    drawMasthead();
+    drawDest();
+    drawAll();
+  }
+
+  // Drawing the paper state machine
+
+  function textWidth(text, size, weight) {
+    if (!measureCtx) {
+      measureCtx = document.createElement('canvas').getContext('2d');
+      fontFamily = getComputedStyle(document.body).fontFamily;
+    }
+    measureCtx.font = weight + ' ' + size + 'px ' + fontFamily;
+    return measureCtx.measureText(String(text)).width;
+  }
+
+  function wrapText(text, size, weight, max) {
+    const lines = [];
+    let line = '';
+    String(text).split(/\s+/).filter(Boolean).forEach(function (word) {
+      const next = line ? line + ' ' + word : word;
+      if (line && textWidth(next, size, weight) > max) { lines.push(line); line = word; } else line = next;
+    });
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  function widest(lines, size, weight) {
+    return lines.reduce(function (w, l) { return Math.max(w, textWidth(l, size, weight)); }, 0);
+  }
+
+  function r1(v) {
+    return Math.round(v * 10) / 10;
+  }
+
+  // Reads review.machine. Problems are listed above the figure, and never block the review.
+  function buildMachine() {
+    const m = review.machine;
+    const g = { title: '', caption: '', layout: '', roles: false, states: [], edges: [], byId: {}, problems: [] };
+    if (!m || typeof m !== 'object') return g;
+    g.title = m.title ? String(m.title) : '';
+    g.caption = m.caption ? String(m.caption) : '';
+    g.layout = m.layout === 'TB' || m.layout === 'LR' ? m.layout : '';
+    (Array.isArray(m.states) ? m.states : []).forEach(function (s, i) {
+      if (!s || s.id == null || s.id === '') { g.problems.push('State ' + (i + 1) + ' has no id, so it is left out.'); return; }
+      const id = String(s.id);
+      if (g.byId[id]) { g.problems.push('The state id ' + id + ' is used twice, so the second one is left out.'); return; }
+      const role = ROLES.hasOwnProperty(s.role) ? s.role : '';
+      if (s.role != null && s.role !== '' && !role) {
+        g.problems.push((s.label || id) + ' has the role ' + s.role + ', which is not one of ' + ROLE_KEYS.join(', ') + ', so it is drawn without one.');
+      }
+      const node = {
+        id: id, index: g.states.length, label: String(s.label || id), sub: s.sub ? String(s.sub) : '',
+        kind: STATE_KIND[s.kind] ? s.kind : 'state', novel: s.novel === true, role: role, tag: role ? ROLES[role].label : '',
+        where: s.where ? String(s.where) : '', text: s.text ? String(s.text) : '',
+        rank: typeof s.rank === 'number' ? s.rank : role ? ROLES[role].rank : NaN,
+        order: typeof s.order === 'number' ? s.order : NaN, points: [],
+      };
+      (Array.isArray(s.points) ? s.points : []).forEach(function (pid) {
+        const it = review.items.find(function (x) { return x.id === pid; });
+        if (!it) g.problems.push(node.label + ' lists ' + pid + ', which is not a review item.');
+        else if (node.points.indexOf(it) < 0) node.points.push(it);
+      });
+      node.points.sort(function (a, b) { return KEYS.indexOf(a.group) - KEYS.indexOf(b.group) || numberOf(a) - numberOf(b); });
+      g.states.push(node);
+      g.byId[id] = node;
+    });
+
+    // With roles, the states are kept in role order, so every transition the guideline asks for runs down
+    // the list, and the contributions and the experiments are numbered in that order.
+    g.roles = g.states.some(function (s) { return s.role; });
+    if (g.roles) {
+      const roleIndex = function (s) { return s.role ? ROLE_KEYS.indexOf(s.role) : ROLE_KEYS.length; };
+      g.states.sort(function (a, b) { return roleIndex(a) - roleIndex(b) || a.index - b.index; });
+      const count = {};
+      g.states.forEach(function (s, i) {
+        s.index = i;
+        if (s.role && ROLES[s.role].numbered) {
+          count[s.role] = (count[s.role] || 0) + 1;
+          s.tag = ROLES[s.role].label + ' ' + count[s.role];
+        }
+      });
+    }
+
+    (Array.isArray(m.transitions) ? m.transitions : []).forEach(function (t, i) {
+      const a = t && g.byId[t.from], b = t && g.byId[t.to];
+      if (!a || !b) {
+        g.problems.push('Transition ' + (i + 1) + ' (' + (t && t.from) + ' to ' + (t && t.to) + ') names a state that does not exist, so it is left out.');
+        return;
+      }
+      g.edges.push({ index: g.edges.length, from: a, to: b, label: t.label ? String(t.label) : '', optional: t.optional === true, weak: t.weak === true });
+    });
+    if (g.roles) findSupport(g);
+    return g;
+  }
+
+  // Which experiments back each contribution: those reached from it through its work states. A link is weak
+  // when every path to the experiment has a weak transition on it.
+  function findSupport(g) {
+    g.states.forEach(function (s) { s.backs = []; s.backsWeak = []; s.supports = []; s.hasWork = false; });
+    g.states.filter(function (c) { return c.role === 'contribution'; }).forEach(function (c) {
+      c.hasWork = g.edges.some(function (e) { return e.from === c && e.to.role === 'work'; });
+      const reach = function (strongOnly) {
+        const seen = {}, found = [], stack = [c];
+        while (stack.length) {
+          const s = stack.pop();
+          g.edges.forEach(function (e) {
+            if (e.from !== s || (strongOnly && e.weak) || seen[e.to.id]) return;
+            seen[e.to.id] = true;
+            if (e.to.role === 'experiment') found.push(e.to);
+            else if (e.to.role === 'work') stack.push(e.to);
+          });
+        }
+        return found.sort(function (a, b) { return a.index - b.index; });
+      };
+      const strong = reach(true);
+      c.backs = strong;
+      c.backsWeak = reach(false).filter(function (x) { return strong.indexOf(x) < 0; });
+      strong.forEach(function (x) { x.supports.push({ state: c, weak: false }); });
+      c.backsWeak.forEach(function (x) { x.supports.push({ state: c, weak: true }); });
+    });
+    g.states.forEach(function (s) { s.supports.sort(function (a, b) { return a.state.index - b.state.index; }); });
+  }
+
+  function andList(names) {
+    return names.length < 2 ? names.join('') : names.slice(0, -1).join(', ') + (names.length > 2 ? ',' : '') + ' and ' + names[names.length - 1];
+  }
+
+  // One sentence on the experiments behind a contribution, or the contributions an experiment backs.
+  function supportText(s) {
+    const tags = function (list) { return list.map(function (x) { return x.tag; }); };
+    if (s.role === 'contribution') {
+      if (!s.backs.length && !s.backsWeak.length) return { bad: true, text: 'No experiment backs it.' };
+      return {
+        bad: !s.backs.length,
+        text: (s.backs.length ? 'Backed by ' + andList(tags(s.backs)) + (s.backsWeak.length ? ', and weakly by ' : '.') : 'Only weakly backed by ') +
+          (s.backsWeak.length ? andList(tags(s.backsWeak)) + '.' : ''),
+      };
+    }
+    if (s.role === 'experiment') {
+      if (!s.supports.length) return { bad: true, text: 'Backs no contribution.' };
+      return { bad: false, text: 'Backs ' + andList(s.supports.map(function (x) { return x.state.tag + (x.weak ? ' (weakly)' : ''); })) + '.' };
+    }
+    return null;
+  }
+
+  function measureState(s) {
+    s.lines = wrapText(s.label, 13, 600, MS.text);
+    s.subLines = s.sub ? wrapText(s.sub, 11.5, 400, MS.text) : [];
+    s.chipRows = [];
+    let row = null;
+    s.points.forEach(function (it) {
+      const chip = { item: it, text: chipLabel(it) };
+      chip.w = Math.ceil(textWidth(chip.text, 11, 700)) + 14;
+      if (!row || row.w + MS.chipGap + chip.w > MS.text) { row = { chips: [], w: -MS.chipGap }; s.chipRows.push(row); }
+      row.chips.push(chip);
+      row.w += MS.chipGap + chip.w;
+    });
+    const slant = s.kind === 'choice' ? MS.slant : 0;
+    // The role tag is drawn in capitals with letter spacing of .08em.
+    s.tagText = s.tag.toUpperCase();
+    s.tagH = s.tagText ? MS.tag : 0;
+    const tagW = s.tagText ? textWidth(s.tagText, 9.5, 700) + s.tagText.length * 0.76 : 0;
+    const inner = Math.max(widest(s.lines, 13, 600), widest(s.subLines, 11.5, 400), tagW,
+      s.chipRows.reduce(function (w, r) { return Math.max(w, r.w); }, 0));
+    s.w = Math.ceil(Math.max(MS.minW, inner + 2 * (MS.padX + slant)));
+    s.contentH = s.tagH + s.lines.length * MS.line + s.subLines.length * MS.sub +
+      (s.chipRows.length ? 7 + s.chipRows.length * MS.chipStep - (MS.chipStep - MS.chipH) : 0);
+    s.h = Math.ceil(Math.max(MS.minH, s.contentH + 2 * MS.padY));
+  }
+
+  // A layered layout. Layers run top to bottom (TB) or left to right (LR). "c" is the position across the
+  // layers and "m" the position along them, so one set of rules serves both directions.
+  function layoutMachine(g) {
+    const S = g.states, E = g.edges;
+    S.forEach(measureState);
+    E.forEach(function (e) {
+      e.self = e.from === e.to;
+      e.back = false;
+      e.labelLines = e.label ? wrapText(e.label, 11.5, 400, 150) : [];
+      e.labelW = widest(e.labelLines, 11.5, 400);
+    });
+
+    // A transition to a state listed earlier is a loop, so the order of the states sets the flow,
+    // and the forward transitions can never form a cycle.
+    E.forEach(function (e) { e.back = !e.self && e.to.index < e.from.index; });
+
+    // Layers follow the longest path over the forward transitions. A rank pins the layer of a state.
+    const fwd = E.filter(function (e) { return !e.self && !e.back; });
+    const indeg = {}, rank = {}, topo = [];
+    S.forEach(function (s) { indeg[s.id] = 0; rank[s.id] = 0; });
+    fwd.forEach(function (e) { indeg[e.to.id]++; });
+    const queue = S.filter(function (s) { return !indeg[s.id]; });
+    while (queue.length) {
+      const s = queue.shift();
+      topo.push(s);
+      if (isFinite(s.rank)) rank[s.id] = s.rank;
+      fwd.forEach(function (e) {
+        if (e.from !== s) return;
+        rank[e.to.id] = Math.max(rank[e.to.id], rank[s.id] + 1);
+        if (!--indeg[e.to.id]) queue.push(e.to);
+      });
+    }
+    // A state without a pinned rank then moves down, next to its nearest successor.
+    topo.slice().reverse().forEach(function (s) {
+      if (isFinite(s.rank)) return;
+      const next = fwd.filter(function (e) { return e.from === s; }).map(function (e) { return rank[e.to.id]; });
+      if (next.length) rank[s.id] = Math.max(rank[s.id], Math.min.apply(null, next) - 1);
+    });
+    const used = S.map(function (s) { return rank[s.id]; })
+      .filter(function (r, i, all) { return all.indexOf(r) === i; })
+      .sort(function (a, b) { return a - b; });
+    const layers = used.map(function () { return []; });
+    S.forEach(function (s) { s.layer = used.indexOf(rank[s.id]); layers[s.layer].push(s); });
+
+    // Order each layer by the mean place of the neighbors, with a few sweeps down and up. The last sweep runs
+    // down, so each state sits under the states that lead to it.
+    const place = function (s) { const L = layers[s.layer]; return L.indexOf(s) - (L.length - 1) / 2; };
+    const sweep = function (down) {
+      (down ? layers.slice(1) : layers.slice(0, -1).reverse()).forEach(function (L) {
+        const key = {};
+        L.forEach(function (s) {
+          const near = fwd.filter(function (e) { return down ? e.to === s : e.from === s; })
+            .map(function (e) { return place(down ? e.from : e.to); });
+          key[s.id] = isFinite(s.order) ? s.order - (L.length - 1) / 2
+            : near.length ? near.reduce(function (a, b) { return a + b; }, 0) / near.length : place(s);
+        });
+        L.sort(function (a, b) { return key[a.id] - key[b.id] || a.index - b.index; });
+      });
+    };
+    for (let pass = 0; pass < 4; pass++) { sweep(true); sweep(false); }
+    sweep(true);
+
+    const vertical = g.layout === 'TB' ||
+      (g.layout !== 'LR' && (layers.length > 4 || Math.max.apply(null, layers.map(function (L) { return L.length; })) > 3));
+    const cs = function (s) { return vertical ? s.w : s.h; };
+    const ms = function (s) { return vertical ? s.h : s.w; };
+
+    let m = S.some(function (s) { return s.kind === 'start' && s.layer === 0; }) ? 40 : 0;
+    layers.forEach(function (L, i) {
+      const thick = Math.max.apply(null, L.map(ms));
+      L.forEach(function (s) { s.m0 = m + (thick - ms(s)) / 2; s.m1 = s.m0 + ms(s); s.mm = m + thick / 2; });
+      let gap = vertical ? 58 : 70;
+      let labeled = 0;
+      E.forEach(function (e) {
+        if (e.self || e.back || e.from.layer !== i || e.to.layer !== i + 1) return;
+        gap = Math.max(gap, vertical ? 30 + 13 * e.labelLines.length : e.labelW + 34);
+        if (e.labelLines.length) labeled++;
+      });
+      // Many labels in one band need room to sit at different heights.
+      if (vertical) gap = Math.max(gap, 18 + 14 * labeled);
+      m += thick + gap;
+    });
+
+    const gapC = vertical ? 36 : 26;
+    const spans = layers.map(function (L) { return L.reduce(function (a, s) { return a + cs(s); }, 0) + (L.length - 1) * gapC; });
+    const full = Math.max.apply(null, spans);
+    layers.forEach(function (L, i) {
+      let c = (full - spans[i]) / 2;
+      L.forEach(function (s) { s.c0 = c; s.c1 = c + cs(s); s.cm = c + cs(s) / 2; c = s.c1 + gapC; });
+    });
+
+    // A forward transition runs straight down unless a state is in its way. Loops and blocked
+    // transitions run in a lane beside the layers.
+    const blocked = function (e) {
+      const a = e.from, b = e.to;
+      return layers.slice(a.layer + 1, b.layer).some(function (L) {
+        return L.some(function (s) {
+          const c = a.cm + (b.cm - a.cm) * (s.mm - a.m1) / (b.m0 - a.m1);
+          return c > s.c0 - 14 && c < s.c1 + 14;
+        });
+      });
+    };
+    E.forEach(function (e) {
+      const d = e.to.layer - e.from.layer;
+      e.route = e.self ? 'self' : d === 1 || (d > 1 && !blocked(e)) ? 'down' : 'side';
+    });
+
+    S.forEach(function (s) {
+      const spread = function (list, end) {
+        const step = Math.min(20, cs(s) / (list.length + 1));
+        list.forEach(function (e, i) { e[end] = s.cm + (i - (list.length - 1) / 2) * step; });
+      };
+      spread(E.filter(function (e) { return e.route === 'down' && e.from === s; }).sort(function (x, y) { return x.to.cm - y.to.cm; }), 'pa');
+      spread(E.filter(function (e) { return e.route === 'down' && e.to === s; }).sort(function (x, y) { return x.from.cm - y.from.cm; }), 'pb');
+    });
+
+    const first = function (s) { return layers[s.layer][0] === s; };
+    const last = function (s) { const L = layers[s.layer]; return L[L.length - 1] === s; };
+    const cMin = Math.min.apply(null, S.map(function (s) { return s.c0; }));
+    const cMax = Math.max.apply(null, S.map(function (s) { return s.c1; }));
+    const lanes = { '1': [], '-1': [] };
+    E.filter(function (e) { return e.route === 'side'; })
+      .sort(function (x, y) { return Math.abs(x.to.layer - x.from.layer) - Math.abs(y.to.layer - y.from.layer) || x.index - y.index; })
+      .forEach(function (e) {
+        e.dir = (!last(e.from) || !last(e.to)) && first(e.from) && first(e.to) ? -1 : 1;
+        const lo = Math.min(e.from.layer, e.to.layer), hi = Math.max(e.from.layer, e.to.layer);
+        const taken = lanes[String(e.dir)];
+        let k = 0;
+        while (taken.some(function (t) { return t.k === k && t.lo <= hi && lo <= t.hi; })) k++;
+        taken.push({ k: k, lo: lo, hi: hi });
+        e.lane = e.dir > 0 ? cMax + 28 + 18 * k : cMin - 28 - 18 * k;
+      });
+    E.forEach(function (e) { if (e.self) e.dir = first(e.from) ? -1 : 1; });
+
+    const ports = {};
+    E.forEach(function (e) {
+      if (e.route !== 'side') return;
+      [['ma', e.from, e.to], ['mb', e.to, e.from]].forEach(function (p) {
+        const key = p[1].id + ':' + e.dir;
+        (ports[key] = ports[key] || []).push({ e: e, end: p[0], s: p[1], other: p[2] });
+      });
+    });
+    Object.keys(ports).forEach(function (key) {
+      const list = ports[key].sort(function (x, y) { return x.other.mm - y.other.mm || x.e.index - y.e.index; });
+      list.forEach(function (p, i) {
+        p.e[p.end] = p.s.mm + (i - (list.length - 1) / 2) * Math.min(12, ms(p.s) / (list.length + 1));
+      });
+    });
+
+    const box = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
+    const grow = function (x0, y0, x1, y1) {
+      box.x0 = Math.min(box.x0, x0); box.y0 = Math.min(box.y0, y0);
+      box.x1 = Math.max(box.x1, x1); box.y1 = Math.max(box.y1, y1);
+    };
+    const xy = function (c, mm) { return vertical ? [c, mm] : [mm, c]; };
+    const P = function (c, mm) { const p = xy(c, mm); grow(p[0], p[1], p[0], p[1]); return r1(p[0]) + ' ' + r1(p[1]); };
+    const labelBox = function (e, x, y, anchor) {
+      const left = anchor === 'start' ? x : anchor === 'end' ? x - e.labelW : x - e.labelW / 2;
+      return [left - 3, y - 12, left + e.labelW + 3, y + (e.labelLines.length - 1) * 13 + 4];
+    };
+    const placed = [];
+    const label = function (e, x, y, anchor) {
+      e.lx = x; e.ly = y; e.anchor = anchor;
+      if (!e.labelLines.length) return;
+      const r = labelBox(e, x, y, anchor);
+      placed.push(r);
+      grow(r[0], r[1], r[2], r[3]);
+    };
+    // How much a label box covers the labels placed so far, the states, and the other transitions.
+    const clash = function (r, own) {
+      const area = function (q) { return Math.max(0, Math.min(r[2], q[2]) - Math.max(r[0], q[0])) * Math.max(0, Math.min(r[3], q[3]) - Math.max(r[1], q[1])); };
+      const inside = function (p) { return p[0] > r[0] && p[0] < r[2] && p[1] > r[1] && p[1] < r[3]; };
+      return placed.reduce(function (sum, q) { return sum + area(q); }, 0) +
+        S.reduce(function (sum, s) { return sum + area([s.x, s.y, s.x + s.w, s.y + s.h]); }, 0) +
+        E.reduce(function (sum, x) { return x === own ? sum : sum + 60 * x.pts.filter(inside).length; }, 0);
+    };
+
+    S.forEach(function (s) {
+      const p = xy(s.c0, s.m0);
+      s.x = p[0]; s.y = p[1];
+      grow(s.x, s.y - (s.novel ? 9 : 0), s.x + s.w, s.y + s.h);
+      if (s.kind === 'start') {
+        s.dot = xy(s.cm, s.m0 - 30);
+        grow(s.dot[0] - 7, s.dot[1] - 7, s.dot[0] + 7, s.dot[1] + 7);
+        s.entry = 'M' + P(s.cm, s.m0 - 23) + ' L' + P(s.cm, s.m0);
+      }
+    });
+
+    // The paths come first, so that each label can keep clear of the other transitions.
+    const along = function (c0, m0, c1, m1) {
+      const steps = Math.max(1, Math.ceil(Math.hypot(c1 - c0, m1 - m0) / 6)), pts = [];
+      for (let i = 0; i <= steps; i++) pts.push(xy(c0 + (c1 - c0) * i / steps, m0 + (m1 - m0) * i / steps));
+      return pts;
+    };
+    E.forEach(function (e) {
+      const a = e.from, b = e.to;
+      e.pts = [];
+      if (e.route === 'down') {
+        const k = Math.max(18, (b.m0 - a.m1) / 2);
+        e.d = 'M' + P(e.pa, a.m1) + ' C' + P(e.pa, a.m1 + k) + ' ' + P(e.pb, b.m0 - k) + ' ' + P(e.pb, b.m0);
+        // A point on the curve, as [c, m].
+        e.at = function (t) {
+          const u = 1 - t;
+          return [u * u * (1 + 2 * t) * e.pa + t * t * (3 - 2 * t) * e.pb,
+            u * u * u * a.m1 + 3 * u * u * t * (a.m1 + k) + 3 * u * t * t * (b.m0 - k) + t * t * t * b.m0];
+        };
+        for (let i = 0; i <= 48; i++) e.pts.push(xy.apply(null, e.at(i / 48)));
+      } else if (e.route === 'side') {
+        const dir = e.dir, C = e.lane;
+        if (Math.abs(e.mb - e.ma) < 16) { e.ma -= 8; e.mb += 8; }
+        const ac = dir > 0 ? a.c1 : a.c0, bc = dir > 0 ? b.c1 : b.c0;
+        const sign = e.mb >= e.ma ? 1 : -1;
+        const r = Math.min(10, Math.abs(e.mb - e.ma) / 2);
+        e.d = 'M' + P(ac, e.ma) + ' L' + P(C - dir * r, e.ma) + ' Q' + P(C, e.ma) + ' ' + P(C, e.ma + sign * r) +
+          ' L' + P(C, e.mb - sign * r) + ' Q' + P(C, e.mb) + ' ' + P(C - dir * r, e.mb) + ' L' + P(bc, e.mb);
+        e.pts = along(ac, e.ma, C, e.ma).concat(along(C, e.ma, C, e.mb), along(C, e.mb, bc, e.mb));
+      } else {
+        const dir = e.dir, side = dir > 0 ? a.c1 : a.c0;
+        e.d = 'M' + P(side, a.mm - 9) + ' C' + P(side + dir * 46, a.mm - 30) + ' ' + P(side + dir * 46, a.mm + 30) + ' ' + P(side, a.mm + 9);
+      }
+    });
+
+    // Labels of loops and side lanes are fixed, so they are placed first.
+    E.forEach(function (e) {
+      const a = e.from, n = e.labelLines.length;
+      if (e.route === 'side') {
+        const dir = e.dir, C = e.lane, mid = (e.ma + e.mb) / 2;
+        if (vertical) label(e, C + dir * 7, mid + 4 - (n - 1) * 6.5, dir > 0 ? 'start' : 'end');
+        else label(e, mid, dir > 0 ? C + 15 : C - 7 - (n - 1) * 13, 'middle');
+      } else if (e.route === 'self') {
+        const dir = e.dir, side = dir > 0 ? a.c1 : a.c0;
+        if (vertical) label(e, side + dir * 40, a.mm + 4 - (n - 1) * 6.5, dir > 0 ? 'start' : 'end');
+        else label(e, a.mm, dir > 0 ? side + 50 : side - 42 - (n - 1) * 13, 'middle');
+      }
+    });
+    // A label of a straight transition sits beside its own curve, at the point and on the side where it
+    // covers the fewest other labels, states, and transitions. Where transitions meet or split, the outer
+    // side and the middle of the curve win a tie.
+    E.forEach(function (e) {
+      if (e.route !== 'down') return;
+      const a = e.from, b = e.to, n = e.labelLines.length;
+      const c = (e.pa + e.pb) / 2;
+      const fan = function (s, end) { return E.filter(function (x) { return x.route === 'down' && x[end] === s; }).length > 1; };
+      const outward = fan(b, 'to') ? c < b.cm - 1 : fan(a, 'from') ? c < a.cm - 1 : false;
+      const spot = function (t, left) {
+        const q = e.at(t);
+        return vertical ? [left ? q[0] - 8 : q[0] + 8, q[1] + 4 - (n - 1) * 6.5, left ? 'end' : 'start'] : [q[1], q[0] - 8 - (n - 1) * 13, 'middle'];
+      };
+      if (!n) { const p = spot(0.5, outward); label(e, p[0], p[1], p[2]); return; }
+      let best = null;
+      [0.5, 0.42, 0.58, 0.34, 0.66, 0.26, 0.74, 0.18, 0.82].forEach(function (t, i) {
+        (vertical ? [outward, !outward] : [false]).forEach(function (left, j) {
+          const p = spot(t, left);
+          const hit = clash(labelBox(e, p[0], p[1], p[2]), e) + 3 * i + 6 * j;
+          if (!best || hit < best.hit) best = { p: p, hit: hit };
+        });
+      });
+      label(e, best.p[0], best.p[1], best.p[2]);
+    });
+
+    const pad = 14;
+    return { vertical: vertical, x: box.x0 - pad, y: box.y0 - pad, w: box.x1 - box.x0 + 2 * pad, h: box.y1 - box.y0 + 2 * pad };
+  }
+
+  function drawMachineSvg(g, lay) {
+    const marker = function (id, cls) {
+      return svgEl('marker', { id: id, viewBox: '0 0 8 8', refX: 7, refY: 4, markerUnits: 'userSpaceOnUse', markerWidth: 8, markerHeight: 8, orient: 'auto-start-reverse' },
+        svgEl('path', { class: cls, d: 'M0 0.5 L8 4 L0 7.5 z' }));
+    };
+    const edges = g.edges.map(function (e) {
+      return svgEl('path', {
+        class: 'm-edge' + (e.optional ? ' m-optional' : '') + (e.weak ? ' m-weak' : ''), d: e.d, 'marker-end': e.weak ? 'url(#mm-weak)' : 'url(#mm-edge)',
+        'data-from': e.from.id, 'data-to': e.to.id,
+      });
+    });
+    const starts = g.states.filter(function (s) { return s.dot; }).map(function (s) {
+      return svgEl('g', { class: 'm-start', 'data-from': s.id, 'data-to': s.id },
+        svgEl('circle', { class: 'm-dot', cx: r1(s.dot[0]), cy: r1(s.dot[1]), r: 6 }),
+        svgEl('path', { class: 'm-entry', d: s.entry, 'marker-end': 'url(#mm-edge)' }));
+    });
+    const nodes = g.states.map(function (s) {
+      const x0 = s.x, y0 = s.y, x1 = s.x + s.w, y1 = s.y + s.h, ym = (y0 + y1) / 2;
+      const kids = [];
+      if (s.kind === 'choice') {
+        const sl = MS.slant;
+        kids.push(svgEl('polygon', {
+          class: 'm-box',
+          points: [[x0 + sl, y0], [x1 - sl, y0], [x1, ym], [x1 - sl, y1], [x0 + sl, y1], [x0, ym]].map(function (p) { return r1(p[0]) + ',' + r1(p[1]); }).join(' '),
+        }));
+      } else {
+        kids.push(svgEl('rect', { class: 'm-box', x: r1(x0), y: r1(y0), width: s.w, height: s.h, rx: 9 }));
+        if (s.kind === 'end') kids.push(svgEl('rect', { class: 'm-inner', x: r1(x0 + 3.5), y: r1(y0 + 3.5), width: s.w - 7, height: s.h - 7, rx: 6 }));
+      }
+      const tagTop = y0 + (s.h - s.contentH) / 2;
+      const top = tagTop + s.tagH;
+      const cx = r1(x0 + s.w / 2);
+      if (s.tagText) kids.push(svgEl('text', { class: 'm-tag', x: cx, y: r1(tagTop + 8.5), 'text-anchor': 'middle' }, s.tagText));
+      s.lines.forEach(function (l, i) {
+        kids.push(svgEl('text', { class: 'm-label', x: cx, y: r1(top + 12.5 + i * MS.line), 'text-anchor': 'middle' }, l));
+      });
+      s.subLines.forEach(function (l, i) {
+        kids.push(svgEl('text', { class: 'm-sub', x: cx, y: r1(top + s.lines.length * MS.line + 11 + i * MS.sub), 'text-anchor': 'middle' }, l));
+      });
+      s.chipRows.forEach(function (row, r) {
+        const rowTop = top + s.lines.length * MS.line + s.subLines.length * MS.sub + 7 + r * MS.chipStep;
+        let x = x0 + (s.w - row.w) / 2;
+        row.chips.forEach(function (chip) {
+          const st = statusOf(chip.item.id);
+          kids.push(svgEl('g', { class: 'm-chip g-' + chip.item.group + ' st-' + st, 'data-point': chip.item.id },
+            svgEl('title', null, pointName(chip.item) + ' (' + STATUS_LABEL[st].toLowerCase() + '): ' + clip(textOf(chip.item), 160)),
+            svgEl('rect', { x: r1(x), y: r1(rowTop), width: chip.w, height: MS.chipH, rx: 9 }),
+            svgEl('text', { x: r1(x + chip.w / 2), y: r1(rowTop + 12.5), 'text-anchor': 'middle' }, chip.text)));
+          x += chip.w + MS.chipGap;
+        });
+      });
+      if (s.novel) {
+        const bx = x1 - (s.kind === 'choice' ? MS.slant : 0) - 46;
+        kids.push(svgEl('g', { class: 'm-badge' },
+          svgEl('rect', { x: r1(bx), y: r1(y0 - 8), width: 36, height: 16, rx: 8 }),
+          svgEl('text', { x: r1(bx + 18), y: r1(y0 + 3.3), 'text-anchor': 'middle' }, 'NEW')));
+      }
+      const name = (s.tag ? s.tag + ', ' : '') + s.label + (s.kind !== 'state' ? ', ' + STATE_KIND[s.kind].toLowerCase() + ' state' : '') +
+        (s.novel ? ', new in this paper' : '') + (s.points.length ? ', ' + s.points.length + (s.points.length === 1 ? ' review point' : ' review points') : '');
+      return svgEl('g', {
+        class: 'm-state m-' + s.kind + (s.role ? ' r-' + s.role : '') + (s.novel ? ' m-novel' : ''), 'data-state': s.id,
+        tabindex: 0, role: 'button', 'aria-pressed': String(machineSel === s.id), 'aria-label': name,
+      }, kids);
+    });
+    const labels = g.edges.filter(function (e) { return e.labelLines.length; }).map(function (e) {
+      return svgEl('text', { class: 'm-elabel' + (e.weak ? ' m-weak-label' : ''), x: r1(e.lx), y: r1(e.ly), 'text-anchor': e.anchor, 'data-from': e.from.id, 'data-to': e.to.id },
+        e.labelLines.map(function (l, i) { return svgEl('tspan', { x: r1(e.lx), dy: i ? 13 : 0 }, l); }));
+    });
+    return svgEl('svg', {
+      id: 'machine-svg', viewBox: [lay.x, lay.y, lay.w, lay.h].map(r1).join(' '), width: Math.ceil(lay.w), height: Math.ceil(lay.h),
+      role: 'group', 'aria-label': (g.title || 'State machine of the paper') + ', with ' + g.states.length + ' states and ' + g.edges.length + ' transitions. The table below lists them.',
+    }, svgEl('defs', null, marker('mm-edge', 'mk-edge'), marker('mm-on', 'mk-on'), marker('mm-weak', 'mk-weak')), edges, starts, nodes, labels);
+  }
+
+  function legendItem(inner, text) {
+    const swatch = svgEl('svg', { width: 30, height: 16, viewBox: '0 0 30 16', 'aria-hidden': 'true', focusable: 'false' });
+    swatch.innerHTML = inner;
+    return el('span', null, swatch, text);
+  }
+
+  function drawMachineLegend(g) {
+    const has = function (test) { return g.states.some(test); };
+    const groups = [];
+    g.states.forEach(function (s) { s.points.forEach(function (it) { if (groups.indexOf(it.group) < 0) groups.push(it.group); }); });
+    groups.sort(function (a, b) { return KEYS.indexOf(a) - KEYS.indexOf(b); });
+    return el('div', { class: 'm-legend' },
+      ROLE_KEYS.filter(function (r) { return has(function (s) { return s.role === r; }); }).map(function (r) {
+        return legendItem('<rect x="2" y="1.5" width="26" height="13" rx="4" class="' + (r === 'work' ? 'lg-box' : 'lg-' + r) + '"/>', ROLES[r].label);
+      }),
+      has(function (s) { return s.kind === 'start'; }) ? legendItem('<circle cx="6" cy="8" r="4.5" class="lg-dot"/><path d="M11 8h17" class="lg-line"/>', 'Start') : null,
+      has(function (s) { return s.kind === 'end'; }) ? legendItem('<rect x="2" y="1.5" width="26" height="13" rx="4" class="lg-box"/><rect x="4.5" y="4" width="21" height="8" rx="2.5" class="lg-box"/>', 'End') : null,
+      has(function (s) { return s.kind === 'choice'; }) ? legendItem('<polygon points="7,1.5 23,1.5 28,8 23,14.5 7,14.5 2,8" class="lg-box"/>', 'Choice') : null,
+      has(function (s) { return s.novel; }) ? legendItem('<rect x="2" y="1.5" width="26" height="13" rx="4" class="lg-novel"/>', 'New in this paper') : null,
+      g.edges.some(function (e) { return e.optional; }) ? legendItem('<path d="M2 8h26" class="lg-line lg-dash"/>', 'Optional path') : null,
+      g.edges.some(function (e) { return e.weak; }) ? legendItem('<path d="M2 8h26" class="lg-line lg-dash lg-weak"/>', 'Weak or partial link') : null,
+      groups.map(function (key) {
+        const sec = SECTIONS[KEYS.indexOf(key)];
+        return el('span', null, el('span', { class: 'pt-chip g-' + key }, sec.chip), sec.label);
+      }),
+      groups.length ? el('span', null, 'Faded labels are rejected points') : null);
+  }
+
+  function drawMachineTable(g) {
+    return el('div', { class: 'map-table-wrap' }, el('table', { class: 'map-table m-table' },
+      el('thead', null, el('tr', null, el('th', null, 'State'), el('th', null, g.roles ? 'What it is' : 'What happens'), el('th', null, 'Where'),
+        el('th', null, 'Leads to'), el('th', null, 'In the review'))),
+      el('tbody', null, g.states.map(function (s) {
+        const outs = g.edges.filter(function (e) { return e.from === s; });
+        const support = g.roles ? supportText(s) : null;
+        return el('tr', { 'data-state': s.id },
+          el('td', null, el('div', null, s.label),
+            s.tag ? el('span', { class: 'chip' + (s.role === 'contribution' ? ' good' : '') }, s.tag) : null,
+            s.kind !== 'state' ? el('span', { class: 'chip' }, STATE_KIND[s.kind]) : null,
+            s.novel ? el('span', { class: 'chip flag' }, 'New') : null,
+            support ? el('div', { class: 'm-support' + (support.bad ? ' bad' : '') }, support.text) : null),
+          el('td', null, s.text || s.sub || el('span', { class: 'muted' }, 'Not described')),
+          el('td', null, s.where),
+          el('td', null, outs.length ? outs.map(function (e) {
+            return el('div', null, (e.to === s ? 'Itself' : e.to.label) + (e.label ? ', ' + e.label : '') + (e.optional ? ' (optional)' : '') + (e.weak ? ' (weak)' : ''));
+          }) : el('span', { class: 'muted' }, 'Nothing')),
+          el('td', null, s.points.length ? s.points.map(function (it) {
+            return el('a', { class: 'pt-chip g-' + it.group + ' st-' + statusOf(it.id), href: hrefTo('pt-' + it.id), title: pointName(it) + ', ' + STATUS_LABEL[statusOf(it.id)].toLowerCase() }, chipLabel(it));
+          }) : el('span', { class: 'muted' }, 'Not discussed')));
+      }))));
+  }
+
+  function drawMachine() {
+    const g = buildMachine();
+    machine = g;
+    const flag = $('machine-flag');
+    flag.hidden = !g.problems.length;
+    flag.replaceChildren(el('div', null, g.problems.slice(0, 6).join(' ') + (g.problems.length > 6 ? ' ' + (g.problems.length - 6) + ' more problems are not shown.' : '')));
+    const check = $('machine-check');
+    check.hidden = !g.states.length;
+    $('count-machine').textContent = g.states.length ? String(g.states.length) : '';
+    if (!g.states.length) {
+      $('machine-body').replaceChildren(el('p', { class: 'empty' }, isBlank() ? 'No review loaded.'
+        : 'review-data.js has no state machine yet. Add a machine object, as described at the top of review.html.'));
+      return;
+    }
+    if (machineSel && !g.byId[machineSel]) machineSel = null;
+    const lay = layoutMachine(g);
+    const discussed = g.states.filter(function (s) { return s.points.length; }).length;
+    const novel = g.states.filter(function (s) { return s.novel; }).length;
+    const notes = [discussed + ' of ' + g.states.length + (g.states.length === 1 ? ' state is' : ' states are') + ' discussed in the review' +
+      (novel ? ', and ' + novel + (novel === 1 ? ' is' : ' are') + ' marked as new in this paper.' : '.')];
+    let gap = false;
+    const cs = g.states.filter(function (s) { return s.role === 'contribution'; });
+    if (cs.length) {
+      const tags = function (list) { return andList(list.map(function (s) { return s.tag; })); };
+      const backed = cs.filter(function (c) { return c.backs.length; });
+      const weakOnly = cs.filter(function (c) { return !c.backs.length && c.backsWeak.length; });
+      const none = cs.filter(function (c) { return !c.backs.length && !c.backsWeak.length; });
+      const noWork = cs.filter(function (c) { return !c.hasWork; });
+      notes.push(backed.length + ' of ' + cs.length + (cs.length === 1 ? ' contribution is' : ' contributions are') + ' backed by an experiment.');
+      if (weakOnly.length) notes.push(tags(weakOnly) + (weakOnly.length === 1 ? ' has' : ' have') + ' only weak support.');
+      if (none.length) notes.push('No experiment backs ' + tags(none) + '.');
+      if (noWork.length) notes.push(tags(noWork) + (noWork.length === 1 ? ' has' : ' have') + ' no work state.');
+      gap = backed.length < cs.length || noWork.length > 0;
+    }
+    check.className = 'check ' + (gap ? 'flag' : 'info');
+    check.textContent = notes.join(' ');
+    $('machine-body').replaceChildren(
+      el('figure', { class: 'm-figure' },
+        el('div', { class: 'm-scroll' }, drawMachineSvg(g, lay)),
+        drawMachineLegend(g),
+        g.title || g.caption ? el('figcaption', null, g.title ? el('b', null, g.title + '. ') : null, g.caption) : null),
+      el('div', { class: 'notice', id: 'machine-caption' }),
+      drawMachineTable(g));
+    machineHighlight(machineSel);
+    drawMachineCaption();
+  }
+
+  function machineHighlight(id) {
+    const svg = $('machine-svg');
+    if (!svg) return;
+    svg.classList.toggle('m-focus', !!id);
+    const near = {};
+    if (id) {
+      near[id] = true;
+      machine.edges.forEach(function (e) {
+        if (e.from.id === id || e.to.id === id) { near[e.from.id] = true; near[e.to.id] = true; }
+      });
+    }
+    svg.querySelectorAll('[data-from]').forEach(function (n) {
+      n.classList.toggle('on', !!id && (n.dataset.from === id || n.dataset.to === id));
+    });
+    svg.querySelectorAll('.m-state').forEach(function (n) {
+      n.classList.toggle('on', !!near[n.dataset.state]);
+      n.classList.toggle('sel', n.dataset.state === machineSel);
+    });
+    document.querySelectorAll('.m-table tr[data-state]').forEach(function (r) { r.classList.toggle('on', r.dataset.state === id); });
+  }
+
+  function drawMachineCaption() {
+    const box = $('machine-caption');
+    if (!box) return;
+    const s = machineSel && machine.byId[machineSel];
+    if (!s) {
+      box.replaceChildren(el('div', null, 'Select a state to see where it comes from and where it leads. Select a point label, such as W1, to go to that point.'));
+      return;
+    }
+    const names = function (list, other) {
+      return list.map(function (e) { return (other(e) === s ? 'itself' : other(e).label) + (e.label ? ' (' + e.label + ')' : ''); }).join(', ');
+    };
+    const ins = machine.edges.filter(function (e) { return e.to === s; });
+    const outs = machine.edges.filter(function (e) { return e.from === s; });
+    const links = [];
+    s.points.forEach(function (it, i) {
+      if (i) links.push(', ');
+      links.push(el('a', { href: hrefTo('pt-' + it.id) }, pointName(it)));
+    });
+    const support = machine.roles ? supportText(s) : null;
+    box.replaceChildren(el('div', null,
+      el('b', null, (s.tag ? s.tag + ': ' : '') + s.label + '. '),
+      s.text ? s.text + ' ' : '',
+      s.where ? 'Where: ' + s.where + '. ' : '',
+      ins.length ? 'Comes from: ' + names(ins, function (e) { return e.from; }) + '. ' : '',
+      outs.length ? 'Leads to: ' + names(outs, function (e) { return e.to; }) + '. ' : '',
+      support ? support.text + ' ' : '',
+      links.length ? ['In the review: ', links, '.'] : 'Not discussed in the review.'));
+  }
+
+  function selectState(id) {
+    machineSel = id === machineSel ? null : id;
+    $('machine-svg').querySelectorAll('.m-state').forEach(function (n) {
+      n.setAttribute('aria-pressed', String(n.dataset.state === machineSel));
+    });
+    machineHighlight(machineSel);
+    drawMachineCaption();
+  }
+
+  function goToPoint(id) {
+    const hash = hrefTo('pt-' + id);
+    if (location.hash === hash) { const target = $('pt-' + id); if (target) target.scrollIntoView(); }
+    else location.hash = hash;
+  }
+
+  // Drawing the Connections tab
+
+  function isSource(key) {
+    const n = MAP_NODES[key];
+    return !!n && ['paper', 'external', 'rules', 'review'].indexOf(n.lane) >= 0;
+  }
+  function sourceLabel(key) {
+    if (!isSource(key)) return null;
+    const lane = MAP_NODES[key].lane;
+    return { kind: lane, text: { paper: 'Paper', external: 'External', rules: 'Your rules', review: 'This review' }[lane] + ' · ' + MAP_NODES[key].title };
+  }
+  function mapTitle(key) {
+    if (MAP_NODES[key]) return MAP_NODES[key].title;
+    return key === 'review' ? 'Generated review' : 'Your decisions';
+  }
+  function groupOf(id) {
+    return Object.keys(MAP_GROUPS).find(function (g) { return MAP_GROUPS[g].indexOf(id) >= 0; });
+  }
+  function rowLinks(key) {
+    return LINKS.filter(function (l) { return l.to === key && l.row; });
+  }
+
+  // References on rejected points do not count, since that text will not be in the review.
+  function linkStats() {
+    const stats = { links: {}, bySource: {}, untagged: 0 };
+    review.items.forEach(function (item) {
+      if (statusOf(item.id) === 'rejected') return;
+      const s = state[item.id];
+      evidenceOf(item).forEach(function (e) {
+        if (!isSource(e.source)) { stats.untagged++; return; }
+        stats.bySource[e.source] = (stats.bySource[e.source] || 0) + 1;
+        const key = e.source + '>' + item.group;
+        const l = stats.links[key] || (stats.links[key] = { count: 0, points: {}, disputed: 0 });
+        l.count++;
+        l.points[item.id] = true;
+        if (s && s.logic[e.id] && s.logic[e.id].verdict === 'disagree') l.disputed++;
+      });
+    });
+    return stats;
+  }
+
+  function linkState(link, stats) {
+    if (!link.row) return 'idle';
+    const kept = review.items.some(function (it) { return it.group === link.to && statusOf(it.id) !== 'rejected'; });
+    if (!kept) return 'idle';
+    const l = stats.links[link.from + '>' + link.to];
+    if (l && l.disputed) return 'disputed';
+    if (l && link.limit && Object.keys(l.points).length > link.limit) return 'over';
+    if (l) return 'covered';
+    return link.kind === 'needed' ? 'missing' : 'unused';
+  }
+
+  function rowStatusText(link, st, stats) {
+    const l = stats.links[link.from + '>' + link.to];
+    if (st === 'covered') return l.count + (l.count === 1 ? ' ref' : ' refs');
+    if (st === 'disputed') return l.disputed + ' disagreed';
+    if (st === 'over') return Object.keys(l.points).length + ' points';
+    if (st === 'missing') return 'No reference';
+    if (st === 'unused') return 'none';
+    return '';
+  }
+
+  function rowY(link) {
+    return MAP_NODES[link.to].y + 34.5 + 17 * rowLinks(link.to).indexOf(link);
+  }
+
+  function linkPath(link) {
+    if (link.d) return link.d;
+    const y2 = rowY(link);
+    if (link.fromY) return 'M656 ' + link.fromY + ' C' + link.bulge + ' ' + link.fromY + ' ' + link.bulge + ' ' + y2 + ' 659 ' + y2;
+    const out = LINKS.filter(function (l) { return l.from === link.from && l.row && !l.fromY; });
+    const from = MAP_NODES[link.from];
+    const y1 = from.y + from.h / 2 + (out.indexOf(link) - (out.length - 1) / 2) * 9;
+    return 'M250 ' + y1 + ' C340 ' + y1 + ' 340 ' + y2 + ' 418 ' + y2;
+  }
+
+  function mapMarkers() {
+    const marker = function (id, cls) {
+      return svgEl('marker', { id: id, viewBox: '0 0 8 8', refX: 7, refY: 4, markerUnits: 'userSpaceOnUse', markerWidth: 8, markerHeight: 8, orient: 'auto-start-reverse' },
+        svgEl('path', { class: cls, d: 'M0 0.5 L8 4 L0 7.5 z' }));
+    };
+    return svgEl('defs', null, marker('m-ink', 'mk-ink'), marker('m-muted', 'mk-muted'), marker('m-green', 'mk-green'), marker('m-gold', 'mk-gold'), marker('m-red', 'mk-red'));
+  }
+
+  function drawMapEdge(link, st, kind) {
+    const color = { covered: 'green', missing: 'gold', over: 'gold', disputed: 'red' }[st] || 'muted';
+    const marker = 'url(#m-' + (kind === 'flow' ? 'ink' : color) + ')';
+    const data = { 'data-from': link.from, 'data-to': link.to };
+    return [svgEl('path', Object.assign({
+      class: 'edge kind-' + kind + ' st-' + st, d: linkPath(link),
+      'marker-end': marker, 'marker-start': link.both ? marker : null,
+    }, data))].concat((link.labels || []).map(function (l) {
+      return svgEl('text', Object.assign({ class: 't-edge', x: l.x, y: l.y, 'text-anchor': l.anchor || 'start' }, data), l.text);
+    }));
+  }
+
+  function currentNode() {
+    if (isBlank()) return 'start';
+    return review.items.some(function (it) { return statusOf(it.id) === 'undecided'; }) ? 'undecided' : 'final';
+  }
+
+  function nodeSub(id, stats) {
+    const n = MAP_NODES[id];
+    if (MAP_GROUPS.decisions.indexOf(id) >= 0) {
+      const count = review.items.filter(function (it) { return statusOf(it.id) === id; }).length;
+      return count + (count === 1 ? ' point' : ' points');
+    }
+    if (id === 'final' && !isBlank()) {
+      const kept = review.items.filter(isKept).length;
+      return kept + (kept === 1 ? ' point kept' : ' points kept');
+    }
+    if (id === 'machine' && machine && machine.states.length) {
+      return machine.states.length + (machine.states.length === 1 ? ' state' : ' states');
+    }
+    return n.sub;
+  }
+
+  function drawMapNode(id, stats) {
+    const n = MAP_NODES[id];
+    const isSection = n.lane === 'review';
+    const rows = isSection ? rowLinks(id) : [];
+    const missing = rows.some(function (l) { const st = linkState(l, stats); return st === 'missing' || st === 'over'; });
+    const classes = ['node', n.external ? 'external-node' : '', missing ? 'has-missing' : '', currentNode() === id ? 'is-current' : ''];
+    const kids = [svgEl('rect', { class: 'box', x: n.x, y: n.y, width: n.w, height: n.h, rx: 7 })];
+    if (n.end) kids.push(svgEl('rect', { class: 'box-inner', x: n.x + 3, y: n.y + 3, width: n.w - 6, height: n.h - 6, rx: 5 }));
+    kids.push(svgEl('text', { class: 't-title', x: n.x + 10, y: n.y + 19 }, n.title));
+    let label = n.title;
+    if (isSection) {
+      const items = review.items.filter(function (it) { return it.group === id; });
+      const decided = items.filter(function (it) { return statusOf(it.id) !== 'undecided'; }).length;
+      if (items.length) {
+        kids.push(svgEl('text', { class: 't-sub', x: n.x + n.w - 8, y: n.y + 18, 'text-anchor': 'end' }, decided + '/' + items.length + ' decided'));
+        label += ', ' + decided + ' of ' + items.length + ' decided';
+      }
+      rows.forEach(function (link) {
+        const st = linkState(link, stats);
+        const y = rowY(link) + 4;
+        kids.push(svgEl('g', { class: 'row row-' + st, 'data-from': link.from, 'data-to': link.to, 'data-row': link.from + '>' + link.to },
+          svgEl('text', { class: 't-row', x: n.x + 10, y: y }, link.row),
+          svgEl('text', { class: 'row-status', x: n.x + n.w - 8, y: y, 'text-anchor': 'end' }, rowStatusText(link, st, stats))));
+      });
+    } else {
+      const sub = nodeSub(id, stats);
+      kids.push(svgEl('text', { class: 't-sub', x: n.x + 10, y: n.y + 35 }, sub));
+      label += ', ' + sub;
+      const appliesToAll = LINKS.some(function (l) { return l.from === id && l.to === 'review'; });
+      if (!isBlank() && isSource(id) && !appliesToAll) {
+        kids.push(svgEl('text', { class: 't-count', x: n.x + n.w - 10, y: n.y + 28, 'text-anchor': 'end' }, String(stats.bySource[id] || 0)));
+      }
+    }
+    return svgEl('g', { class: classes.filter(Boolean).join(' '), 'data-node': id, tabindex: 0, role: 'button', 'aria-pressed': String(selectedNode === id), 'aria-label': label }, kids);
+  }
+
+  function drawMapLegend() {
+    const row = function (x, y, cls, text) {
+      return [svgEl('path', { class: 'edge-legend ' + cls, d: 'M' + x + ' ' + y + ' L' + (x + 34) + ' ' + y }),
+        svgEl('text', { class: 't-legend', x: x + 42, y: y + 4 }, text)];
+    };
+    return [
+      svgEl('rect', { class: 'legend-box', x: 752, y: 634, width: 398, height: 99, rx: 10 }),
+      svgEl('text', { class: 't-legend-head', x: 768, y: 653 }, 'Line'),
+      row(768, 669, 'kind-needed', 'Necessary'),
+      row(768, 686, 'kind-check', 'Check, cite if relevant'),
+      row(768, 703, 'kind-sparing', 'Limited or optional'),
+      row(768, 720, 'kind-flow', 'Step in the process'),
+      svgEl('text', { class: 't-legend-head', x: 975, y: 653 }, 'Color, with a review loaded'),
+      row(975, 669, 'kind-needed st-covered', 'Has a reference'),
+      row(975, 686, 'kind-needed st-missing', 'No reference yet'),
+      row(975, 703, 'kind-needed st-disputed', 'Logic disagreed'),
+      svgEl('rect', { class: 'swatch-current', x: 977, y: 713, width: 30, height: 14, rx: 4 }),
+      svgEl('text', { class: 't-legend', x: 1017, y: 724 }, 'Current state'),
+    ];
+  }
+
+  function drawMap() {
+    const stats = linkStats();
+    const lanes = MAP_LANES.map(function (l) {
+      return [svgEl('rect', { class: 'lane lane-' + l.key, x: l.x, y: l.y, width: l.w, height: l.h, rx: 10 }),
+        svgEl('text', { class: 't-lane', x: l.x + 12, y: l.y + 19 }, l.label.toUpperCase()),
+        l.note ? svgEl('text', { class: 't-note', x: l.x + l.w - 12, y: l.y + 19, 'text-anchor': 'end' }, l.note) : null];
+    });
+    const edges = LINKS.map(function (l) { return drawMapEdge(l, linkState(l, stats), l.kind); })
+      .concat(TRANSITIONS.map(function (l) { return drawMapEdge(l, 'idle', 'flow'); }));
+    const start = [svgEl('circle', { class: 'start', cx: 538, cy: 46, r: 6 }),
+      currentNode() === 'start' ? svgEl('circle', { class: 'start-ring', cx: 538, cy: 46, r: 10 }) : null];
+    const nodes = Object.keys(MAP_NODES).map(function (id) { return drawMapNode(id, stats); });
+    $('map').replaceChildren.apply($('map'), [mapMarkers()].concat(lanes.flat(), drawMapLegend().flat(), edges.flat(), start, nodes).filter(Boolean));
+    highlight(selectedNode);
+    drawMapCaption();
+    drawMapTable(stats);
+    const untagged = $('map-untagged');
+    untagged.hidden = !stats.untagged;
+    untagged.textContent = stats.untagged ? stats.untagged + (stats.untagged === 1 ? ' reference has' : ' references have') + ' no source, so the map does not count them. Add a source to each one in review-data.js.' : '';
+  }
+
+  function touchesLink(link, id) {
+    const group = groupOf(id);
+    return link.from === id || link.to === id || link.from === group || link.to === group;
+  }
+
+  function highlight(id) {
+    const root = $('map');
+    root.classList.toggle('map-focus', !!id);
+    if (!id) return;
+    const near = {};
+    near[id] = true;
+    let wholeReview = false;
+    LINKS.concat(TRANSITIONS).forEach(function (l) {
+      if (!touchesLink(l, id)) return;
+      [l.from, l.to].forEach(function (key) {
+        if (key === 'review' && groupOf(id) !== 'review') wholeReview = true;
+        (MAP_GROUPS[key] && groupOf(id) !== key ? MAP_GROUPS[key] : [key]).forEach(function (k) { near[k] = true; });
+      });
+    });
+    root.querySelectorAll('[data-from]').forEach(function (node) {
+      const link = { from: node.dataset.from, to: node.dataset.to };
+      node.classList.toggle('on', touchesLink(link, id) || (wholeReview && node.classList.contains('row')));
+    });
+    root.querySelectorAll('.node').forEach(function (node) { node.classList.toggle('on', !!near[node.dataset.node]); });
+  }
+
+  function selectNode(id) {
+    selectedNode = id === selectedNode ? null : id;
+    $('map').querySelectorAll('.node').forEach(function (node) {
+      node.setAttribute('aria-pressed', String(node.dataset.node === selectedNode));
+    });
+    highlight(selectedNode);
+    drawMapCaption();
+    drawMapTable(linkStats());
+  }
+
+  function drawMapCaption() {
+    const box = $('map-caption');
+    if (selectedNode) {
+      const names = function (keys) {
+        return keys.filter(function (k, i) { return keys.indexOf(k) === i; }).map(mapTitle).join(', ');
+      };
+      const group = groupOf(selectedNode);
+      const needs = LINKS.filter(function (l) { return l.to === selectedNode || l.to === group; }).map(function (l) { return l.from; });
+      const feeds = LINKS.filter(function (l) { return l.from === selectedNode || l.from === group; }).map(function (l) { return l.to; });
+      box.replaceChildren(el('div', null, el('b', null, mapTitle(selectedNode) + '. '), MAP_NODES[selectedNode].about,
+        needs.length ? ' Comes from: ' + names(needs) + '.' : '', feeds.length ? ' Leads to: ' + names(feeds) + '.' : ''));
+      return;
+    }
+    const open = review.items.filter(function (it) { return statusOf(it.id) === 'undecided'; }).length;
+    const where = isBlank() ? 'No review is loaded, so this map shows what every review needs.'
+      : open ? 'Current state: ' + open + (open === 1 ? ' point is' : ' points are') + ' undecided.'
+        : 'Current state: every point is decided, so the final review is ready to copy.';
+    box.replaceChildren(el('div', null, where + ' Select any state to see what it comes from and what it leads to.'));
+  }
+
+  function drawLinkStatus(link, st, stats) {
+    const l = stats.links[link.from + '>' + link.to];
+    const refs = function () {
+      return el('a', { href: '#review-' + link.to }, l.count + (l.count === 1 ? ' reference' : ' references'));
+    };
+    if (st === 'covered') return refs();
+    if (st === 'disputed') return [refs(), ' ', el('span', { class: 'chip bad' }, l.disputed + ' disagreed')];
+    if (st === 'over') return [refs(), ' ', el('span', { class: 'chip flag' }, Object.keys(l.points).length + ' points, at most ' + link.limit)];
+    if (st === 'missing') return el('span', { class: 'chip flag' }, 'No reference yet');
+    if (st === 'unused') return el('span', { class: 'chip' }, 'None cited');
+    return null;
+  }
+
+  function drawMapTable(stats) {
+    const shown = selectedNode ? LINKS.filter(function (l) { return touchesLink(l, selectedNode); }) : LINKS;
+    $('map-table').classList.toggle('no-status', isBlank());
+    $('map-table-title').textContent = selectedNode ? 'Connections for ' + mapTitle(selectedNode) : 'Every connection';
+    $('map-show-all').hidden = !selectedNode;
+    $('map-rows').replaceChildren.apply($('map-rows'), shown.map(function (l) {
+      return el('tr', { 'data-link': l.from + '>' + l.to },
+        el('td', null, mapTitle(l.from)),
+        el('td', null, mapTitle(l.to)),
+        el('td', null, el('span', { class: 'chip' }, KIND_LABEL[l.kind])),
+        el('td', null, l.why),
+        el('td', { class: 'col-status' }, drawLinkStatus(l, linkState(l, stats), stats)));
+    }));
+  }
+
+  // Tabs
+
+  function showTab(name) {
+    const toMap = name === 'connections';
+    if (toMap && activeTab === 'main') mainScroll = window.scrollY;
+    activeTab = name;
+    $('tab-main').hidden = toMap;
+    $('tab-connections').hidden = !toMap;
+    $('tab-btn-main').setAttribute('aria-pressed', String(!toMap));
+    $('tab-btn-connections').setAttribute('aria-pressed', String(toMap));
+    if (toMap) drawMap(); else markCurrent();
+  }
+
+  // The link names the tab, or a place in the first tab, so the back button and shared links both work.
+  function route() {
+    let id = '';
+    try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = ''; }
+    if (id === 'connections') {
+      showTab('connections');
+      window.scrollTo(0, Math.min(window.scrollY, $('tabs').offsetTop - 12));
+      return;
+    }
+    const returning = activeTab === 'connections';
+    showTab('main');
+    const target = id && id !== 'main' ? $(id) : null;
+    if (target) target.scrollIntoView();
+    else if (returning) window.scrollTo(0, mainScroll);
+  }
+
+  // Files
+
+  function buildDecisions() {
+    const saved = stamp();
+    const decisions = [];
+    review.items.forEach(function (it) {
+      const s = state[it.id];
+      if (!s) return;
+      const logic = Object.keys(s.logic).filter(function (k) { return s.logic[k].verdict; }).map(function (k) {
+        return { evidence: k, verdict: s.logic[k].verdict, note: s.logic[k].note || '' };
+      });
+      if (!s.status && !logic.length) return;
+      const d = { id: it.id, status: s.status || 'undecided', decided_at: s.decided_at || saved, fp: fingerprint(it) };
+      if (it.hash) d.hash = it.hash;
+      if (s.override != null) d.revised_override = s.override;
+      if (s.status === 'rejected' && s.comment) d.comment = s.comment;
+      if (logic.length) d.logic = logic;
+      decisions.push(d);
+    });
+    return { review_id: review.review_id, saved_at: saved, final_text: assemble(), decisions: decisions };
+  }
+
+  function saveDecisions() {
+    const batch = buildDecisions();
+    const name = review.review_id + '.decisions.' + batch.saved_at.slice(0, 19).replace(/[-:]/g, '').replace('T', '-') + '.json';
+    const url = URL.createObjectURL(new Blob([JSON.stringify(batch, null, 1) + '\n'], { type: 'application/json' }));
+    const a = el('a', { href: url, download: name });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+    toast('Downloaded ' + name);
+  }
+
+  function applyDecisions(batch, source) {
+    if (batch.review_id !== review.review_id) {
+      setNotice(source + ' belongs to the review ' + batch.review_id + ', and this page has ' + (review.review_id || 'no review') + ' open.', 'bad');
+      return;
+    }
+    const next = {};
+    let dropped = 0;
+    batch.decisions.forEach(function (d) {
+      const it = review.items.find(function (x) { return x.id === d.id; });
+      if (!it || (d.fp && d.fp !== fingerprint(it))) { dropped++; return; }
+      const logic = {};
+      (d.logic || []).forEach(function (l) { logic[l.evidence] = { verdict: l.verdict, note: l.note || '' }; });
+      next[d.id] = { status: d.status === 'undecided' ? null : d.status, decided_at: d.status === 'undecided' ? undefined : d.decided_at, logic: logic };
+      if (d.revised_override != null) next[d.id].override = d.revised_override;
+      if (d.comment) next[d.id].comment = d.comment;
+    });
+    state = next;
+    drafts = {};
+    persist();
+    setNotice(dropped ? dropped + (dropped === 1 ? ' decision was' : ' decisions were') + ' skipped because the generated text or evidence changed.' : '');
+    drawAll();
+    toast('Restored decisions from ' + source);
+  }
+
+  function readFile(file) {
+    const reader = new FileReader();
+    reader.onerror = function () { setNotice('Could not read ' + file.name + '.', 'bad'); };
+    reader.onload = function () {
+      const text = String(reader.result);
+      let data;
+      try {
+        data = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1));
+      } catch (e) {
+        setNotice(file.name + ' is not a review or decisions file. Its content is not valid JSON.', 'bad');
+        return;
+      }
+      if (Array.isArray(data.items)) openReview(data, file.name);
+      else if (Array.isArray(data.decisions)) applyDecisions(data, file.name);
+      else setNotice(file.name + ' has neither review items nor decisions.', 'bad');
+    };
+    reader.readAsText(file);
+  }
+
+  function copyFinal() {
+    const text = assemble();
+    const fallback = function () {
+      setFinalView('text');
+      const range = document.createRange();
+      range.selectNodeContents($('final-text'));
+      const sel = getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      toast(ok ? 'Copied the final review as plain text.' : 'The text is selected. Press Cmd+C or Ctrl+C to copy it.');
+    };
+    if (!navigator.clipboard) { fallback(); return; }
+    navigator.clipboard.writeText(text).then(function () { toast('Copied the final review as plain text.'); }, fallback);
+  }
+
+  // Controls
+
+  $('final-heading').prepend(icon('final'));
+  $('machine-heading').prepend(icon('machine'));
+  $('load-btn').addEventListener('click', function () { $('load-file').click(); });
+  $('load-file').addEventListener('change', function (ev) {
+    if (ev.target.files[0]) readFile(ev.target.files[0]);
+    ev.target.value = '';
+  });
+  document.querySelectorAll('.js-save').forEach(function (b) { b.addEventListener('click', saveDecisions); });
+  $('copy-btn').addEventListener('click', copyFinal);
+  $('print-btn').addEventListener('click', function () { window.print(); });
+  $('view-doc').addEventListener('click', function () { setFinalView('doc'); });
+  $('view-text').addEventListener('click', function () { setFinalView('text'); });
+  $('refs-toggle').addEventListener('click', toggleAllRefs);
+  window.addEventListener('scroll', markCurrent, { passive: true });
+  window.addEventListener('resize', markCurrent);
+  window.addEventListener('hashchange', route);
+  $('tab-btn-main').addEventListener('click', function () { if (activeTab !== 'main') location.hash = 'main'; });
+  $('tab-btn-connections').addEventListener('click', function () { if (activeTab !== 'connections') location.hash = 'connections'; });
+
+  $('machine-body').addEventListener('click', function (ev) {
+    const chip = ev.target.closest('.m-chip');
+    if (chip) { goToPoint(chip.dataset.point); return; }
+    const node = ev.target.closest('.m-state');
+    if (node) selectState(node.dataset.state);
+    else if (ev.target.closest('#machine-svg') && machineSel) selectState(machineSel);
+  });
+  $('machine-body').addEventListener('keydown', function (ev) {
+    const node = ev.target.closest('.m-state');
+    if (node && (ev.key === 'Enter' || ev.key === ' ')) {
+      ev.preventDefault();
+      selectState(node.dataset.state);
+    }
+  });
+  $('machine-body').addEventListener('mouseover', function (ev) {
+    const node = ev.target.closest('.m-state');
+    if (node) machineHighlight(node.dataset.state);
+  });
+  $('machine-body').addEventListener('mouseout', function (ev) {
+    if (ev.target.closest('.m-state')) machineHighlight(machineSel);
+  });
+
+  $('map').addEventListener('click', function (ev) {
+    const node = ev.target.closest('.node');
+    if (node) selectNode(node.dataset.node);
+    else if (selectedNode) selectNode(selectedNode);
+  });
+  $('map').addEventListener('keydown', function (ev) {
+    const node = ev.target.closest('.node');
+    if (node && (ev.key === 'Enter' || ev.key === ' ')) {
+      ev.preventDefault();
+      selectNode(node.dataset.node);
+    }
+  });
+  $('map').addEventListener('mouseover', function (ev) {
+    const node = ev.target.closest('.node');
+    if (node) highlight(node.dataset.node);
+  });
+  $('map').addEventListener('mouseout', function (ev) {
+    if (ev.target.closest('.node')) highlight(selectedNode);
+  });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key !== 'Escape') return;
+    if (activeTab === 'connections' && selectedNode) selectNode(selectedNode);
+    else if (activeTab === 'main' && machineSel) selectState(machineSel);
+  });
+  $('map-show-all').addEventListener('click', function () { if (selectedNode) selectNode(selectedNode); });
+
+  $('clear-btn').addEventListener('click', function () {
+    const btn = $('clear-btn');
+    const disarm = function () {
+      clearTimeout(clearTimer);
+      clearTimer = null;
+      btn.textContent = 'Clear all decisions';
+      btn.classList.remove('armed');
+    };
+    if (!clearTimer) {
+      btn.textContent = 'Click again to clear all decisions';
+      btn.classList.add('armed');
+      clearTimer = setTimeout(disarm, 4000);
+      return;
+    }
+    disarm();
+    state = {};
+    drafts = {};
+    persist();
+    drawAll();
+    toast('Cleared all decisions.');
+  });
+
+  drawMasthead();
+  drawDest();
+  drawAll();
+  if (window.REVIEW_DATA) openReview(window.REVIEW_DATA, 'review-data.js');
+  route();
+})();
+</script>
+</body>
+</html>

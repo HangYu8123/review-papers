@@ -1,4 +1,0 @@
-interface:
-  display_name: "Paper Review"
-  short_description: "Review papers with advisor and author style guidance"
-  default_prompt: "Use $paper-review to review this draft with the advisor guide and bundled writing references, proposing small changes with reasons for me to accept, reject, or edit."

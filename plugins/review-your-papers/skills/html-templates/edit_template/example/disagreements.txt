@@ -1,0 +1,37 @@
+# A worked example of a second agent's look at this review, one of each kind of disagreement.
+# S-004 and S-005 have no record here, so the second agent had nothing better to offer on them.
+
+@reviewer
+by: Example second agent
+date: 2026-11-02
+covers: all
+
+@disagree S-001
+against: 24917304d123
+note: The passive keeps "was conducted", which tells the reader nothing. Making the participants the subject removes the pronoun and the empty verb together.
+--- revised
+Twenty-four participants took part in a study of how people rate a robot that sorts blocks \cite{toy2024}.
+
+@disagree S-002
+against: 22cefb1f9904
+action: remove
+note: The next section reports the drift itself, so an intuition stated here adds nothing once the pronoun is gone.
+
+@disagree S-003
+against: d2bf0f67c225
+action: keep
+note: The reason given for this cut does not hold. This chapter is the only place that states the order of the clips, so removing the sentence loses the fact.
+
+@disagree S-006
+against: 99176d4441c6
+note: The proposed sentence runs two ideas together with a colon. One short sentence says the same and points to the method chapter sooner.
+--- revised
+Because every participant shares this drift, the method in \autoref{ch:method} can correct it with a single adjustment.
+
+@disagree M-001
+against: 59bb2a28c687
+note: The second sentence is easier to follow when the two effects come in the order the reader needs them, and "rescales" already says what happens to the rating.
+--- revised
+The method rescales each rating by the participant's own range before it is used
+as a reward. This removes the difference in how widely participants spread their
+ratings and keeps the order of each participant's ratings.
