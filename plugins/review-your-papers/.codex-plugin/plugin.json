@@ -12,12 +12,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Review Your Papers",
-    "shortDescription": "Advisor-guided paper reviews and peer reviews",
+    "shortDescription": "Review and improve papers",
     "longDescription": "Review a student's paper draft with Elaine Schaertl Short's advisor guide, proposing small revisions with reasons that the author accepts, rejects, or edits on a page before they are applied to the LaTeX source. Or draft a peer review of someone else's paper in Hang Yu's reviewing style, with the evidence for every point on a review page. Wording follows a bundled portable writing style guide, also available as its own skill with the full references and the page templates.",
     "developerName": "Hang Yu",
     "category": "Education & Research",
     "capabilities": ["Interactive", "Read", "Write"],
     "websiteURL": "https://github.com/HangYu8123/review-your-papers",
+    "brandColor": "#234E70",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/icon.svg",
     "defaultPrompt": [
       "Use advisor-review-paper to review my paper draft, proposing small revisions with reasons for me to accept or reject.",
       "Use review-paper to draft a peer review of the manuscript in this folder."
