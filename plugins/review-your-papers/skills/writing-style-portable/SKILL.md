@@ -1,6 +1,6 @@
 ---
 name: writing-style-portable
-description: Compact guide to Hang Yu's writing style for research papers, theses, reviews, and talks in robot learning and human-robot interaction (about 120 KB, no other files needed). Covers the core philosophy, which guidance wins, a quick reference, rules for claims, sentence style, and editing someone else's text, a vocabulary of terms with fixed meanings, and the conventions of five field dissertations. Use when drafting, revising, or reviewing academic prose in Hang's style, or when wording a proposed edit or a review comment. For a disputed wording or a sentence reviewed before, use the full references in the writing-style skill.
+description: Compact guide to Hang Yu's writing style for research papers, theses, reviews, and talks in robot learning and human-robot interaction (about 120 KB, no other files needed). Covers the core philosophy, which guidance wins, a quick reference, rules for claims, sentence style, and editing someone else's text, a vocabulary of terms with fixed meanings and of the terms that field dissertations use, and the conventions of five field dissertations. Use when drafting, revising, or reviewing academic prose in Hang's style, or when wording a proposed edit or a review comment. For a disputed wording or a sentence reviewed before, use the full references in the writing-style skill.
 ---
 
 # Portable writing style guide
@@ -10,7 +10,7 @@ A compact guide to Hang Yu's writing style for research papers, theses, and talk
 | File | Use |
 | --- | --- |
 | [writing-style-guide.md](writing-style-guide.md) | Start here. Core philosophy, which guidance wins, a quick reference, and the rules by kind, each with short examples of wording that was replaced or kept |
-| [vocabulary.md](vocabulary.md) | Terms with fixed meanings, the author's technical and research-writing vocabulary by familiarity, the vocabulary of five field dissertations, words to watch, and acronyms |
+| [vocabulary.md](vocabulary.md) | Terms with fixed meanings, the author's technical and research-writing vocabulary by familiarity, the vocabulary of five field dissertations and of twelve recent lab dissertations, words to watch, and acronyms |
 | [field-conventions.md](field-conventions.md) | What five robotics and HRI dissertations do, with measures, where the writers differ, and conventions for structuring a long document |
 
 ## How to use it
@@ -26,5 +26,7 @@ To give the guide to an AI assistant without this skill, attach the three files 
 ## Where it comes from
 
 Condensed on November 6, 2026 from two larger references in Hang's dissertation folder, which are now the `writing-style` skill. One is `writing_style_ref`, a reference of 72 patterns built from six published papers and from the author's instructions, hand edits, and decisions in 16 reviews, with a vocabulary of 929 terms. The other is `committee_style_ref`, a reference of 65 patterns and a vocabulary of 515 terms built from the dissertations of Short, Vázquez, Bobu, Matarić, and Scassellati.
+
+The vocabulary was updated on November 8, 2026 with twelve recent dissertations (2023 to 2026) from the labs of Matarić, Song, Li, Vázquez, and Scassellati. The technical vocabulary now has 1,100 terms, including two new groups for simulation and generative models and for application areas, and Part 2 lists the terms that at least four of the twelve use.
 
 The condensed version keeps the rules, the vocabulary, short examples of replaced or declined wording, and the core philosophy. It leaves out the extracted source texts, the quotations from papers and dissertations, the records of each review and each decision, the evidence weights, the counts and example sentences of the vocabulary, the full word-family lists, the validation reports, and the build and check scripts. Rules that applied only to one dissertation were rewritten to apply to any paper or thesis.

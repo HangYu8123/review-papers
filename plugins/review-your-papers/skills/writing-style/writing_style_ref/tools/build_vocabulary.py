@@ -6,8 +6,12 @@ by familiarity, and the words only the reference dissertations use), and tech-vo
 Run from the dissertation folder:  python writing_style_ref/tools/build_vocabulary.py
 Edit tools/vocab_authored.py to add, move, or remove terms; never edit the generated files.
 
-Hang's papers and drafts set the familiarity tiers. The Short, Vázquez, and Bobu dissertations
-are counted separately: they never raise a tier, and a term only they use is "Reference only".
+Hang's papers and drafts set the familiarity tiers. The reference dissertations are counted
+separately: the Short, Vázquez, and Bobu dissertations (the committee group) and 12 recent
+dissertations from the labs of Matarić, Song, Li, Vázquez, and Scassellati (the lab group). They
+never raise a tier, and a term only they use is "Reference only".
+Run with VOCAB_PAPERS set to the dissertation folder's reference_papers/ when the papers are not
+next to this folder, and VOCAB_LAB_DISSERTATIONS to the folder of the lab dissertations' PDFs and text/.
 """
 
 import bisect
@@ -42,8 +46,8 @@ TIER_RULES = [
      'Hang has written it, in one context. Keep to that sense.'),
     ('Once', 'Used once.',
      'Hang has written it once. Prefer a Core or Familiar word, or check the sense.'),
-    ('Reference only', 'Not in the papers, but used in the Short, Vázquez, or Bobu dissertation.',
-     'Hang has read it in a dissertation used as a style reference. Define it on first use, and check that the field meaning fits.'),
+    ('Reference only', 'Not in the papers, but used in a reference dissertation: Short, Vázquez, or Bobu, or one of the 12 recent lab dissertations.',
+     'The field uses it, but Hang has not written it. Define it on first use, and check that the field meaning fits.'),
     ('Cited only', 'Not in the papers or the reference dissertations, but in the title of a cited work.',
      'Hang has seen it in a title. Gloss it on first use, or ask before relying on it.'),
 ]
@@ -92,7 +96,7 @@ def line_of(doc, pos):
 def link(doc, line):
     if doc['kind'] == 'reference':
         page = doc['pages'][line - 1]
-        return f"[{doc['family']}, PDF p. {page}](../{quote(doc['file'], safe='/')}#page={page})"
+        return f"[{doc['family']}, PDF p. {page}]({vc.reference_link(doc['family'], page)})"
     return f"[{doc['family']}:{line}](../reference_papers/{quote(doc['file'], safe='/')})"
 
 
@@ -200,7 +204,7 @@ def studies(fams):
 
 
 def ref_cell(counts):
-    return ' · '.join(f'{n} {counts[n]}' for n in REFS if counts.get(n))
+    return vc.ref_summary(counts)
 
 
 # ---------------------------------------------------------------------------
@@ -344,11 +348,23 @@ for acr, exp in A['ACRONYMS']:
     elif exp_rx and any(exp_rx.search(d['flat']) for d in DOCS):
         expansion, how = exp, 'Written out in the papers'
     elif ref_defs:
-        if len({e.lower() for _, e in ref_defs}) == 1:
+        by_exp = {}
+        for n, e in ref_defs:
+            # graph neural network, Graph Neural Networks, and Long-short Term Memory count as one expansion
+            by_exp.setdefault(re.sub(r'[-\s]+', '', e.lower()).rstrip('s'), []).append((n, e))
+        if len(by_exp) == 1:
             expansion = ref_defs[0][1]
         else:
-            expansion = '; '.join(f'{e} ({n})' for n, e in ref_defs)
-        how = 'Defined in ' + ' and '.join(n for n, _ in ref_defs)
+            # one entry per distinct expansion, the most widely used first
+            groups = sorted(by_exp.values(), key=lambda g: -len(g))
+            expansion = '; '.join(f"{g[0][1]} ({', '.join(n for n, _ in g)})" for g in groups[:3])
+        names = [n for n, _ in ref_defs]
+        if len(names) <= 2:
+            how = 'Defined in ' + ' and '.join(names)
+        elif len(names) == 3:
+            how = f'Defined in {names[0]}, {names[1]}, and {names[2]}'
+        else:
+            how = f'Defined in {len(names)} reference dissertations'
     elif exp_rx and any(exp_rx.search(t['title']) for t in TITLES.values()):
         expansion, how = exp, 'Written out in a cited title'
     else:
@@ -447,15 +463,17 @@ for d in DOCS:
     fam_files[d['family']][0 if d['kind'] == 'paper' else 1] += 1
 total_words = sum(fam_words.values())
 ref_words = sum(d['words'] for d in RDOCS)
+committee_words = sum(d['words'] for d in RDOCS if d['family'] in vc.COMMITTEE)
+lab_words = ref_words - committee_words
 ref_only = [r for r in TERMS if r['tier'] == 'Reference only']
 
 md = [f"""# Hang's technical vocabulary
 
-This list collects technical terms and estimates how familiar each one is to Hang. The estimate comes from how often, and in how many studies, Hang's papers use a term. Three dissertations that Hang uses as style references, by Short, Vázquez, and Bobu, are a second source. They show the words Hang has read, are counted in their own column, and never raise a tier. The list covers {len(TERMS)} terms in {len(CATEGORIES)} groups, {len(ACRS)} acronyms, and {len(CITED)} terms that Hang has met only in the titles of cited work. {len(ref_only)} of the terms are Reference only. [word-list.md](word-list.md) lists every word the papers use, with the same familiarity estimate, and the words only the reference dissertations use.
+This list collects technical terms and estimates how familiar each one is to Hang. The estimate comes from how often, and in how many studies, Hang's papers use a term. {len(RDOCS)} dissertations are a second source. Three of them, by Short, Vázquez, and Bobu, are the committee's style that Hang named. The other {len(vc.LAB)} are recent dissertations from the labs of Matarić, Song, Li, Vázquez, and Scassellati, and show the vocabulary that current readers in robot learning and human-robot interaction know. The dissertations are counted in their own column and never raise a tier. The list covers {len(TERMS)} terms in {len(CATEGORIES)} groups, {len(ACRS)} acronyms, and {len(CITED)} terms that Hang has met only in the titles of cited work. {len(ref_only)} of the terms are Reference only. [word-list.md](word-list.md) lists every word the papers use, with the same familiarity estimate, and the words only the reference dissertations use.
 
-Use it together with [Hang's writing style reference](hangs-writing-style-reference.md). When drafting or revising dissertation prose, prefer terms marked Core or Familiar. A term marked Once, Reference only, or Cited only is one Hang has met but seldom or never writes, so check its sense or define it. A word that is in none of the lists falls outside the vocabulary. `python writing_style_ref/tools/check_vocabulary.py <file>` lists such words in a draft.
+Use it together with [Hang's writing style reference](hangs-writing-style-reference.md). When drafting or revising dissertation prose, prefer terms marked Core or Familiar. A term marked Once, Reference only, or Cited only is one Hang seldom or never writes, so check its sense or define it. A word that is in none of the lists falls outside the vocabulary. `python writing_style_ref/tools/check_vocabulary.py <file>` lists such words in a draft.
 
-Built on {DATE} from {total_words:,} words of Hang's own text in {len(DOCS)} files and {ref_words:,} words of the three reference dissertations.
+Built on {DATE} from {total_words:,} words of Hang's own text in {len(DOCS)} files and {ref_words:,} words of the {len(RDOCS)} reference dissertations ({committee_words:,} in the committee group and {lab_words:,} in the lab group).
 
 ## How familiarity is estimated
 
@@ -467,7 +485,7 @@ Terms per tier: {', '.join(f'{tier_count[t]} {t}' for t in TIERS if tier_count[t
 
 A use is one occurrence in a paper or a draft. A study is one of the six paper families below. The count is by word form, so a common word such as state, return, or progress is counted in every sense, and a term also counts inside a longer term (reward function inside learned reward function). Drafts count as Hang's own writing, since they are earlier versions written for the same studies. Each paper was coauthored, and CHARM was written with a co-first author, so a term found only in CHARM is weaker evidence of Hang's own word choice. The prospectus is single-authored. Comments, math, citations, and the notes of coauthors and advisors in the LaTeX are not counted.
 
-The Reference dissertations column counts the same term in the three dissertations. A high count there and none in the papers means the term belongs to the field, or to a neighboring field, more than to Hang's own writing. Where the papers have no example, the example comes from a reference dissertation and is marked *Reference*. Those examples quote another writer and are not models of Hang's wording.
+The Reference dissertations column counts the same term in the reference dissertations. Each committee dissertation is named with its count. The lab dissertations are summed, with the number of the {len(vc.LAB)} that use the term and the one that uses it most, so "lab 212 in 9/{len(vc.LAB)} (Tsoi 80)" means 212 uses in nine lab dissertations, 80 of them by Tsoi, and "lab: Klein 30" means that only Klein uses it. A high count there and none in the papers means the term belongs to the field, or to a neighboring field, more than to Hang's own writing. A term used by many lab dissertations is common in the field today; one used heavily by a single dissertation may be that writer's topic. Where the papers have no example, the example comes from a reference dissertation and is marked *Reference*. Those examples quote another writer and are not models of Hang's wording.
 
 ## Sources
 
@@ -476,12 +494,13 @@ The Reference dissertations column counts the same term in the three dissertatio
 for fam in vc.FAMILIES:
     md.append(f"| {fam} | {fam_files[fam][0]} | {fam_files[fam][1]} | {fam_words[(fam, 'paper')]:,} | {fam_words[(fam, 'draft')]:,} |")
 md.append('\nThe files are listed in `tools/vocab_corpus.py`. The ACM and conference template files in the same folders, and the copies of the Progress files kept in `CHARM/`, are left out. Cited titles come from each study\'s `.bib` files.\n')
-md.append('| Reference dissertation | PDF pages used | Words |\n| --- | --- | --- |')
+md.append('| Reference dissertation | Group | PDF pages used | Words |\n| --- | --- | --- | --- |')
 for d in RDOCS:
     ref = vc.REFERENCES[d['family']]
     rng = ', '.join(f'{a}–{b}' if a != b else str(a) for a, b in ref['pages'])
-    md.append(f"| [{ref['title']}](../{quote(ref['pdf'], safe='/')}) | {rng} | {d['words']:,} |")
-md.append('\nOnly the abstract and the chapters are used. The front matter, the tables of contents, and the bibliography are left out, and running heads and page numbers are removed. The text was extracted with pdftotext into `sources/reference-dissertations/`. Bobu\'s equations come out of the PDF as unreadable symbols, so a few counts of short words there may be off.\n')
+    group = 'Committee' if ref['group'] == 'committee' else f"Lab ({ref['lab']}) · [source]({ref['source']})"
+    md.append(f"| [{ref['title']}]({vc.reference_link(d['family'], 1).split('#')[0]}) | {group} | {rng} | {d['words']:,} |")
+md.append('\nOnly the abstract and the chapters are used. The front matter, the tables of contents, the appendices, and the bibliography are left out, and running heads and page numbers are removed. The text was extracted with pdftotext (`tools/extract_reference_text.py`). The committee text is in `sources/reference-dissertations/`. The lab dissertations are not bundled with the plugin: their PDFs and text are in the repository\'s `dissertation_reference/` folder, whose README says how they were chosen and which requested dissertations could not be retrieved. Candon and Thompson are author-posted drafts, and Sargent\'s PDF has no abstract text. Bobu\'s equations come out of the PDF as unreadable symbols, so a few counts of short words there may be off.\n')
 
 md.append('## Quick list\n')
 md.append('The terms Hang uses in each group, most used first. Core terms are in bold. Terms marked Used, Once, '
@@ -581,7 +600,7 @@ A word in the second list is not wrong, but Hang has not used it in the papers. 
 
 md.append(f"""## Rebuilding
 
-Edit `tools/vocab_authored.py` to add, move, or remove a term, then run `python writing_style_ref/tools/build_vocabulary.py` from the dissertation folder. The build prints terms that it could not find and frequent words from the papers that no group lists yet. To check a draft against the vocabulary, run `python writing_style_ref/tools/check_vocabulary.py chapters/<file>.tex`. General English frequencies come from a snapshot of wordfreq in `sources/general-english-zipf.tsv`, made with `tools/make_general_english.py`. The reference dissertation text is extracted again with `tools/extract_reference_text.py`.
+Edit `tools/vocab_authored.py` to add, move, or remove a term, then run `python writing_style_ref/tools/build_vocabulary.py` from the dissertation folder. Set `VOCAB_PAPERS` to the dissertation's `reference_papers/` when the papers are not next to this folder, and `VOCAB_LAB_DISSERTATIONS` to the folder of the lab dissertations when it is not the repository's `dissertation_reference/`. The build prints terms that it could not find and frequent words from the papers that no group lists yet. To check a draft against the vocabulary, run `python writing_style_ref/tools/check_vocabulary.py chapters/<file>.tex`. General English frequencies come from a snapshot of wordfreq in `sources/general-english-zipf.tsv`, made with `tools/make_general_english.py`. The reference dissertation text is extracted again with `tools/extract_reference_text.py`.
 """)
 if WARN:
     md.append('## Build notes\n')
@@ -596,7 +615,7 @@ Every word family in Hang's papers and drafts, grouped by the familiarity tiers 
 
 Very common English words (Zipf frequency 5.0 or above in general English, such as make, time, and result) are left out here, since they say little about technical vocabulary. They are still in `tech-vocabulary.json` and count as known in the checker. Names, acronyms, and dataset labels are listed after the tiers. The last section lists words that only the reference dissertations use.
 
-Built on {DATE} from {total_words:,} words in {len(DOCS)} files and {ref_words:,} words of the reference dissertations.
+Built on {DATE} from {total_words:,} words in {len(DOCS)} files and {ref_words:,} words of the {len(RDOCS)} reference dissertations.
 """]
 words_by_tier = defaultdict(list)
 names = []
@@ -619,7 +638,7 @@ for t in ('Core', 'Familiar', 'Used', 'Once'):
 wl.append(f'## Names, acronyms, and labels ({len(names)})\n')
 wl.append(' · '.join(f'{w} {e["uses"]}' for w, e in sorted(names, key=lambda x: x[0].lower())) + '\n')
 
-INITIAL = {n: n[0] for n in REFS}
+INITIAL = {'Short': 'S', 'Vázquez': 'V', 'Bobu': 'B'}
 ref_words_only = []
 for lem, c in RLEX.items():
     if hang_has(lem) or vc.is_acronym(lem) or lem[:1].isupper():
@@ -628,18 +647,26 @@ for lem, c in RLEX.items():
         continue
     z = GENERAL.get(lem, 0)
     n_refs, total = len(c), sum(c.values())
-    if z >= 5.0 or total < 3 or not (n_refs >= 2 or z >= 3.0):
+    in_committee = any(c.get(n) for n in vc.COMMITTEE)
+    n_lab = sum(1 for n in vc.LAB if c.get(n))
+    # A committee word: two dissertations, or one with a word in the general English list.
+    # A word only the lab dissertations use: three of them, so that one writer's topic is left out.
+    if z >= 5.0 or total < 3 or not ((in_committee and (n_refs >= 2 or z >= 3.0)) or n_lab >= 3):
         continue
     if RLOWER[lem] < max(2, total // 2) or (len(lem) <= 3 and z < 4.0):
         continue   # names (Chester, Adam, Bartneck) and abbreviations (alg, arg)
-    ref_words_only.append((lem, total, ''.join(INITIAL[n] for n in REFS if c.get(n))))
+    committee = ''.join(INITIAL[n] for n in vc.COMMITTEE if c.get(n))
+    ref_words_only.append((lem, total, committee + (('+' if committee else '') + f'{n_lab}L' if n_lab else '')))
 ref_words_only.sort()
 wl.append(f'## Only in the reference dissertations ({len(ref_words_only)} words)\n')
-wl.append('Words that the Short (S), Vázquez (V), or Bobu (B) dissertation uses at least three times and Hang\'s papers '
-          'never use. A word is kept when two of the dissertations use it or when it is in the general English list, '
-          'which removes most of the symbols that the PDF equations turn into. Names (words the dissertations write only '
-          'with a capital, such as the robot Chester) and short abbreviations are left out, and so are very common words. '
-          'Reference only in the sense of the tiers, so Hang has read them but not written them.\n')
+wl.append(f'Words that the reference dissertations use at least three times and Hang\'s papers never use. In parentheses, '
+          f'S, V, and B mark the committee dissertations of Short, Vázquez, and Bobu that use the word, and a number with L '
+          f'gives how many of the {len(vc.LAB)} lab dissertations use it, so (B+3L) means Bobu and three lab dissertations. '
+          'A word that a committee dissertation uses is kept when two of the dissertations use it or when it is in the '
+          'general English list, which removes most of the symbols that the PDF equations turn into. A word that only lab '
+          'dissertations use is kept when three of them use it, which leaves out words of a single writer\'s topic. Names (words the '
+          'dissertations write only with a capital, such as the robot Chester) and short abbreviations are left out, and so '
+          'are very common words. Reference only in the sense of the tiers: the field uses them, but Hang has not written them.\n')
 for letter in sorted({w[0] for w, _, _ in ref_words_only}):
     row = [f'{w} {n} ({s})' for w, n, s in ref_words_only if w[0] == letter]
     wl.append(f'**{letter.upper()}** ' + ' · '.join(row) + '\n')
@@ -649,7 +676,9 @@ for letter in sorted({w[0] for w, _, _ in ref_words_only}):
 data = {
     'built': today.isoformat(),
     'corpus': [{'family': d['family'], 'kind': d['kind'], 'file': d['file'], 'words': d['words']} for d in DOCS],
-    'references': [{'name': d['family'], 'title': vc.REFERENCES[d['family']]['title'], 'file': d['file'],
+    'references': [{'name': d['family'], 'group': vc.REFERENCES[d['family']]['group'],
+                    'lab': vc.REFERENCES[d['family']].get('lab'), 'source': vc.REFERENCES[d['family']].get('source'),
+                    'title': vc.REFERENCES[d['family']]['title'], 'file': d['file'],
                     'pages': vc.REFERENCES[d['family']]['pages'], 'words': d['words']} for d in RDOCS],
     'tiers': [{'tier': t, 'rule': r, 'use': u} for t, r, u in TIER_RULES],
     'terms': TERMS,
@@ -683,7 +712,7 @@ def dump(value):
 print(f'{len(TERMS)} terms, {len(ACRS)} acronyms, {len(CITED)} cited-only terms, {len(PROSE)} prose words checked.')
 print('Tiers:', dict(tier_count))
 print(f'Lexicon: {len(LEX)} word families from {total_words:,} words in {len(DOCS)} files; '
-      f'{len(RLEX)} from {ref_words:,} words of the reference dissertations; '
+      f'{len(RLEX)} from {ref_words:,} words of the {len(RDOCS)} reference dissertations; '
       f'{len(ref_words_only)} listed as reference-only words.')
 for w in WARN:
     print('NOTE:', w)

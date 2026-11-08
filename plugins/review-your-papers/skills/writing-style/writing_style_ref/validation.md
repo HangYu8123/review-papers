@@ -16,7 +16,7 @@ Checked on October 19, 2026.
 | Main guide and structured data | Guidance, forms, boundaries, review examples, and evidence checked for consistency |
 | Colons and semicolons in the guidance text | 1 colons and 0 semicolons in the guidance and Keep the meaning text, down from 11 and 34 |
 | Local links | 2945 file and heading links checked |
-| Technical vocabulary | 922 terms with familiarity estimates (222 Reference only) and 7 field terms in none of the sources, built 2026-10-17; 689 paper examples checked against their source lines and 622 reference examples against their PDF pages |
+| Technical vocabulary | 1097 terms with familiarity estimates (374 Reference only) and 3 field terms in none of the sources, built 2026-11-08; 713 paper examples checked against their source lines and 903 reference examples against their PDF pages. Checked on November 8, 2026 in the plugin repository, with the vocabulary section of this validator; the other rows are from the October 19 run in the dissertation folder |
 | Paper sources | 127 paper source files compared with their pre-merge hashes |
 | Dissertation files | 21 of 21 have changed since the merge, which is expected as writing continues |
 | Original library folders | 49 files removed with the two folders after the merge |

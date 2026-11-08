@@ -1,6 +1,6 @@
 ---
 name: writing-style
-description: Hang Yu's full writing style reference (72 patterns with weighted evidence from Hang's instructions, hand edits, and 16 review records, plus a 929-term technical vocabulary and a vocabulary checker) and the committee writing style reference (patterns, quotations, and measures from the Short, Vázquez, and Bobu dissertations), about 9 MB in all. Use only when the writing-style-portable guide is not enough, such as a disputed wording, a sentence that may have been reviewed before, the evidence or strength behind a preference, committee-facing or thesis-chapter conventions, checking a draft's vocabulary, or importing a finished review's decisions into the reference.
+description: Hang Yu's full writing style reference (72 patterns with weighted evidence from Hang's instructions, hand edits, and 16 review records, plus a 1,100-term technical vocabulary with counts from 15 field dissertations, and a vocabulary checker) and the committee writing style reference (patterns, quotations, and measures from the Short, Vázquez, and Bobu dissertations), about 10 MB in all. Use only when the writing-style-portable guide is not enough, such as a disputed wording, a sentence that may have been reviewed before, the evidence or strength behind a preference, committee-facing or thesis-chapter conventions, checking a draft's vocabulary, or importing a finished review's decisions into the reference.
 ---
 
 # Full writing style references
@@ -9,7 +9,7 @@ Two large source libraries behind the [portable writing style guide](../writing-
 
 | Folder | What it is | Start with |
 | --- | --- | --- |
-| [writing_style_ref](writing_style_ref/README.md) | Hang's writing style reference: 72 patterns, every instruction, hand edit, and review decision from Hang with its weight, the records of 16 reviews, the technical vocabulary, and the build tools (about 7 MB) | [hangs-writing-style-reference.md](writing_style_ref/hangs-writing-style-reference.md) |
+| [writing_style_ref](writing_style_ref/README.md) | Hang's writing style reference: 72 patterns, every instruction, hand edit, and review decision from Hang with its weight, the records of 16 reviews, the technical vocabulary, and the build tools (about 8 MB) | [hangs-writing-style-reference.md](writing_style_ref/hangs-writing-style-reference.md) |
 | [committee_style_ref](committee_style_ref/README.md) | The committee writing style reference: 63 patterns from three dissertations Hang named, with 282 quotations and per-writer measures (about 2 MB) | [committee-writing-style-reference.md](committee_style_ref/committee-writing-style-reference.md) |
 
 ## Which file answers which question
@@ -22,6 +22,8 @@ Two large source libraries behind the [portable writing style guide](../writing-
 | Technical word choice, with examples and sources | [Technical vocabulary](writing_style_ref/tech-vocabulary.md) and the [word list](writing_style_ref/word-list.md) |
 | Committee-facing clarity, study reporting, or a thesis chapter | The relevant entry in [the committee reference](committee_style_ref/committee-writing-style-reference.md) |
 | Evidence of a writing pattern | [Hang's paper excerpts](writing_style_ref/source-evidence.md) or [committee excerpts](committee_style_ref/source-evidence.md); [writer profiles](committee_style_ref/writer-profiles.md) for approximate measures |
+
+The technical vocabulary counts each term in Hang's papers and, separately, in 15 field dissertations: the three committee dissertations and 12 recent dissertations from the labs of Matarić, Song, Li, Vázquez, and Scassellati. The lab dissertations' PDFs and text are not bundled. They are in the plugin repository's `dissertation_reference/` folder.
 
 Hang's current instructions and the facts of the passage come first. Among style sources, direct evidence of Hang's choices takes priority over the portable summary, then committee examples. Do not turn a past choice about one passage into a universal substitution. The committee quotations show how those writers wrote, with their first person and punctuation; they are not text to copy, and dissertation structure does not set the style of a conference paper or a peer review.
 

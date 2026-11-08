@@ -9,7 +9,8 @@ Each word is sorted into one of these groups, first match wins:
   known         the word, or its plural or verb form, is in the papers
   avoid         a common academic word that the papers never use (tech-vocabulary.md lists them)
   related       another word of the same family is in the papers (formalize when only formal is)
-  reference     not in the papers, but in the Short, Vazquez, or Bobu dissertation
+  reference     not in the papers, but in a reference dissertation (the committee's Short, Vazquez,
+                or Bobu, or one of the 12 recent lab dissertations)
   cited         the word is only in the titles of cited works
   common        not in the papers, but common in general English (Zipf >= --common, default 4.0)
   new           not in the papers and not common: the words to look at first
@@ -47,8 +48,10 @@ ABOUT = {
     'field': ('Terms from tech-vocabulary.md that the papers never use, with their tier, their uses in the reference '
               'dissertations, and the nearest term the papers use where there is one.'),
     'acronym': 'Check that each is defined, or use the full term. The last column shows uses in the reference dissertations.',
-    'reference': ('Hang has not written these, but has read them in the Short, Vázquez, or Bobu dissertation. Define a '
-                  'technical one on first use, and prefer a paper word when one says the same thing.'),
+    'reference': ('Hang has not written these, but the reference dissertations use them. The last column names the '
+                  'committee dissertations (Short, Vázquez, Bobu) and sums the recent lab dissertations as "lab". A word only one lab dissertation uses is '
+                  'weak evidence that the field knows it. Define a technical one on first use, and prefer a paper word '
+                  'when one says the same thing.'),
     'related': 'The papers use a different word of the same family, shown in the last column. Usually fine; prefer the paper\'s form when it says the same thing.',
     'cited': 'Hang has read these in cited titles but has not written them. Gloss on first use.',
     'name': 'Usually names of people, places, systems, or datasets. Listed so nothing is missed.',
@@ -99,10 +102,9 @@ def main():
     ref_lex = {k.lower(): v for k, v in data.get('reference_lexicon', {}).items()}
     ref_acr = {k: v for k, v in data.get('reference_lexicon', {}).items() if vc.is_acronym(k)}
     ref_surface = set(data.get('reference_surface', []))
-    ref_names = [r['name'] for r in data.get('references', [])]
 
     def ref_note(counts):
-        return ' · '.join(f'{n} {counts[n]}' for n in ref_names if counts.get(n))
+        return vc.ref_summary(counts)
     authored = runpy.run_path(str(HERE / 'tools' / 'vocab_authored.py'))
     nearest = authored.get('NEAREST', {})
     also_known = {w.lower() for w in authored.get('ALSO_KNOWN', [])}

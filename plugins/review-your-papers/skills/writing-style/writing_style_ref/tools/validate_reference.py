@@ -7,10 +7,13 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import sys
 from urllib.parse import unquote
 
 HERE = Path(__file__).resolve().parents[1]
 ROOT = HERE.parent
+sys.path.insert(0, str(HERE / 'tools'))
+import vocab_corpus as vc  # noqa: E402
 ERRORS = []
 # Counted in the guidance and Keep the meaning text before the October 12, 2026 revision.
 MARKS_BEFORE = {':': 11, ';': 34}
@@ -295,7 +298,7 @@ if vocab_path.exists():
         if not ex:
             continue
         examples += 1
-        source = ROOT / 'reference_papers' / ex['file']
+        source = vc.PAPERS / ex['file']
         lines = source.read_text(encoding='utf-8', errors='replace').replace('\r\n', '\n').split('\n')
         bold = re.search(r'\*\*(.+?)\*\*', ex['text'])
         first = bold.group(1).split()[0].split('-')[0].lower() if bold else ''
@@ -304,8 +307,7 @@ if vocab_path.exists():
     # Examples from the reference dissertations must be on the PDF page they cite.
     ref_pages = {}
     for ref in vocab.get('references', []):
-        key = {'Short': 'short', 'Vázquez': 'vazquez', 'Bobu': 'bobu'}[ref['name']]
-        text = (HERE / 'sources' / 'reference-dissertations' / (key + '.txt')).read_text(encoding='utf-8')
+        text = vc.reference_text_path(ref['name']).read_text(encoding='utf-8')
         for a, b in [('ﬀ', 'ff'), ('ﬁ', 'fi'), ('ﬂ', 'fl'), ('ﬃ', 'ffi'), ('ﬄ', 'ffl'),
                      ('’', "'"), ('‘', "'")]:
             text = text.replace(a, b)

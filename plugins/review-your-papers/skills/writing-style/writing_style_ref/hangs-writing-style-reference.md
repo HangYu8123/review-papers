@@ -103,7 +103,7 @@ The Chapter 8 review of October 12, 2026 had added four patterns and revised 25.
 
 ## Vocabulary
 
-The patterns below are about word choice. For single technical terms, [Hang's technical vocabulary](tech-vocabulary.md) lists 922 terms from the papers and the reference dissertations with an estimate of how familiar each one is to Hang, and [word-list.md](word-list.md) lists every word the papers use.
+The patterns below are about word choice. For single technical terms, [Hang's technical vocabulary](tech-vocabulary.md) lists 1097 terms from the papers and the reference dissertations with an estimate of how familiar each one is to Hang, and [word-list.md](word-list.md) lists every word the papers use.
 
 ### Teachers and collection settings
 

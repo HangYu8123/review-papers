@@ -38,6 +38,9 @@ CATEGORIES = [
             'human-computer interaction', 'computer-supported collaborative work | computer supported collaborative work',
             'cognitive science', 'social psychology', 'meta-learning', 'supervised learning',
             'value alignment',
+            # added from the recent lab dissertations
+            'embodied AI', 'artificial intelligence', 'social robotics',
+            'social navigation | social robot navigation',
         ],
     },
     {
@@ -61,6 +64,8 @@ CATEGORIES = [
             'verbal feedback', 'facial expressions | facial expression', 'eye gaze',
             'human knowledge', 'prior knowledge', 'human label', 'teaching style',
             'implicit feedback', 'numerical evaluation',
+            # added from the recent lab dissertations
+            'explicit feedback', 'user preference',
         ],
     },
     {
@@ -80,6 +85,9 @@ CATEGORIES = [
             'human annotation', 'annotation percentage', 'annotation coverage',
             'auto-generated annotation', 'label ~v', 'data collection', 'data quality',
             'data annotator', 'ground truth', 'subset of demonstrations', 'keyframe',
+            # added from the recent lab dissertations
+            'synthetic data', 'data generation | dataset generation', 'training set',
+            'validation set', 'test set',
         ],
     },
     {
@@ -118,6 +126,8 @@ CATEGORIES = [
             'model-based', 'model-free', 'true reward', 'reward parameters',
             'generalizable reward', 'cost function', 'objective function', 'loss function',
             'tile coding', 'sample complexity', 'gradient descent', 'cross-entropy loss',
+            # added from the recent lab dissertations
+            'action space', 'policy learning',
         ],
     },
     {
@@ -141,6 +151,11 @@ CATEGORIES = [
             'maximum entropy IRL | ME-IRL ~c', 'TrajOpt ~c',
             'Robot Operating System', 'PyBullet | pybullet', 'particle filter', 'Kalman filter',
             'rule-based', 'data-driven',
+            # added from the recent lab dissertations
+            'foundation model', 'zero-shot', 'transformer', 'encoder', 'decoder',
+            'recurrent neural network', 'graph neural network', 'message passing',
+            'random forest', 'behavior tree', 'receding horizon planning | receding horizon',
+            'inverse kinematics', 'operational space control', 'knowledge base',
         ],
     },
     {
@@ -180,6 +195,8 @@ CATEGORIES = [
             # added from the reference dissertations
             'novice user | novice users | novice', 'system designer', 'caregiver', 'bystander',
             'human burden', 'human guidance', 'human supervision',
+            # added from the recent lab dissertations
+            'human behavior', 'human partner', 'human collaborator',
         ],
     },
     {
@@ -204,6 +221,28 @@ CATEGORIES = [
             'behavioral agency', 'morphological agency', 'collaborative game', 'brainstorming',
             'personalization', 'personalized', 'emotion', 'expressive motion',
             'companion',
+            # added from the recent lab dissertations
+            'social context', 'social situation', 'social environment', 'social norm',
+            'mental state', 'theory of mind', 'group member', 'group membership',
+            'group detection', 'robot behavior', 'nonverbal cue', 'gesture', 'speech',
+            'affective state', 'affect recognition', 'synchrony | social synchrony',
+            'joint attention', 'visual attention', 'empathy', 'social support', 'support group',
+            'facilitator', 'trust', 'competence', 'warmth', 'discomfort',
+            'anthropomorphism | anthropomorphic',
+            'perceptions of robots | perception of robots | perceptions of the robot',
+            'robot failure', 'apology', 'collaborative task', 'robot partner', 'interruption',
+            'assistance', 'assistive robot', 'robot embodiment', 'form factor', 'haptic',
+            'pedestrian',
+        ],
+    },
+    {
+        'id': 'domains',
+        'title': 'Application areas and populations',
+        'about': ('Where human-robot interaction is applied and whom it serves. These come from the recent lab '
+                  'dissertations, mainly Matheus, Klein, and Birmingham, so all are Reference only.'),
+        'terms': [
+            'mental health', 'well-being | wellbeing', 'anxiety', 'therapy | therapeutic',
+            'intervention', 'healthcare | health care', 'dementia', 'infant', 'adolescent',
         ],
     },
     {
@@ -226,6 +265,9 @@ CATEGORIES = [
             'likelihood', 'log-likelihood', 'Laplace approximation', 'probability distribution',
             'uniform distribution', 'distribution shift', 'data augmentation', 'point cloud',
             'perception',
+            # added from the recent lab dissertations
+            'uncertainty', 'contextual information', 'out-of-distribution', 'information gain',
+            'transparency', 'explainability | explainable',
         ],
     },
     {
@@ -251,6 +293,23 @@ CATEGORIES = [
             'microphone array', 'Kinect', 'RGB-D', 'localization', 'tracking', 'field of view',
             'kinesthetic teaching | kinesthetic', 'gravity compensation', 'autonomous robot',
             'autonomy', 'semi-autonomous', 'navigation', 'tabletop',
+            # added from the recent lab dissertations
+            'humanoid', 'locomotion', 'contact-rich', 'physical robot', 'robot platform',
+            'hardware', 'actuator', 'open-source', 'collision', 'household task | household tasks',
+        ],
+    },
+    {
+        'id': 'simulation',
+        'title': 'Simulation, vision, and generative models',
+        'about': ('Terms of simulation for robot learning, computer vision, and visual generation. They come from the '
+                  'recent lab dissertations of Gokmen, Wong, Shi, and Sargent, so most are Reference only.'),
+        'terms': [
+            'simulator', 'simulation environment', 'physics simulation | physics simulator',
+            'digital twin', 'domain randomization', 'sim-to-real | sim2real', 'benchmark', 'scene',
+            'scene generation', 'asset', 'articulated object', 'everyday activities | everyday tasks',
+            'rendering', 'photorealistic', '3D reconstruction', 'novel view synthesis', 'NeRF ~c',
+            'object detection', 'segmentation', 'bounding box', 'depth estimation',
+            'generative model', 'diffusion model', 'autoencoder', 'tokenizer', 'compression',
         ],
     },
     {
@@ -275,6 +334,13 @@ CATEGORIES = [
             'manipulated variable', 'dependent measure', 'experimental design',
             'factorial design', 'repeated-measures | repeated measures', 'sample size',
             'pilot session', 'interview',
+            # added from the recent lab dissertations
+            'online survey', 'Prolific ~c', 'Qualtrics ~c', 'manipulation check',
+            'attention check', 'open-ended', 'self-report | self-reported',
+            'semi-structured interview', 'inter-rater reliability | interrater reliability',
+            'independent variable', 'dependent variable', 'study design',
+            'longitudinal study | longitudinal', 'in-the-wild | in the wild',
+            'in-home study | in-home', 'Godspeed ~c', 'System Usability Scale',
         ],
     },
     {
@@ -303,6 +369,11 @@ CATEGORIES = [
             'standard error', 'paired t-test', 'multiple comparisons', 'classification accuracy',
             'qualitative analysis | qualitative results', 'quantitative analysis', 'objective metric',
             'response time', 'chi-square | chi-squared',
+            # added from the recent lab dissertations
+            'F1 score | F1-score', 'precision', 'recall', 'confusion matrix',
+            'cross-validation | cross validation', 'leave-one-out', 'linear regression',
+            'mean absolute error', 'Cohen\'s d', 'Bonferroni',
+            'Wilcoxon signed-rank test | Wilcoxon signed-rank', 'evaluation metric',
         ],
     },
     {
@@ -324,6 +395,9 @@ CATEGORIES = [
                 'deploy ~v', 'visualize ~v', 'interpret ~v', 'quantify ~v', 'hypothesize ~v',
                 'assume ~v', 'illustrate ~v', 'instantiate ~v', 'operationalize ~v',
                 'disambiguate ~v', 'perceive ~v', 'convey ~v', 'anticipate ~v',
+                # added from the recent lab dissertations
+                'simulate ~v', 'encode ~v', 'aggregate ~v', 'categorize ~v', 'replicate ~v',
+                'verify ~v',
             ]),
             ('Verbs for effects and findings', [
                 'mitigate ~v', 'address ~v', 'overcome | overcomes | overcame | overcoming ~x',
@@ -349,6 +423,9 @@ CATEGORIES = [
                 'implicitly', 'iteratively', 'alternately', 'jointly', 'empirically',
                 'intuitively', 'inherently', 'monotonic', 'salient', 'tractable', 'intractable',
                 'generalizable', 'qualitatively', 'quantitatively',
+                # added from the recent lab dissertations
+                'unseen', 'downstream', 'predictive', 'contextual', 'modular', 'empirical',
+                'preliminary', 'iterative', 'inherent', 'plausible', 'causal', 'computational',
             ]),
             ('Nouns for research ideas', [
                 'insight', 'intuition', 'assumption', 'limitation', 'contribution', 'finding',
@@ -359,6 +436,8 @@ CATEGORIES = [
                 'efficiency', 'expressiveness', 'informativeness', 'generalization',
                 'scalability', 'paradigm', 'notion', 'desiderata | desideratum', 'formalism',
                 'formalization',
+                # added from the recent lab dissertations
+                'feasibility', 'variability', 'abstraction', 'fidelity',
             ]),
         ],
     },
@@ -374,6 +453,9 @@ NOTES = {
     'Proficient Human': 'Robomimic dataset type (PH).',
     'Multi Human': 'Robomimic dataset type (MH).',
     'open-coded book': 'The papers\' wording; the dissertation writes a codebook developed through open coding.',
+    'recall': 'Counts every use of the word, including its everyday sense (recall that).',
+    'precision': 'Counts every use of the word, including numerical precision.',
+    'sim-to-real': 'Also counts sim-to-real gap, which the papers use.',
 }
 
 # Terms that the writing style reference sets as the dissertation's wording.
@@ -418,6 +500,20 @@ NEAREST = {
     'expressive': 'expressiveness',
     'usability': 'applicability',
     'informativeness': 'informative',
+    'explicit feedback': 'evaluative feedback',
+    'user preference': 'human preference',
+    'action space': 'action, action sequence',
+    'simulator': 'simulation, Robosuite',
+    'simulation environment': 'simulation, environment',
+    'benchmark': 'Robosuite, Robomimic',
+    'online survey': 'online study, questionnaire',
+    'study design': 'study setup, study procedure',
+    'independent variable': 'condition',
+    'F1 score': 'accuracy',
+    'cross-validation': 'cross-validate',
+    'evaluation metric': 'performance, success rate',
+    'human partner': 'human teacher',
+    'human behavior': 'human characteristics, teaching style',
 }
 
 # Acronyms: (acronym, expansion as the papers write it, or None to take the expansion the papers define).
@@ -441,6 +537,11 @@ ACRONYMS = [
     ('VAE', 'variational autoencoder'), ('ROS', 'Robot Operating System'), ('ANOVA', 'analysis of variance'),
     ('HSD', 'honestly significant difference'), ('REML', 'restricted maximum likelihood'),
     ('ME-IRL', None), ('FERL', None), ('SIRL', None), ('CASA', None), ('VAD', None),
+    # defined in the recent lab dissertations
+    ('AI', None), ('ML', None), ('GPU', None), ('API', None), ('CNN', None), ('LSTM', None),
+    ('GNN', None), ('IMU', None), ('HCI', None), ('HRC', None), ('SVM', None), ('SUS', None),
+    ('SLAM', None), ('IK', None), ('KL', None), ('VR', None), ('GRU', None), ('DPO', None),
+    ('VLA', None), ('NeRF', 'neural radiance field'), ('SAC', None), ('CLIP', None),
 ]
 
 # Technical terms that appear in the titles of works the papers cite but not in the papers' own text.

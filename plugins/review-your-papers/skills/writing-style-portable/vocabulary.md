@@ -1,6 +1,6 @@
 # Vocabulary
 
-Words and terms for writing about robot learning from human input and human-robot interaction. Part 1 is the author's own vocabulary, taken from six published papers and their drafts (about 54,000 words), with an estimate of how familiar each term is to the author. Part 2 is the vocabulary of five robotics and HRI dissertations (about 245,000 words), which shows what expert readers in the field know without a definition. Part 3 lists words to watch. Part 4 lists acronyms. Counts, examples, and sources were removed to keep the file small.
+Words and terms for writing about robot learning from human input and human-robot interaction. Part 1 is the author's own vocabulary, taken from six published papers and their drafts (about 54,000 words), with an estimate of how familiar each term is to the author. Part 2 is the vocabulary of five robotics and HRI dissertations (about 245,000 words), which shows what expert readers in the field know without a definition, and of twelve recent dissertations from the same labs and their neighbors (about 405,000 words), which shows what readers know today. Part 3 lists words to watch. Part 4 lists acronyms. Counts, examples, and sources were removed to keep the file small.
 
 Use the [writing style guide](writing-style-guide.md) for how to use the words. A term the author writes routinely needs no explanation. A term the author has only read or seen in a title needs a definition on first use, or a check that its field meaning fits.
 
@@ -44,7 +44,7 @@ Terms are grouped by topic. Within each mark, the most used come first.
 - **Chosen.** agentic human-robot interaction, agentic robotics
 - **One study.** reinforcement learning from human feedback, deep reinforcement learning, active learning, interactive learning, skill acquisition
 - **Once.** human-robot interaction
-- **Read only.** socially assistive robotics, shared autonomy, motion planning, computer vision, social psychology, meta-learning, cognitive science, computer-supported collaborative work, human-computer interaction, multi-task learning, natural language processing, trajectory optimization, value alignment, supervised learning
+- **Read only.** social navigation, computer vision, socially assistive robotics, shared autonomy, embodied AI, motion planning, social psychology, human-computer interaction, artificial intelligence, social robotics, value alignment, cognitive science, natural language processing, supervised learning, meta-learning, computer-supported collaborative work, multi-task learning, trajectory optimization
 
 ### Human teaching signals
 
@@ -53,22 +53,23 @@ Terms are grouped by topic. Within each mark, the most used come first.
 - **Chosen.** binary evaluative feedback, degree of completion
 - **One study.** pairwise comparison, prior knowledge, feedback value scale, progress feedback, completion percentage
 - **Once.** feedback mechanism, scalar evaluative feedback
-- **Cited only.** implicit feedback
+- **Read only.** explicit feedback, implicit feedback, user preference
 
 ### Demonstrations, annotations, and datasets
 
 - **Core.** demonstration, human demonstration, dataset, annotation, annotate, label, non-expert demonstration, successful demonstration, demonstration dataset, failed demonstration, oracle, data collection, expert demonstration, high-quality demonstration, optimal demonstration
 - **Familiar.** demonstration quality, annotated demonstration, keyframe, human annotation, auto-generated annotation, high-quality dataset, mixed-quality dataset, subset of demonstrations, low-quality demonstration, sub-optimal demonstration, annotated subset, annotation percentage, demonstration horizon, error-free demonstration, imperfect demonstration, partial demonstration, perfect demonstration, annotation coverage, data annotator, ground truth, noisy demonstration, training data, data quality
-- **One study.** machine-generated demonstration, unsuccessful demonstration
-- **Once.** oracle demonstration
+- **One study.** machine-generated demonstration, unsuccessful demonstration, synthetic data
+- **Once.** oracle demonstration, validation set
+- **Read only.** test set, data generation, training set
 
 ### Reinforcement learning and reward learning
 
 - **Core.** reward, reward function, trajectory, policy, state, domain, agent, learned reward, reward hacking, action, learned reward function, environmental reward, advantage, horizon, return, robust reward function, alignment, exploration, observation, loss, optimal policy, reward model, environment, learning agent, magnitude, learned policy, pre-trained agent, reward signal
 - **Familiar.** sub-trajectory, discriminator, generated trajectory, generator, reward hacking scenario, cumulative reward, shaping component, current state, task horizon, multi-policy, optimization, completion shaping, episode, negative reward, total reward, positive reward, previous state, training loop, learning loop, potential function, progress function, timestep, dense reward, optimize, discount factor, environmental return, policy roll-out, punish, reward distribution, transition, imbalanced reward, training objective, adversarial learner, exploit, reset, trajectory generator, convergence, deterministic dynamics, end state, expert trajectory, goal state, heuristic function, maximum likelihood, optimization problem, reward design, state-only, inferred reward function, partial trajectory, sampled trajectory, state-action pair, trained agent, expert policy, initial policy, robot policy, value function
-- **One study.** action sequence, local optimum, non-progressive behavior, Q-value, random exploration, reward features, reward learner, shaping loss, trajectory segment, transition dynamics, visual observation, finite horizon, infinite horizon, latent reward function, path-independent, potential shaping, temporal delta, loss function, model-based
+- **One study.** action sequence, local optimum, non-progressive behavior, Q-value, random exploration, reward features, reward learner, shaping loss, trajectory segment, transition dynamics, visual observation, finite horizon, infinite horizon, latent reward function, path-independent, policy learning, potential shaping, temporal delta, loss function, model-based
 - **Once.** exploration cost, hinge, Q-learning, sparse reward
-- **Read only.** state space, SARSA, cost function, objective function, generalizable reward, reward parameters, sample complexity, true reward, action-value function, cross-entropy loss, gradient descent, tile coding, model-free, Markov decision process, partially observable Markov decision process, Q-function
+- **Read only.** action space, state space, cost function, SARSA, objective function, generalizable reward, cross-entropy loss, sample complexity, gradient descent, reward parameters, true reward, Markov decision process, action-value function, tile coding, model-free, partially observable Markov decision process, Q-function
 
 ### Methods, models, and tools
 
@@ -76,7 +77,7 @@ Terms are grouped by topic. Within each mark, the most used come first.
 - **Familiar.** AIRLPref, fine-tune, hyperparameter, prompt, baseline method, DemoPref, Gemma, TAMER, batch size, checkpoint, learning rate, Adversarial Inverse Reinforcement Learning, diffusion policy, seed, COACH, hyperparameter search, RoboTurk, base model, Hugging Face, post-training, Rank2Reward, vision-language model, language instruction, ReWiND, random seed
 - **One study.** DreamerV3, hidden units, MaxEnt IRL, parallel environment, DeepMind Control Suite, LoRA
 - **Once.** BC-RNN, mean squared error, multilayer perceptron
-- **Read only.** maximum entropy IRL, neural network, particle filter, TrajOpt, data-driven, rule-based, PyBullet, Kalman filter, Robot Operating System
+- **Read only.** neural network, maximum entropy IRL, encoder, decoder, zero-shot, graph neural network, data-driven, transformer, random forest, receding horizon planning, behavior tree, MuJoCo, message passing, rule-based, Robot Operating System, particle filter, knowledge base, operational space control, TrajOpt, inverse kinematics, recurrent neural network, PyBullet, foundation model, Kalman filter
 - **Cited only.** generative adversarial network, proximal policy optimization
 
 ### Names and concepts from the studies
@@ -90,21 +91,26 @@ Terms are grouped by topic. Within each mark, the most used come first.
 - **Core.** non-expert, human characteristic, expert, noise, imperfection, mistake, workload, robot experience, sub-task, demonstrator, human teacher, sub-optimality, annotator, non-expert user, bias, human imperfection, robot expert
 - **Familiar.** operator, educational background, non-optimal behavior, human factor, task phase, sub-goal, personality, teaching experience, human engagement, expertise, crowd-sourced, human effort, passersby, random error, crowdworker, human intention, human participation, mental effort, phase change, proficiency, proficient operator, teaching effort, cognitive load, harmless behavior, inconsistency, exploratory action, human expectations, human expert, non-expert participant, random noise
 - **One study.** computer science background, unproductive behavior, non-expert demonstrator, system designer, everyday users, novice user
-- **Read only.** bystander, end user, demographics, caregiver, human burden, human guidance, human supervision
+- **Read only.** human behavior, caregiver, human partner, demographics, human supervision, end user, human collaborator, human burden, bystander, human guidance
 
 ### Social and group interaction
 
-- **Familiar.** engagement
-- **One study.** emotion
-- **Once.** humanoid robot
-- **Read only.** moderation, moderator, F-formation, o-space, group conversation, children with autism, spatial behavior, lower-body orientation, group interaction, proxemics, intergenerational, socially assistive robot, utterance, group cohesion, multi-party interaction, social interaction, older adults, body orientation, brainstorming, gaze behavior, family group, behavioral agency, child-robot interaction, conversational group, head orientation, spatial arrangement, focus of attention, turn-taking, human-human interaction, social behavior, social dynamics, morphological agency, addressee, collaborative game, social robot, personalized, personal space, head pose, spatial formation, companion, dyadic interaction, mutual gaze, multi-party human-robot interaction, proxemic behavior, shared attention, social presence, voice activity detection, embodied agent, embodiment, personalization, social cue, user engagement, social convention, expressive motion, group dynamics, nonverbal behavior, autism spectrum disorder
+- **Core.** robot behavior
+- **Familiar.** engagement, trust
+- **One study.** emotion, gesture
+- **Once.** humanoid robot, joint attention
+- **Read only.** social context, social robot, speech, moderation, pedestrian, moderator, empathy, robot failure, haptic, support group, social interaction, F-formation, group member, assistance, social situation, synchrony, group interaction, competence, embodiment, facilitator, o-space, spatial behavior, utterance, children with autism, group conversation, older adults, companion, affective state, turn-taking, perceptions of robots, group detection, head pose, lower-body orientation, assistive robot, conversational group, socially assistive robot, personalization, multi-party interaction, proxemics, form factor, group cohesion, brainstorming, discomfort, intergenerational, visual attention, social support, apology, gaze behavior, mental state, collaborative task, body orientation, social norm, affect recognition, human-human interaction, head orientation, social behavior, child-robot interaction, family group, focus of attention, social environment, interruption, social dynamics, user engagement, behavioral agency, personalized, spatial arrangement, addressee, dyadic interaction, group dynamics, personal space, collaborative game, anthropomorphism, robot embodiment, social presence, autism spectrum disorder, embodied agent, group membership, multi-party human-robot interaction, robot partner, morphological agency, social cue, warmth, nonverbal behavior, mutual gaze, spatial formation, theory of mind, voice activity detection, nonverbal cue, proxemic behavior, shared attention, social convention, expressive motion
+
+### Application areas and populations
+
+- **Read only.** infant, anxiety, mental health, intervention, therapy, dementia, adolescent, well-being, healthcare
 
 ### Representations, human models, and inference
 
 - **Familiar.** feature, likelihood
-- **One study.** perception
+- **One study.** perception, out-of-distribution
 - **Once.** data augmentation, human input
-- **Read only.** intent, feature trace, situational confidence, misalignment, high-dimensional, posterior, embedding, learned feature, belief, similarity query, low-dimensional, representation alignment, misaligned, feature learning, feature function, feature space, label query, point cloud, arbitration, confidence estimation, spurious correlation, robot representation, Boltzmann rationality, human model, human representation, latent space, feature query, probability distribution, representation learning, interpretable, feature vector, privileged information, self-supervised, demonstration query, latent representation, human decision model, log-likelihood, policy blending, distribution shift, Laplace approximation, misspecification, noisily-rational, uniform distribution, Bayesian inference, goal inference
+- **Read only.** intent, belief, contextual information, embedding, uncertainty, feature trace, posterior, misalignment, high-dimensional, situational confidence, goal inference, learned feature, human model, low-dimensional, similarity query, latent space, misaligned, representation alignment, information gain, point cloud, feature learning, feature space, representation learning, self-supervised, feature function, spurious correlation, label query, Boltzmann rationality, probability distribution, arbitration, confidence estimation, interpretable, robot representation, feature vector, transparency, human representation, feature query, latent representation, explainability, privileged information, distribution shift, Bayesian inference, demonstration query, log-likelihood, uniform distribution, human decision model, policy blending, Laplace approximation, misspecification, noisily-rational
 - **Cited only.** causal confusion
 
 ### Robots, tasks, and environments
@@ -112,35 +118,42 @@ Terms are grouped by topic. Within each mark, the most used come first.
 - **Core.** block, manipulation, button, gripper, simulation, long-horizon, real-world, manipulation task, pour, long-horizon task, real robot, grasp, navigate, interface, ice cream topping-adding task, robot arm, deployment, topping jar, Xbox controller, Kinova, Kinova Gen3 Lite, shelf, target object
 - **Familiar.** Lift, PickPlaceCan, pom-pom, bin, brush, peg, Square, stuffed animal, button-pressing task, control interface, goal location, pick and place, robot manipulation task, robotic arm, stirrer, nut assembly, simulated robot, teleoperation, coffee preparation task, degrees of freedom, robot-in-the-wild, graphical user interface
 - **One study.** end effector, sim-to-real gap, square-shaped nut, Multi Human, overhead camera, Proficient Human, joystick
-- **Once.** JACO, kinematic, RealSense
-- **Read only.** sensor, tracking, autonomy, localization, Kinect, tabletop, microphone array, manipulator, mobile robot, autonomous robot, navigation, field of view, mobile base, RGB-D, gravity compensation, kinesthetic teaching, semi-autonomous
+- **Once.** humanoid, JACO, kinematic, physical robot, RealSense
+- **Read only.** navigation, sensor, autonomy, tracking, hardware, collision, open-source, mobile robot, locomotion, field of view, Kinect, localization, tabletop, manipulator, autonomous robot, RGB-D, microphone array, robot platform, contact-rich, semi-autonomous, actuator, mobile base, household task, kinesthetic teaching, gravity compensation
+
+### Simulation, vision, and generative models
+
+- **Familiar.** simulation environment
+- **One study.** sim-to-real, scene, simulator
+- **Once.** benchmark
+- **Read only.** asset, rendering, tokenizer, generative model, digital twin, compression, autoencoder, NeRF, diffusion model, bounding box, everyday activities, segmentation, novel view synthesis, domain randomization, 3D reconstruction, articulated object, object detection, physics simulation, photorealistic, scene generation, depth estimation
 
 ### Study design and data collection
 
 - **Core.** participant, scenario, online study, condition, public space, recruit, public space study, questionnaire, replay, hypothesis, study setup, experimental setup, in-lab, exclude, consent form, non-lab
-- **Familiar.** session, ablation study, real robot study, experimenter, in-person study, NASA TLX, representative scenario, university atrium, user study, video clip, Amazon Mechanical Turk, Institutional Review Board, study procedure, validation study
-- **One study.** characteristic questionnaire, open-coded book, codebook, open coding, research question
-- **Once.** cross-validate, Likert, pilot study
-- **Read only.** survey, dependent measure, subscale, pilot session, experimental design, case study, manipulated variable, coder, sample size, interview, repeated-measures, within-subjects, informed consent, data coding, factorial design, field study, Wizard-of-Oz, counterbalance, between-subjects
+- **Familiar.** session, ablation study, real robot study, experimenter, in-person study, NASA TLX, representative scenario, university atrium, user study, video clip, in-the-wild, Amazon Mechanical Turk, Institutional Review Board, study procedure, validation study
+- **One study.** characteristic questionnaire, open-coded book, codebook, open coding, Prolific, research question
+- **Once.** cross-validate, Likert, pilot study, study design
+- **Read only.** survey, interview, open-ended, longitudinal study, case study, in-home study, sample size, coder, independent variable, self-report, subscale, dependent measure, online survey, experimental design, between-subjects, repeated-measures, pilot session, counterbalance, manipulated variable, Qualtrics, dependent variable, within-subjects, semi-structured interview, Godspeed, informed consent, Wizard-of-Oz, field study, manipulation check, attention check, inter-rater reliability, data coding, factorial design, System Usability Scale
 
 ### Measures, statistics, and evaluation
 
 - **Core.** performance, baseline, distribution, correlation, mean, accuracy, data efficiency, improvement, sample efficiency, correlate, standard deviation, x-axis, significance
-- **Familiar.** success rate, task statistics, ablation, learning outcome, task success, learning efficiency, normalized, reward curve, significant difference, t-test, error bar, robustness, Wilcoxon rank-sum test, completion time, converged performance, feedback accuracy, learning curve, prediction, sensitivity analysis, statistically significant, threshold, y-axis, absolute difference, confidence interval, Kruskal-Wallis H test, shaded area, average return, ceiling performance, feedback distribution, normal distribution, Pearson correlation, Shapiro-Wilk test
-- **One study.** Bayesian statistics, evaluation rollouts, agreement, Holm-Sidak, p-value, spatial distribution, variance, Bayes factor, regression
+- **Familiar.** success rate, task statistics, ablation, learning outcome, task success, learning efficiency, normalized, reward curve, significant difference, t-test, error bar, robustness, Wilcoxon rank-sum test, completion time, converged performance, feedback accuracy, learning curve, prediction, sensitivity analysis, statistically significant, threshold, y-axis, absolute difference, confidence interval, Kruskal-Wallis H test, shaded area, average return, ceiling performance, feedback distribution, normal distribution, Pearson correlation, precision, Shapiro-Wilk test
+- **One study.** Bayesian statistics, evaluation rollouts, agreement, Holm-Sidak, p-value, spatial distribution, variance, Bayes factor, cross-validation, regression
 - **Once.** Box-Cox, outlier, post hoc, qualitative analysis, quantitative analysis, self-consistency, Spearman
-- **Read only.** main effect, ANOVA, standard error, effect size, response time, Tukey HSD, classification accuracy, REML, Cronbach's alpha, objective metric, paired t-test, interaction effect, random effect, chi-square, multiple comparisons, Cohen's kappa
+- **Read only.** F1 score, main effect, effect size, recall, standard error, ANOVA, median, REML, Tukey HSD, interaction effect, linear regression, mixed-effects, objective metric, Cohen's d, random effect, evaluation metric, classification accuracy, Cohen's kappa, Bonferroni, Cronbach's alpha, response time, mean absolute error, paired t-test, multiple comparisons, Wilcoxon signed-rank test, chi-square, confusion matrix, leave-one-out, interquartile range
 
 ### Research-writing words
 
 #### Verbs for research actions
 
-- **Core.** model, train, collect, shape, align, generate, sample, compare, infer, describe, propose, conduct, design, evaluate, introduce, adapt, combine, select, leverage, test, validate, assume, investigate, identify, predict, present, calculate, interpret, develop, hypothesize, assess, define, utilize, analyze, integrate, visualize, measure, assign, characterize, compute, examine, explore, extend, extract
-- **Familiar.** normalize, imitate, filter, incorporate, estimate, perceive
+- **Core.** model, train, collect, shape, align, generate, sample, compare, infer, describe, propose, conduct, design, evaluate, introduce, adapt, combine, select, leverage, test, validate, assume, investigate, identify, predict, present, calculate, interpret, develop, hypothesize, assess, define, simulate, utilize, analyze, integrate, visualize, measure, assign, characterize, compute, examine, explore, extend, extract
+- **Familiar.** normalize, imitate, filter, incorporate, categorize, estimate, perceive
 - **Chosen.** formalize
 - **One study.** illustrate
-- **Once.** generalize, quantify
-- **Read only.** instantiate, convey, disambiguate, anticipate, operationalize, deploy
+- **Once.** encode, generalize, quantify, verify
+- **Read only.** deploy, aggregate, instantiate, convey, replicate, anticipate, disambiguate, operationalize
 
 #### Verbs for effects and findings
 
@@ -155,18 +168,18 @@ Terms are grouped by topic. Within each mark, the most used come first.
 - **Familiar.** cumulative, repeatedly, sparse, alternately, critical, low-quality, jointly, patterned, informative, efficient, implicitly, inherently, iteratively, spatial, intuitively, promising, realistic, substantially, under-explored
 - **One study.** data-efficient, incremental, systematic
 - **Once.** little-used, monotonic
-- **Read only.** expressive, generalizable, intractable, salient, tractable, qualitatively, quantitatively
+- **Read only.** contextual, computational, plausible, expressive, unseen, causal, predictive, downstream, generalizable, preliminary, empirical, inherent, modular, iterative, intractable, qualitatively, salient, tractable, quantitatively
 
 #### Nouns for research ideas
 
 - **Core.** method, characteristic, pattern, efficiency, factor, limitation, component, approach, intuition, dimension, aspect, assumption, contribution, insight, gap, representation, methodology, challenge, property, finding
 - **Familiar.** bottleneck, capability, applicability, variation, scalability, mechanism, portion
 - **One study.** consistency, expressiveness, paradigm
-- **Read only.** trade-off, generalization, implication, formalism, desiderata, notion, formalization, usability, informativeness
+- **Read only.** abstraction, implication, usability, generalization, trade-off, variability, notion, fidelity, feasibility, formalism, informativeness, desiderata, formalization
 
 ### Field terms the sources never use
 
-These standard terms were searched for and found nowhere in the papers, the field dissertations, or the cited titles. The author may still know them. MuJoCo, practice session, demonstration interface, annotation interface, median, interquartile range, mixed-effects.
+These standard terms were searched for and found nowhere in the papers, the field dissertations, or the cited titles. The author may still know them. They are practice session, demonstration interface, and annotation interface.
 
 ### Terms seen only in cited titles
 
@@ -266,6 +279,38 @@ Words that at least two of Short, Vázquez, and Bobu use and that none of the au
 
 orientation, turn, track, sensor, detection, front, graph, autonomous, angle, speak, collaboration, engage, request, quickly, trend, team, rule, inspire, expressive, day, opportunity, sense, core, presence, primary, communication, old, decision, functional, latter, computational, coordinate, autonomy, continue, name, purpose, thought, versus, command, power, tell, something, independently, gray, criterion, whole, physically, author, unify, clearly, impossible, accomplish, alternate, connect, whenever, write, favorite, inherent, course, recall, analogous, white, social, game, children, sec, player, moderator, member, conversation, assistive, laptop, activity, adult, speech, speaker, induce, intervention, utterance, proxemics, collaborative, audio, child, trace, survey, socially, animation, multi-party, picture, family, mobile, communicate, appearance, establish, microphone, orient, character, min, reinforce, proxy.
 
+### Recent lab dissertations
+
+From the twelve most recent dissertations that could be retrieved from the labs of Matarić, Song, Li, Vázquez, and Scassellati (2023 to 2026, about 405,000 words): Klein and Birmingham (Matarić), Shi (Song), Sargent, Gokmen, and Wong (Li), Candon, Thompson, and Tsoi (Vázquez), and Georgiou, Ghose, and Matheus (Scassellati). They show what readers in robot learning and HRI know today. Each group lists the terms that at least four of the twelve use, the most widely used first. A term marked † does not appear in the author's papers.
+
+**Research areas and learning paradigms.** machine learning, reinforcement learning, computer vision†, human-robot interaction, robot learning, offline, motion planning†, human-computer interaction†, artificial intelligence†, social navigation†, imitation learning, supervised learning†, cognitive science†.
+
+**Human teaching signals.** progress, human preference, facial expressions, correction, ranking, task completion, human feedback, eye gaze, explicit feedback†, user preference†, prior knowledge.
+
+**Demonstrations, annotations, and datasets.** dataset, label, data collection, ground truth, training data, demonstration, annotation, annotate, test set†, training set†, validation set.
+
+**Reinforcement learning and reward learning.** action, state, environment, domain, observation, agent, loss, reward, transition, policy, optimization, advantage, magnitude, trajectory, exploration, optimize, action space†, timestep, alignment, current state, return, state space†, reward function, horizon, episode, generator, reset, robot policy, policy roll-out, learned policy, exploit, cross-entropy loss†, reward signal, dense reward.
+
+**Methods, models, and tools.** algorithm, framework, neural network†, encoder†, learning rate, fine-tune, pre-train, heuristic, hyperparameter, prompt, language model, seed, data-driven†, batch size, large language model, diffusion policy, recurrent neural network†, zero-shot†, transformer†, random forest†, baseline method, rule-based†, vision-language model, learning framework.
+
+**Human teachers and their behavior.** noise, demographics†, bias, human behavior†, mistake, expert, annotator, workload, caregiver†, operator, human expectations, human partner†, personality.
+
+**Social and group interaction.** engagement, robot behavior, speech†, gesture, trust, embodiment†, emotion, social robot†, competence†, social interaction†, utterance†, humanoid robot, human-human interaction†, social context†, affective state†, assistance†, perceptions of robots†, companion†, turn-taking†, discomfort†, social environment†, collaborative task†, social behavior†, social dynamics†, warmth†, group member†, group interaction†, social norm†, interruption†, user engagement†, group dynamics†, dyadic interaction†, anthropomorphism†, embodied agent†, social cue†, body orientation†, theory of mind†.
+
+**Application areas and populations.** healthcare†, mental health†, intervention†.
+
+**Representations, human models, and inference.** feature, perception, embedding†, belief†, intent†, uncertainty†, likelihood, transparency†, human input, interpretable†, contextual information†, out-of-distribution, self-supervised†, representation learning†, feature vector†, data augmentation, distribution shift†, misalignment†.
+
+**Robots, tasks, and environments.** real-world, sensor†, manipulation, interface, navigate, simulation, deployment, open-source†, field of view†, block, navigation†, hardware†, teleoperation, degrees of freedom, tracking†, button, physical robot, autonomy†, humanoid, grasp, tabletop†, collision†, locomotion†, real robot, manipulator†, RGB-D†, localization†, autonomous robot†, end effector, long-horizon, gripper, manipulation task, contact-rich†, Kinect†.
+
+**Simulation, vision, and generative models.** scene, benchmark, simulation environment, rendering†, simulator, sim-to-real, generative model†, bounding box†, depth estimation†.
+
+**Study design and data collection.** condition, participant, survey†, hypothesis, scenario, user study, exclude, research question, in-the-wild, experimental setup, session, open-ended†, recruit, ablation study, Institutional Review Board, dependent variable†, interview†, questionnaire, in-home study†, sample size†, independent variable†, Likert, in-lab, longitudinal study†, experimenter, pilot study, online survey†, self-report†, study design, Prolific, public space, Qualtrics†, counterbalance†, Amazon Mechanical Turk.
+
+**Measures, statistics, and evaluation.** performance, baseline, mean, distribution, improvement, accuracy, prediction, robustness, correlation, threshold, agreement, precision, correlate, ablation, significant difference, regression, recall†, standard deviation, t-test, variance, statistically significant, F1 score†, effect size†, post hoc, cross-validation, success rate, significance, standard error†, qualitative analysis, linear regression†, task success, evaluation metric†, normalized, median†, mixed-effects†, ANOVA†, outlier.
+
+**Research-writing words new to the author.** unseen†, generalization†, trade-off†, deploy†, predictive†, downstream†, feasibility†, contextual†, computational†, aggregate†, prioritize†, variability†, notion†, replicate†, inherent†, preliminary†, abstraction†, implication†, empirical†, modular†, generalizable†, tractable†, usability†, convey†, fidelity†, anticipate†, expressive†, instantiate†, quantitatively†, intractable†, plausible†, formalize†, iterative†, qualitatively†, causal†, salient†.
+
 ## Part 3. Words to watch
 
 ### Common academic words
@@ -308,4 +353,4 @@ Figurative or vague phrases that the author replaced with literal wording. See L
 
 The expansion is the one the author's papers define, or else the one a field dissertation defines. Spell out the full form before the first use of the acronym.
 
-**AIRL** Adversarial Inverse Reinforcement Learning · **AMT** Amazon Mechanical Turk · **ANOVA** analysis of variance · **ASD** Autism Spectrum Disorder · **BC** Behavioral Cloning · **BF** Bayes Factor · **CASA** Confidence-Aware Shared Autonomy · **CHARM** Considering Human Attributes for Reinforcement Modeling · **COACH** Convergent Actor-Critic by Humans · **DoF** degrees of freedom · **FERL** Feature Expansive Reward Learning · **GAE** generalized advantage estimation · **GAN** Generative Adversarial Network · **GUI** graphical user interface · **HIT** Human Intelligence Task · **HRI** human-robot interaction · **HSD** honestly significant difference · **IQR** interquartile range · **IRB** Institutional Review Board · **IRL** Inverse Reinforcement Learning · **LfD** Learning from Demonstration · **LfHF** Learning from Human Feedback · **LLM** Large Language Models · **LoRA** Low-Rank Adaptation · **MaxEnt** maximum entropy · **MDP** Markov decision process · **ME-IRL** Maximum Entropy Inverse Reinforcement Learning · **MH** Multi Human · **MLP** multilayer perceptron · **MSE** Mean Squared Error · **NASA TLX** NASA Task Load Index · **PH** Proficient Human · **PHIRL** Progress-Heuristicized Inverse Reinforcement Learning · **POMDP** partially observable Markov decision process · **PPO** Proximal Policy Optimization · **REML** restricted maximum likelihood · **RL** Reinforcement Learning · **RLHF** Reinforcement Learning from Human Feedback · **ROS** Robot Operating System · **RQ** research question · **SAR** socially assistive robotics · **SIRL** Similarity-based Implicit Representation Learning · **STEADY** Stabilizing TEacher Assessment DYnamics · **TAMER** Training an Agent Manually via Evaluative Reinforcement · **VAD** voice activity detection (Short), or Valence-Arousal-Dominance (Bobu) · **VAE** variational autoencoder · **VLM** Vision-Language Model
+**AI** artificial intelligence · **AIRL** Adversarial Inverse Reinforcement Learning · **AMT** Amazon Mechanical Turk · **ANOVA** analysis of variance · **API** application programming interface · **ASD** Autism Spectrum Disorder · **BC** Behavioral Cloning · **BF** Bayes Factor · **CASA** Confidence-Aware Shared Autonomy · **CHARM** Considering Human Attributes for Reinforcement Modeling · **CLIP** Contrastive Language-Image Pre-training · **CNN** convolutional neural network · **COACH** Convergent Actor-Critic by Humans · **DoF** degrees of freedom · **DPO** Direct Preference Optimization · **FERL** Feature Expansive Reward Learning · **GAE** generalized advantage estimation · **GAN** Generative Adversarial Network · **GNN** graph neural network · **GPU** graphics processing unit · **GRU** gated recurrent unit · **GUI** graphical user interface · **HCI** human-computer interaction · **HIT** Human Intelligence Task · **HRC** human-robot collaboration · **HRI** human-robot interaction · **HSD** honestly significant difference · **IK** inverse kinematics · **IMU** inertial measurement unit · **IQR** interquartile range · **IRB** Institutional Review Board · **IRL** Inverse Reinforcement Learning · **KL** Kullback-Leibler (divergence) · **LfD** Learning from Demonstration · **LfHF** Learning from Human Feedback · **LLM** Large Language Models · **LoRA** Low-Rank Adaptation · **LSTM** long short-term memory · **MaxEnt** maximum entropy · **MDP** Markov decision process · **ME-IRL** Maximum Entropy Inverse Reinforcement Learning · **MH** Multi Human · **ML** machine learning · **MLP** multilayer perceptron · **MSE** Mean Squared Error · **NASA TLX** NASA Task Load Index · **NeRF** neural radiance field · **PH** Proficient Human · **PHIRL** Progress-Heuristicized Inverse Reinforcement Learning · **POMDP** partially observable Markov decision process · **PPO** Proximal Policy Optimization · **REML** restricted maximum likelihood · **RL** Reinforcement Learning · **RLHF** Reinforcement Learning from Human Feedback · **ROS** Robot Operating System · **RQ** research question · **SAC** Soft Actor-Critic · **SAR** socially assistive robotics · **SIRL** Similarity-based Implicit Representation Learning · **SLAM** simultaneous localization and mapping · **STEADY** Stabilizing TEacher Assessment DYnamics · **SUS** System Usability Scale · **SVM** support vector machine · **TAMER** Training an Agent Manually via Evaluative Reinforcement · **VAD** voice activity detection (Short), or Valence-Arousal-Dominance (Bobu) · **VAE** variational autoencoder · **VLA** vision-language-action (model) · **VLM** Vision-Language Model · **VR** virtual reality

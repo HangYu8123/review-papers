@@ -10,11 +10,15 @@ Cited titles from the .bib files form a separate, weaker source of evidence.
 
 from pathlib import Path
 import hashlib
+import os
 import re
+from urllib.parse import quote
 
 HERE = Path(__file__).resolve().parents[1]
 ROOT = HERE.parent
-PAPERS = ROOT / 'reference_papers'
+# The papers are not bundled with the plugin. Set VOCAB_PAPERS to the dissertation folder's
+# reference_papers/ to rebuild from a copy of this folder kept elsewhere.
+PAPERS = Path(os.environ.get('VOCAB_PAPERS') or ROOT / 'reference_papers')
 
 # family -> list of (relative path, kind). Identical copies (the Progress files that are
 # also in CHARM/) are listed once, under the study they belong to.
@@ -326,21 +330,141 @@ def documents():
 # ---------------------------------------------------------------------------
 # Reference dissertations: not Hang's writing, but read by Hang as style references.
 # Their words are counted apart from the papers and never raise a tier of Hang's own use.
+#
+# Two groups. The committee dissertations (Short, Vázquez, Bobu) are the ones Hang named as
+# the committee's style. The lab dissertations are the most recent PhD dissertations from the
+# labs of Matarić, Song, Li, Vázquez, and Scassellati that could be retrieved in November 2026
+# (12 of 21 requested; see dissertation_reference/README.md). They show the vocabulary that
+# current readers in robot learning and HRI know. Bobu's dissertation is in both collections
+# and is counted once, as a committee dissertation.
 
+REFERENCE_GROUPS = {
+    'committee': 'Committee dissertations',
+    'lab': 'Recent lab dissertations',
+}
 REFERENCES = {
-    'Short': {'key': 'short', 'pdf': 'dessertation_reference/Short_2017_USC_thesis.pdf',
+    'Short': {'key': 'short', 'group': 'committee', 'pdf': 'dessertation_reference/Short_2017_USC_thesis.pdf',
               'title': 'Short (2017), Managing Multi-Party Social Dynamics for Socially Assistive Robotics',
               'pages': [(17, 18), (19, 189)]},
-    'Vázquez': {'key': 'vazquez', 'pdf': 'dessertation_reference/Vazquez_2017_CMU_thesis.pdf',
+    'Vázquez': {'key': 'vazquez', 'group': 'committee', 'pdf': 'dessertation_reference/Vazquez_2017_CMU_thesis.pdf',
                 'title': 'Vázquez (2017), Reasoning About Spatial Patterns of Human Behavior During Group Conversations with Robots',
                 'pages': [(2, 2), (8, 97)]},
-    'Bobu': {'key': 'bobu', 'pdf': 'dessertation_reference/Bobu_2023_Berkeley_EECS-2023-200.pdf',
+    'Bobu': {'key': 'bobu', 'group': 'committee', 'pdf': 'dessertation_reference/Bobu_2023_Berkeley_EECS-2023-200.pdf',
              'title': 'Bobu (2023), Aligning Robot Representations with Humans',
              'pages': [(5, 6), (15, 199)]},
+    # Recent lab dissertations. 'pdf' is relative to LAB_DIR; 'lab' is the advisor's lab.
+    'Klein': {'key': 'klein', 'group': 'lab', 'lab': 'Matarić',
+              'pdf': 'Maja_Mataric/2023_Lauren_Klein_Modeling_Dyadic_Synchrony.pdf',
+              'source': 'https://maja-mataric.web.app/about/people/alumni',
+              'title': 'Klein (2023), Modeling Dyadic Synchrony with Heterogeneous Data: Validation in Infant-Mother and Infant-Robot Interactions',
+              'pages': [(13, 15), (16, 113)]},
+    'Birmingham': {'key': 'birmingham', 'group': 'lab', 'lab': 'Matarić',
+                   'pdf': 'Maja_Mataric/2023_Chris_Birmingham_Multiparty_Human_Robot_Interaction.pdf',
+                   'source': 'https://maja-mataric.web.app/about/people/alumni',
+                   'title': 'Birmingham (2023), Multiparty Human-Robot Interaction: Methods for Facilitating Social Support',
+                   'pages': [(11, 11), (12, 86)]},
+    'Shi': {'key': 'shi', 'group': 'lab', 'lab': 'Song',
+            'pdf': 'Shuran_Song/2026_Haochen_Shi_Bringing_Life_to_Robots.pdf',
+            'source': 'https://purl.stanford.edu/yf485jt4430',
+            'title': 'Shi (2026), Bringing Life to Robots',
+            'pages': [(4, 4), (15, 71)]},
+    'Sargent': {'key': 'sargent', 'group': 'lab', 'lab': 'Li',
+                'pdf': 'Fei_Fei_Li/2026_Kyle_Sargent_Visual_Generation_and_Compression_for_World_Models.pdf',
+                'source': 'https://purl.stanford.edu/hy838rm3130',
+                'title': 'Sargent (2026), Visual Generation and Compression for World Models',
+                'pages': [(17, 81)]},
+    'Gokmen': {'key': 'gokmen', 'group': 'lab', 'lab': 'Li',
+               'pdf': 'Fei_Fei_Li/2026_Cem_Gokmen_Building_Simulation_Worlds_for_Robot_Learning.pdf',
+               'source': 'https://purl.stanford.edu/bm681rt0728',
+               'title': 'Gokmen (2026), Building Simulation Worlds for Robot Learning',
+               'pages': [(4, 4), (19, 66)]},
+    'Wong': {'key': 'wong', 'group': 'lab', 'lab': 'Li',
+             'pdf': 'Fei_Fei_Li/2026_Josiah_Wong_Scaling_Simulation_for_Accelerating_Robot_Learning.pdf',
+             'source': 'https://purl.stanford.edu/ny792bn1132',
+             'title': 'Wong (2026), Scaling Simulation for Accelerating Robot Learning',
+             'pages': [(4, 4), (27, 98)]},
+    'Candon': {'key': 'candon', 'group': 'lab', 'lab': 'Vázquez',
+               'pdf': 'Marynel_Vazquez/2026_Kate_Candon_Robot_Learning_During_Collaborations_DRAFT.pdf',
+               'source': 'https://kccandonk.github.io/dissertation/',
+               'title': 'Candon (2026, draft), Robot Learning During Collaborations with Non-Expert Robot Users',
+               'pages': [(1, 1), (17, 120)]},
+    'Thompson': {'key': 'thompson', 'group': 'lab', 'lab': 'Vázquez',
+                 'pdf': 'Marynel_Vazquez/2026_Sydney_Thompson_Modeling_Agent_Associations_DRAFT.pdf',
+                 'source': 'https://www.sydneythompson.dev/p/dissertation.html',
+                 'title': 'Thompson (2026, draft), Modeling Agent Associations in Human-Robot Interactions',
+                 'pages': [(1, 1), (16, 120)]},
+    'Tsoi': {'key': 'tsoi', 'group': 'lab', 'lab': 'Vázquez',
+             'pdf': 'Marynel_Vazquez/2025_Nathan_Tsoi_Creating_Socially_Competent_Mobile_Robots.pdf',
+             'source': 'https://elischolar.library.yale.edu/gsas_dissertations/1727/',
+             'title': 'Tsoi (2025), Creating Socially Competent Mobile Robots: Rethinking How to Measure Success',
+             'pages': [(1, 3), (18, 166)]},
+    'Georgiou': {'key': 'georgiou', 'group': 'lab', 'lab': 'Scassellati',
+                 'pdf': 'Brian_Scassellati/2026_Nicholas_Georgiou_Robot_Failures.pdf',
+                 'source': 'https://scazlab.yale.edu/news/nicholas-georgiou-successfully-defends-thesis',
+                 'title': 'Georgiou (2026), Investigating Human Perceptions and Responses to Robot Failures Across Functional, Social, and Moral Contexts in Human-Robot Interactions',
+                 'pages': [(1, 2), (22, 135)]},
+    'Ghose': {'key': 'ghose', 'group': 'lab', 'lab': 'Scassellati',
+              'pdf': 'Brian_Scassellati/2026_Debasmita_Ghose_Robots_Adapting_to_People.pdf',
+              'source': 'https://scazlab.yale.edu/news/debasmita-ghose-successfully-defends-thesis',
+              'title': 'Ghose (2026), Robots Adapting to People Without Becoming a Nuisance',
+              'pages': [(1, 2), (30, 231)]},
+    'Matheus': {'key': 'matheus', 'group': 'lab', 'lab': 'Scassellati',
+                'pdf': 'Brian_Scassellati/2026_Kayla_Matheus_Social_Robots_in_Mental_Health.pdf',
+                'source': 'https://scazlab.yale.edu/news/kayla-matheus-successfully-defends-thesis',
+                'title': 'Matheus (2026), Embodiment, Interactions, and Autonomy for Social Robots in Mental Health',
+                'pages': [(1, 2), (29, 407)]},
 }
+COMMITTEE = [n for n, r in REFERENCES.items() if r['group'] == 'committee']
+LAB = [n for n, r in REFERENCES.items() if r['group'] == 'lab']
 REFERENCE_TEXT = HERE / 'sources' / 'reference-dissertations'
+# The lab dissertations are not bundled with the plugin. Their PDFs and extracted text are kept in
+# the repository's dissertation_reference/ folder (text/ holds the text), or in VOCAB_LAB_DISSERTATIONS.
+LAB_DIR = Path(os.environ.get('VOCAB_LAB_DISSERTATIONS') or HERE.parents[4] / 'dissertation_reference')
+LAB_TEXT = LAB_DIR / 'text'
 LIGATURES = {'ﬀ': 'ff', 'ﬁ': 'fi', 'ﬂ': 'fl', 'ﬃ': 'ffi', 'ﬄ': 'ffl',
              '’': "'", '‘': "'", '“': '"', '”': '"', '­': ''}
+
+
+# Text repairs applied when a PDF is extracted. Gokmen's PDF writes the ff, ffi, and ffl ligatures
+# as !, ", and # (a!ordance, e"ciency, shu#ed); one word (a"ected) uses " for ff.
+REPAIRS = {
+    'Gokmen': [(r'a"ect', 'affect'), (r'(?<=[A-Za-z])!', 'ff'), (r'(?<=[A-Za-z])"(?=[A-Za-z])', 'ffi'),
+               (r'(?<=[A-Za-z])#(?=[A-Za-z])', 'ffl')],
+}
+
+
+def repair_text(name, text):
+    """The extracted text of a reference dissertation with its known extraction errors repaired."""
+    for pattern, replacement in REPAIRS.get(name, []):
+        text = re.sub(pattern, replacement, text)
+    return text
+
+
+def reference_link(name, page):
+    """Link from writing_style_ref/ to a page of a reference dissertation's PDF."""
+    ref = REFERENCES[name]
+    base = '..' if ref['group'] == 'committee' else '../../../../../dissertation_reference'
+    return f"{base}/{quote(ref['pdf'], safe='/')}#page={page}"
+
+
+def ref_summary(counts):
+    """Uses in the reference dissertations, in one short cell: each committee dissertation by name,
+    then the lab dissertations together, with the number that use the term and the one that uses it most.
+    For example "Short 3 · Bobu 40 · lab 212 in 9/12 (Tsoi 80)", or "lab: Klein 30" for one lab dissertation."""
+    parts = [f'{n} {counts[n]}' for n in COMMITTEE if counts.get(n)]
+    lab = {n: counts[n] for n in LAB if counts.get(n)}
+    if len(lab) == 1:
+        (n, c), = lab.items()
+        parts.append(f'lab: {n} {c}')
+    elif lab:
+        top = max(lab, key=lambda n: (lab[n], -LAB.index(n)))
+        parts.append(f'lab {sum(lab.values())} in {len(lab)}/{len(LAB)} ({top} {lab[top]})')
+    return ' · '.join(parts)
+
+
+def reference_text_path(name):
+    ref = REFERENCES[name]
+    return (REFERENCE_TEXT if ref['group'] == 'committee' else LAB_TEXT) / (ref['key'] + '.txt')
 
 
 def reference_documents():
@@ -350,7 +474,7 @@ def reference_documents():
     bibliography are dropped. Running heads and page numbers (short lines that repeat on
     many pages) are blanked, and a word hyphenated at a line break is joined again."""
     for name, ref in REFERENCES.items():
-        raw = (REFERENCE_TEXT / (ref['key'] + '.txt')).read_text(encoding='utf-8')
+        raw = reference_text_path(name).read_text(encoding='utf-8')
         for a, b in LIGATURES.items():
             raw = raw.replace(a, b)
         lines, pages, page = [], [], 0
