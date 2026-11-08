@@ -1,6 +1,6 @@
 # Hang's reviewing voice
 
-Use a restrained, professional register in plain English. Follow Hang's current instructions first, then the facts and definitions, then explicit past edits and decisions, then [guideline.md](guideline.md) and [the portable writing style guide](../../writing-style-portable/writing-style-guide.md). The raw reviews and the older full reference in `paper-review-shared/writing_style_ref/` supply examples rather than a requirement to repeat their phrasing.
+Use a restrained, professional register in plain English. Follow Hang's current instructions first, then the facts and definitions, then explicit past edits and decisions, then [guideline.md](guideline.md) and [the portable writing style guide](../../writing-style-portable/writing-style-guide.md). The raw reviews and the older full reference in the `writing-style` skill (`writing_style_ref/`) supply examples rather than a requirement to repeat their phrasing.
 
 ## Voice and tone
 

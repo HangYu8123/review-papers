@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Checks a review-data.js against the format of review_template/review.html, guideline.md, and the
-// reviewing voice of the review-paper skill. Shared by the review-paper and advisor-review-paper skills.
+// reviewing voice of the review-paper skill. The review-paper and advisor-review-paper skills each carry a
+// copy in review-tools/. Keep the two copies the same.
 //
 //   node check_review.js <path/to/review-data.js>
 //

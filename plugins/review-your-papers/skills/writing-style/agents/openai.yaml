@@ -1,0 +1,4 @@
+interface:
+  display_name: "Writing Style (Full)"
+  short_description: "Hang's full style reference and the committee reference"
+  default_prompt: "Use $writing-style to check whether this sentence was reviewed before and what Hang decided about its wording."

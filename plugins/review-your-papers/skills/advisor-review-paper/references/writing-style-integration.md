@@ -1,6 +1,6 @@
 # Applying the writing references to a paper review
 
-Keep the review method in [SKILL.md](../SKILL.md) and the substantive expectations in [the advisor's guide](advisor-guide.md). These remain the foundation. The style collections help choose the wording of a proposed revision and the explanation that accompanies it. The portable guide in this skill's `style_guide_portable/` covers ordinary reviews. The two full references in the shared folder `../../paper-review-shared/` are large source libraries, so open them only for the rows of the table below that name them.
+Keep the review method in [SKILL.md](../SKILL.md) and the substantive expectations in [the advisor's guide](advisor-guide.md). These remain the foundation. The style collections help choose the wording of a proposed revision and the explanation that accompanies it. The portable guide in the sibling skill `../../writing-style-portable/` covers ordinary reviews. The two full references in the sibling skill `../../writing-style/` are large source libraries, so open them only for the rows of the table below that name them.
 
 ## Read by purpose
 
@@ -59,7 +59,7 @@ If the paper needs cuts, use the guide's sequence of content editing, cleanup, a
 
 ## Scope of the bundled sources
 
-This skill carries `style_guide_portable/`. The shared folder `paper-review-shared/` holds `writing_style_ref/` and `committee_style_ref/`, including their evidence and source snapshots, for both this skill and the `review-paper` skill. The review can use this guidance without access to the original dissertation project.
+The `writing-style-portable` skill holds the portable guide, and the `writing-style` skill holds `writing_style_ref/` and `committee_style_ref/`, including their evidence and source snapshots. Both sit next to this skill and serve this skill and the `review-paper` skill. The review can use this guidance without access to the original dissertation project.
 
 The larger libraries are historical source collections. Their README files, validation reports, source records, and build scripts may refer to an earlier dissertation folder, original PDFs, or paper source files that were not provided here. Those paths are provenance, not required inputs to a paper review. Do not claim to have opened a PDF that is absent. Use the bundled excerpts and extracted texts when checking a writing pattern; request the original only when the task needs it. Do not run library rebuild, import, or extraction scripts as part of an ordinary review.
 

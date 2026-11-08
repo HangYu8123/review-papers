@@ -1,6 +1,6 @@
 # review-data.js in practice
 
-The specification is the header comment of review_template/review.html, which takes precedence if this reference disagrees with it. The examples below describe the format for any paper. Bracketed text is a placeholder: replace it with verified facts from the current manuscript. Do not treat example wording, labels, or metadata as evidence.
+The specification is the header comment of review_template/review.html in the html-templates skill, which takes precedence if this reference disagrees with it. The examples below describe the format for any paper. Bracketed text is a placeholder: replace it with verified facts from the current manuscript. Do not treat example wording, labels, or metadata as evidence.
 
 ## Skeleton
 

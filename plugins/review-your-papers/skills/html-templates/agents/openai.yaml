@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML Templates"
+  short_description: "Accept-or-reject pages for proposed edits and reviews"
+  default_prompt: "Use $html-templates to put these proposed edits on an editing page so I can accept, reject, or reword each one before it is applied."

@@ -1,7 +1,7 @@
 {
   "name": "review-your-papers",
   "version": "1.0.0",
-  "description": "Two paper-review skills: an advisor-guided review of a student's draft that proposes small revisions to accept or reject on an editing page, and peer reviews of others' papers in Hang Yu's reviewing style on a review page with evidence under each point. Wording follows a bundled portable writing style guide.",
+  "description": "Two paper-review skills and the three skills they use: an advisor-guided review of a student's draft that proposes small revisions to accept or reject on an editing page, peer reviews of others' papers in Hang Yu's reviewing style on a review page with evidence under each point, Hang's writing style as a portable guide and as the full references behind it, and the editing and review page templates.",
   "author": {
     "name": "Hang Yu",
     "url": "https://github.com/HangYu8123"

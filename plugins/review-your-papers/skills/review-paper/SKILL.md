@@ -13,7 +13,7 @@ Apply this workflow to the paper being reviewed. Determine its contributions, te
 
 The user's request (in Claude Code, the text after the skill's slash command) names the paper folder or manuscript. If it does not, use the paper already established in the conversation, and ask only for missing input.
 
-This skill runs in Claude Code and in Codex, as part of the `review-your-papers` plugin or installed on its own. `SKILL_DIR` below is the folder that holds this `SKILL.md`; resolve relative paths from it. The portable writing style guide is part of this skill. Resources shared with the `advisor-review-paper` skill are in the sibling folder `SKILL_DIR/../paper-review-shared/` (written `SHARED` below), which sits next to this skill in the plugin and in a standalone install.
+This skill runs in Claude Code and in Codex, as part of the `review-your-papers` plugin or installed on its own. `SKILL_DIR` below is the folder that holds this `SKILL.md`; resolve relative paths from it. This skill uses three sibling skills, shared with the `advisor-review-paper` skill, that sit next to it in the plugin and in a standalone install: `writing-style-portable` (the portable writing style guide), `writing-style` (the full style references), and `html-templates` (the review and editing templates). Read their files directly from `SKILL_DIR/../<skill name>/`.
 
 | What | Where |
 | --- | --- |
@@ -21,10 +21,10 @@ This skill runs in Claude Code and in Codex, as part of the `review-your-papers`
 | Reference review, optional | Usually `<paper>/review.pdf`, or a file the user names. Treat it as a second opinion to verify against the manuscript. |
 | Review rules | [references/guideline.md](references/guideline.md), Hang's guideline for the sections, their order, and the rules for each one |
 | Past reviews, optional | `previous_reviews/previous_reviews` in the folder that holds the paper folder, or a file Hang names. They are confidential, so they are not part of this skill. |
-| Writing style | [style_guide_portable/](../writing-style-portable/README.md) in this skill. The full references `SHARED/writing_style_ref/` and `SHARED/committee_style_ref/` only when needed (see step 5). |
-| Review template | `SHARED/templates/review_template/`. Its `review.html` header comment (lines 1 to 110) is the specification of `review-data.js`. |
-| Editing template | `SHARED/templates/edit_template/`. Used only for edits to a manuscript's text (see "Edits to a manuscript's text"). |
-| Checker and format example | `SKILL_DIR/review-tools/check_review.js` and [review-data-format.md](review-tools/review-data-format.md) |
+| Writing style | The [writing-style-portable](../writing-style-portable/SKILL.md) skill. The full references in the `writing-style` skill, `SKILL_DIR/../writing-style/writing_style_ref/` and `SKILL_DIR/../writing-style/committee_style_ref/`, only when needed (see step 5). |
+| Review template | `SKILL_DIR/../html-templates/review_template/`. Its `review.html` header comment (lines 1 to 110) is the specification of `review-data.js`. |
+| Editing template | `SKILL_DIR/../html-templates/edit_template/`. Used only for edits to a manuscript's text (see "Edits to a manuscript's text"). |
+| Checker and format example | `SKILL_DIR/review-tools/check_review.js` and [review-data-format.md](review-tools/review-data-format.md), in this skill |
 | Output | `<paper>/review/review.html`, an unchanged copy of the template, and `<paper>/review/review-data.js` |
 
 Below, `<review-template>` and `<edit-template>` stand for these two template folders.
@@ -155,7 +155,7 @@ The page's "Save decisions" button downloads `<review_id>.decisions.<timestamp>.
 - Read all relevant saved batches in time order, with later decisions taking precedence. Hang's edited wording carries more weight than an acceptance without edits. Do not infer pending decisions unless Hang asks; when asked, record inferred decisions separately from explicit choices and explain the basis. Preserve claims, data, citations, and terms, make each change as narrow as possible, and do not propose a rejected change again without addressing the rejection.
 - Keep the ids of unchanged items. The page drops a saved decision only when the text or evidence under it changes, so unchanged points keep their decisions.
 - Update `generated`, rerun the checker, and summarize what changed.
-- Hang's edits and rejections are the strongest evidence of the reviewing style. If Hang wants them kept, offer to put the decisions file in the review folder and run `python SHARED/writing_style_ref/tools/import_review.py <paper>/review`, and ask before running it, since it changes the shared style reference. An installed copy is replaced on the next install or plugin update, so run it on the repository's copy (`plugins/review-your-papers/skills/paper-review-shared/`) and update the installation.
+- Hang's edits and rejections are the strongest evidence of the reviewing style. If Hang wants them kept, offer to put the decisions file in the review folder and run `python SKILL_DIR/../writing-style/writing_style_ref/tools/import_review.py <paper>/review`, and ask before running it, since it changes the shared style reference. An installed copy is replaced on the next install or plugin update, so run it on the repository's copy (`plugins/review-your-papers/skills/writing-style/`) and update the installation.
 
 ## Edits to a manuscript's text
 

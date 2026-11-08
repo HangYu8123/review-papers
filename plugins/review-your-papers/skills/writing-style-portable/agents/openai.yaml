@@ -1,0 +1,4 @@
+interface:
+  display_name: "Writing Style (Portable)"
+  short_description: "Compact guide to Hang's academic writing style"
+  default_prompt: "Use $writing-style-portable to revise this passage in Hang's writing style, keeping my wording where it works and giving a reason for each change."

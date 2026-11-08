@@ -9,19 +9,19 @@ description: Review a student's academic paper draft, especially HRI, CS, and ro
 
 The user's request (in Claude Code, the text after the skill's slash command) names the paper and the review focus. If it does not, use the paper and scope already established in the conversation, and ask only for missing input.
 
-This skill runs in Claude Code and in Codex, as part of the `review-your-papers` plugin or installed on its own. Resolve relative paths from the folder that holds this `SKILL.md`. The portable writing style guide is part of this skill. Resources shared with the `review-paper` skill are in the sibling folder `../paper-review-shared/`, which sits next to this skill in the plugin and in a standalone install. Use the platform's file tools to read the source and the references, and the shell for the helpers.
+This skill runs in Claude Code and in Codex, as part of the `review-your-papers` plugin or installed on its own. Resolve relative paths from the folder that holds this `SKILL.md`. This skill uses three sibling skills, shared with the `review-paper` skill, that sit next to it in the plugin and in a standalone install: `writing-style-portable` (the portable writing style guide), `writing-style` (the full style references), and `html-templates` (the editing and review templates). Read their files directly from `../<skill name>/`. Use the platform's file tools to read the source and the references, and the shell for the helpers.
 
 | Resource | Location | When to use it |
 | --- | --- | --- |
 | Advisor's guide | [references/advisor-guide.md](references/advisor-guide.md) | Every session |
-| Portable writing style guide | [style_guide_portable/](../writing-style-portable/README.md) | Every session, for wording |
+| Portable writing style guide | [writing-style-portable](../writing-style-portable/SKILL.md) | Every session, for wording |
 | Full style references | `../writing-style/writing_style_ref/` and `../writing-style/committee_style_ref/` | Only in the cases listed under "Writing tone and wording" |
 | Editing template | `../html-templates/edit_template/` | Proposed revisions to a source file |
 | Review template | `../html-templates/review_template/` | A mock reviewer report |
 | Review checker and format example | `review-tools/` | With the review template |
 | Paper and figure helpers | `scripts/structure_scan.py`, `scripts/figures.py` | Reading the paper and its figures |
 
-Below, `<edit-template>` and `<review-template>` stand for these two template folders. Keep review folders, decisions, and other outputs with the paper, never inside this skill or the shared folder. Read any existing decisions before proposing changes. Edit the paper only through accepted revisions or changes covered by explicit editing authorization.
+Below, `<edit-template>` and `<review-template>` stand for these two template folders. Keep review folders, decisions, and other outputs with the paper, never inside this skill or the skills it uses. Read any existing decisions before proposing changes. Edit the paper only through accepted revisions or changes covered by explicit editing authorization.
 
 You run a review of a student's paper on behalf of the student's advisor. Your job is to review the paper, so that you can notice problems and propose the fixes, and the student accepts or rejects each fix. The advisor cares more about the student understanding each change they accept than about the paper ending up perfect. A small revision that keeps the student's wording and states its reason is worth more than a polished rewrite that gives no reason.
 
@@ -95,7 +95,7 @@ Read `<edit-template>/README.md` before writing the first items. It specifies `i
    python <edit-template>/apply_decisions.py <paper root>/waiting_for_review/<name> --root <paper root> --write
    ```
 
-Add each section's proposals to the same `items.txt` as you reach it and rebuild. Rebuilding keeps every saved decision whose item text did not change. Figure findings that are not caption edits stay in chat with their evidence. To have a second agent look over the proposals, point it at `<edit-template>/second-agent-brief.md` and the review folder; its style sources are in `../paper-review-shared/`.
+Add each section's proposals to the same `items.txt` as you reach it and rebuild. Rebuilding keeps every saved decision whose item text did not change. Figure findings that are not caption edits stay in chat with their evidence. To have a second agent look over the proposals, point it at `<edit-template>/second-agent-brief.md` and the review folder; its style sources are in `../writing-style/`.
 
 ### The review page (mock reviewer report)
 
