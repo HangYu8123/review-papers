@@ -9,9 +9,12 @@
   To review a paper, copy this review.html into <paper folder>/review/ and fill in review-data.js next to it.
 
   The Review tab reads as one report. Each section (summary, strengths, weaknesses, areas for improvement,
-  overall recommendation) is a card with its guideline. Every point has accept, edit, and reject buttons, and
-  right after it come its references: the evidence and reason behind it, with optional agree and disagree.
-  After the five sections come the final review, which prints as a formal report, and a state machine of the paper.
+  overall recommendation) is a card with its guideline. Every point has accept, edit, and reject buttons and
+  a note. Edit opens the text with Save and accept, which keeps your wording and accepts the point at once, and
+  Save wording, which keeps the decision as it is. Right after the point come its references: the evidence and
+  reason behind it, with optional agree and disagree. After the five sections come notes on the whole review,
+  which collect every note in one place, then the final review, which prints as a formal report, and a state
+  machine of the paper. Notes are never part of the final review.
   The Connections tab maps what each section needs, and shows which links the loaded review has.
 
   review-data.js holds window.REVIEW_DATA, an object with these fields:
@@ -103,10 +106,13 @@
   The part of review-data.js from the first opening brace to the last closing brace must be
   strict JSON, because writing_style_ref/tools/import_review.py reads it that way.
 
-  Save decisions downloads <review_id>.decisions.<timestamp>.json. Each decision has
-  id, status (accepted, rejected, or undecided), decided_at, and when present
-  revised_override (the edited text), comment (why it was rejected), and
-  logic (list of evidence id, verdict, and note).
+  Save decisions writes <review_id>.decisions.<timestamp>.json into the folder this page is in, in
+  browsers that can write to a folder (Chrome, Edge). The first save asks for that folder once. Other
+  browsers, and Download instead, put the file in Downloads. It has notes (your notes on the
+  whole review) when there are any, and one decision for each point with a decision, wording, note, or
+  verdict. Each decision has id, status (accepted, rejected, or undecided), decided_at, and when present
+  revised_override (your wording, saved with or without accepting it), comment (your note on the point,
+  which on a rejected point says why), and logic (list of evidence id, verdict, and note).
 -->
 <style>
 :root {
@@ -197,7 +203,7 @@ h1 { font: 700 34px/1.2 var(--sans); letter-spacing: -.02em; margin: 9px 0 12px;
 .sec-head h3:focus { outline: none; }
 .ic-summary, .ic-weakness { color: var(--red); }
 .ic-strength { color: var(--green); }
-.ic-improvement, .ic-machine { color: var(--ext-ink); }
+.ic-improvement, .ic-machine, .ic-notes { color: var(--ext-ink); }
 .ic-recommendation { color: var(--gold); }
 .ic-final { color: var(--ink); }
 .list-label { display: flex; align-items: center; gap: 6px 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
@@ -255,6 +261,9 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
 .accept:disabled, .accept:disabled:hover { color: var(--green); border-color: #b6d1bf; }
 .note-box { margin-top: 12px; }
 .note-box textarea { min-height: 62px; font-size: 13px; }
+.note-label { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ext-ink); margin-bottom: 6px; }
+.note-label span { font-weight: 400; letter-spacing: 0; text-transform: none; font-size: 11px; color: var(--muted); }
+.edit-hint { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
 .doubt { font-size: 12px; color: #6f5226; background: var(--goldsoft); border-radius: 7px; padding: 8px 12px; margin: 12px 0 0; }
 
 /* ---------- references, right after each point ---------- */
@@ -275,6 +284,17 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
 .logic .actions { gap: 6px; }
 .logic-label { font-size: 12px; color: var(--muted); margin-right: 6px; }
 .refs-none { font-size: 12px; color: var(--muted); margin: 12px 0 0; }
+
+/* ---------- notes on the whole review ---------- */
+.notes-text { min-height: 120px; font-size: 14px; line-height: 1.6; }
+.notes-sub { font: 700 15px/1.4 var(--sans); margin: 26px 0 0; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.note-list { list-style: none; margin: 0; padding: 0; }
+.note-list li { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 4px 18px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+.note-list .note-where { display: flex; flex-direction: column; gap: 2px; }
+.note-list .note-where a { font-weight: 600; }
+.note-list .note-where span { font-size: 11px; color: var(--muted); }
+.note-list .note-body { white-space: pre-wrap; overflow-wrap: anywhere; }
+.notes-none { font-size: 13px; color: var(--muted); margin: 11px 0 0; }
 
 /* ---------- final review ---------- */
 .final-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
@@ -457,6 +477,17 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
 
 .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); max-width: 90%; background: var(--ink); color: white; padding: 12px 20px; border-radius: 8px; box-shadow: 0 5px 25px #0002; font-size: 13px; z-index: 30; overflow-wrap: anywhere; }
 
+/* ---------- the dialog that asks for this page's folder ---------- */
+dialog { border: 1px solid var(--line); border-radius: 14px; max-width: 600px; width: calc(100% - 32px); padding: 26px 28px; color: var(--ink); background: var(--white); box-shadow: 0 10px 80px #0003; }
+dialog::backdrop { background: #10241c70; }
+dialog h2 { font: 700 21px/1.3 var(--sans); margin: 0 0 12px; }
+dialog p { color: var(--muted); font-size: 14px; margin: 0 0 12px; }
+.dialog-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-top: 20px; }
+.pathrow { display: flex; gap: 10px; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 0 0 12px; }
+.pathrow code { flex: 1; min-width: 0; overflow-wrap: anywhere; font: 13px/1.4 var(--mono); }
+dialog p.folder-err { color: var(--red); background: var(--redsoft); border-radius: 8px; padding: 9px 12px; }
+.side-save p.side-links { margin-top: 6px; }
+
 @media (max-width: 1000px) {
   .shell { padding: 0 22px; }
   .workspace { grid-template-columns: 180px minmax(0, 1fr); gap: 22px; }
@@ -485,6 +516,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
   .passage.original, .passage.evidence { border-right: 0; border-bottom: 1px solid var(--line); }
   .ref-row .passage, .logic { padding-left: 14px; padding-right: 14px; }
   .final-text { padding-left: 16px; padding-right: 16px; }
+  .note-list li { grid-template-columns: 1fr; }
   .toast { bottom: 16px; }
 }
 
@@ -493,7 +525,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
   @page { margin: 15mm 14mm; }
   body { background: white; font-size: 10.5pt; }
   .shell { max-width: none; padding: 0; }
-  .masthead, .stats, #notices, #tabs, .sidebar, #tab-connections, .intro, #review-parts, #final > .sec-head,
+  .masthead, .stats, #notices, #tabs, .sidebar, #tab-connections, .intro, #review-parts, #notes, #final > .sec-head,
   #final .notice, #final-plain, .final-foot, .toast, #machine .guide, #machine-check, #machine-flag, #machine-caption { display: none !important; }
   #tab-main { display: block !important; }
   .workspace { display: block; padding: 0; }
@@ -552,11 +584,23 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
       <div class="side-save">
         <button class="primary js-save" id="save-btn-side" type="button">Save decisions &darr;</button>
         <p id="side-status"></p>
+        <p class="side-links" id="side-links" hidden><button class="linklike" id="download-btn" type="button">Download instead</button></p>
       </div>
     </aside>
     <main>
-      <p class="intro">Accept, edit, or reject each point. Its references, the evidence and reason behind it, come right after it. Agreeing or disagreeing with a reference is optional and does not change a decision.</p>
+      <p class="intro">Accept, edit, or reject each point, and add a note to any of them. Edit, then Save and accept, keeps your wording and accepts the point in one step. Its references, the evidence and reason behind it, come right after it. Agreeing or disagreeing with a reference is optional and does not change a decision.</p>
       <div id="review-parts"></div>
+      <section class="part sec" id="notes" aria-labelledby="notes-heading">
+        <div class="sec-head">
+          <h3 id="notes-heading" tabindex="-1">Notes</h3>
+          <div class="list-label" id="notes-status"></div>
+        </div>
+        <p class="guide"><b>Not part of the review. </b>Notes for yourself and for the next draft: a point to add, a change across sections, or what to put on the venue form. A note about one point goes under that point, with Add a note. Every note is saved with your decisions and left out of the final review.</p>
+        <label class="note-label" for="review-notes">On the whole review</label>
+        <textarea id="review-notes" class="notes-text" placeholder="For example: add a weakness on the missing ablation, or keep the summary shorter."></textarea>
+        <h4 class="notes-sub">On points</h4>
+        <div id="point-notes"></div>
+      </section>
       <section class="part part-final" id="final" aria-labelledby="final-heading">
         <div class="sec-head">
           <h3 id="final-heading">Final review</h3>
@@ -595,7 +639,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
       <div class="map-scroll">
         <svg id="map" viewBox="0 0 1180 790" role="group" aria-label="Paper contents, external sources, and your rules feed the five review sections. Each generated point then moves through your decisions to the final review, the venue form, or a new generation. The review also feeds the paper state machine."></svg>
       </div>
-      <figcaption>Review sections run top to bottom, and each line ends on the row it supports. Each point then moves through your decisions, and only accepted or edited text reaches the final review. An edited point needs Reset before Accept. Agreeing or disagreeing with a reference never changes a decision.</figcaption>
+      <figcaption>Review sections run top to bottom, and each line ends on the row it supports. Each point then moves through your decisions, and only accepted or edited text reaches the final review. Save and accept keeps your wording and accepts the point in one step, and Reset goes back to the generated text without changing the decision. Notes go to the decisions file, never to the final review. Agreeing or disagreeing with a reference never changes a decision.</figcaption>
     </figure>
     <section class="part">
       <div class="list-label">
@@ -613,6 +657,19 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
 </div>
 
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<dialog id="folder-dialog" aria-labelledby="folder-title">
+  <h2 id="folder-title">Save into this page&rsquo;s folder</h2>
+  <p>The decisions file goes in the same folder as this page, next to its review-data.js. A browser can only write to a folder you choose, so choose this one:</p>
+  <div class="pathrow"><code id="folder-path"></code><button class="quiet" id="copy-path" type="button">Copy path</button></div>
+  <p>In the window that opens, paste the path into the address bar, press Enter, and click <b>Select Folder</b>. If the browser then asks whether this page may edit files there, allow it. You are asked once for each review.</p>
+  <p class="folder-err" id="folder-err" hidden></p>
+  <div class="dialog-actions">
+    <button class="quiet" id="cancel-folder" type="button">Cancel</button>
+    <button id="dl-instead" type="button">Download instead</button>
+    <button class="primary" id="pick-folder" type="button" autofocus>Choose folder&hellip;</button>
+  </div>
+</dialog>
 
 <script src="review-data.js"></script>
 <script>
@@ -633,7 +690,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     },
     {
       key: 'weakness', label: 'Weaknesses', one: 'Weakness', exportLabel: 'Weakness', list: true, icon: 'weakness', chip: 'W',
-      guide: 'Point out weaknesses in a nice tone and ignore minor ones. Use no more than two points like more baselines or more recent work. Focus on what is really insufficient, such as unclear contributions, insufficient evidence for claimed contributions, or wrong or very outdated methods.',
+      guide: 'Point out weaknesses in a nice tone and ignore minor ones. Use no more than two points like more baselines or more recent work. Focus on what is really insufficient, such as unclear contributions, insufficient evidence for claimed contributions, or wrong or very outdated methods. In a review of a paper that is not your own, ask about an observation the paper does not explain instead of explaining it.',
       check(kept) {
         const n = kept.filter(function (it) { return /baselines?\b|recent (work|method|approach)|more recent|newer (work|method)/i.test(textOf(it)); }).length;
         return { ok: n <= 2, text: n + (n === 1 ? ' point looks like' : ' points look like') + ' more baselines or more recent work. The guideline allows at most two.' };
@@ -666,6 +723,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     improvement: '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
     recommendation: '<circle cx="12" cy="9" r="6"/><path d="M8.5 13.8L7 22l5-3 5 3-1.5-8.2"/>',
     final: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 14.5l2 2 4-4"/>',
+    notes: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>',
     machine: '<rect x="2.5" y="3.5" width="7" height="5.5" rx="1.5"/><rect x="14.5" y="3.5" width="7" height="5.5" rx="1.5"/><rect x="8.5" y="15" width="7" height="5.5" rx="1.5"/><path d="M9.5 6.25h5M6 9v2.5a2 2 0 0 0 2 2h1.5M18 9v2.5a2 2 0 0 1-2 2h-1.5"/>',
     venue: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
     paper: '<path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/>',
@@ -703,7 +761,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     edited: { lane: 'decisions', x: 912, y: 176, w: 100, h: 48, title: 'Edited', about: 'Your wording is kept instead of the generated text.' },
     rejected: { lane: 'decisions', x: 1052, y: 176, w: 100, h: 48, title: 'Rejected', about: 'The point is left out of the final review.' },
     final: { lane: 'outputs', x: 772, y: 336, w: 180, h: 50, title: 'Final review', sub: 'Accepted and edited text', about: 'The accepted and edited text, renumbered, as a formal report and as plain text in the layout of your earlier reviews.' },
-    decisionsFile: { lane: 'outputs', x: 992, y: 336, w: 160, h: 50, title: 'Decisions file', sub: 'Every decision and note', about: 'The file from Save decisions. It holds every decision, edit, reason, and logic verdict.' },
+    decisionsFile: { lane: 'outputs', x: 992, y: 336, w: 160, h: 50, title: 'Decisions file', sub: 'Every decision and note', about: 'The file from Save decisions. It holds every decision, edit, note, and logic verdict, and your notes on the whole review.' },
     form: { lane: 'outputs', x: 772, y: 446, w: 180, h: 50, end: true, title: 'Venue form', sub: 'Paste text, add scores', about: 'Where the review ends up. Paste the final review, then fill in what this page does not cover.' },
     regenerate: { lane: 'outputs', x: 992, y: 446, w: 160, h: 50, title: 'Regenerate', sub: 'New review-data.js', about: 'A new review-data.js made from your decisions. Changed points start undecided again.' },
     venue: { lane: 'outputs', external: true, x: 772, y: 556, w: 180, h: 50, title: 'Venue rules', sub: 'LLM policy, required fields', about: 'The rules of the venue, such as its LLM policy and required fields.' },
@@ -740,8 +798,8 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     { from: 'edited', to: 'final', kind: 'flow', d: 'M962 224 C962 285 905 285 905 334', labels: [{ x: 862, y: 326, text: 'kept text', anchor: 'middle' }], why: 'Only accepted and edited text reaches the final review.' },
     { from: 'final', to: 'form', kind: 'flow', d: 'M862 386 L862 444', labels: [{ x: 870, y: 419, text: 'Copy text' }], why: 'The final review holds the review text only.' },
     { from: 'venue', to: 'form', kind: 'flow', d: 'M862 556 L862 498', labels: [{ x: 870, y: 531, text: 'scores, policy statements' }], why: 'Scores, confidence, key questions, and policy statements go on the venue form. This page does not fill them in.' },
-    { from: 'decisions', to: 'decisionsFile', kind: 'flow', d: 'M1072 288 L1072 334', labels: [{ x: 1080, y: 314, text: 'Save decisions' }], why: 'Saves every decision, edit, reason, and logic verdict.' },
-    { from: 'decisionsFile', to: 'regenerate', kind: 'flow', d: 'M1072 386 L1072 444', labels: [{ x: 1080, y: 411, text: 'rejected points,' }, { x: 1080, y: 425, text: 'disagreed logic' }], why: 'Rejected points, reasons, and disagreed logic show what to change next.' },
+    { from: 'decisions', to: 'decisionsFile', kind: 'flow', d: 'M1072 288 L1072 334', labels: [{ x: 1080, y: 314, text: 'Save decisions' }], why: 'Saves every decision, edit, note, and logic verdict, and your notes on the whole review.' },
+    { from: 'decisionsFile', to: 'regenerate', kind: 'flow', d: 'M1072 386 L1072 444', labels: [{ x: 1080, y: 403, text: 'notes,' }, { x: 1080, y: 416, text: 'rejected points,' }, { x: 1080, y: 429, text: 'disagreed logic' }], why: 'Notes, rejected points, and disagreed logic show what to change next.' },
     { from: 'regenerate', to: 'review', kind: 'flow', d: 'M1152 471 Q1158 471 1158 477 L1158 742 Q1158 754 1146 754 L582 754 Q570 754 570 742 L570 735', labels: [{ x: 820, y: 748, text: 'changed text loses only its own decision', anchor: 'middle' }], why: 'A point whose text or evidence changed becomes undecided. Unchanged points keep their decisions.' },
     { from: 'decisionsFile', to: 'style', kind: 'optional', d: 'M1152 361 L1160 361 Q1166 361 1166 367 L1166 766 Q1166 778 1154 778 L147 778 Q135 778 135 766 L135 704', labels: [{ x: 640, y: 772, text: 'optional, with import_review.py', anchor: 'middle' }], why: 'import_review.py can add your decisions to the style reference.' },
   ];
@@ -753,9 +811,9 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     { from: 'weakness', to: 'improvement', d: 'M538 471 L538 509', labels: [{ x: 548, y: 495, text: 'real gaps only' }] },
     { from: 'improvement', to: 'recommendation', d: 'M538 579 L538 617', labels: [{ x: 548, y: 603, text: 'one or two points' }] },
     { from: 'undecided', to: 'accepted', both: true, d: 'M925 98 C905 135 822 130 822 174', labels: [{ x: 836, y: 124, text: 'accept' }] },
-    { from: 'undecided', to: 'edited', both: true, d: 'M962 98 L962 174', labels: [{ x: 970, y: 131, text: 'save edit' }, { x: 970, y: 145, text: 'reset' }] },
+    { from: 'undecided', to: 'edited', both: true, d: 'M962 98 L962 174', labels: [{ x: 970, y: 131, text: 'save and' }, { x: 970, y: 145, text: 'accept' }] },
     { from: 'undecided', to: 'rejected', both: true, d: 'M999 98 C1019 135 1102 130 1102 174', labels: [{ x: 1062, y: 124, text: 'reject' }] },
-    { from: 'accepted', to: 'edited', d: 'M872 200 L910 200', labels: [{ x: 891, y: 192, text: 'edit', anchor: 'middle' }] },
+    { from: 'accepted', to: 'edited', both: true, d: 'M872 200 L910 200', labels: [{ x: 891, y: 192, text: 'edit', anchor: 'middle' }, { x: 891, y: 215, text: 'reset', anchor: 'middle' }] },
     { from: 'edited', to: 'rejected', both: true, d: 'M1014 200 L1050 200', labels: [{ x: 1032, y: 192, text: 'reject', anchor: 'middle' }] },
     { from: 'accepted', to: 'rejected', both: true, d: 'M840 226 C840 270 1084 270 1084 226', labels: [{ x: 1016, y: 274, text: 'reject / accept', anchor: 'middle' }] },
   ];
@@ -778,6 +836,8 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
   let state = {};
   let storageOk = true;
   let drafts = {};
+  let noting = {};
+  let reviewNotes = '';
   let refsClosed = {};
   let toastTimer = null;
   let clearTimer = null;
@@ -789,6 +849,13 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
   let machineSel = null;
   let measureCtx = null;
   let fontFamily = '';
+  // Saving into the folder this page is in. A browser may write only to a folder the person chooses,
+  // so the first save asks for it, and the choice is remembered for this page and review.
+  const FS_OK = typeof window.showDirectoryPicker === 'function';
+  let dirHandle = null;
+  let dirGranted = false;
+  let fromPage = false;
+  let saving = false;
 
   const $ = function (id) { return document.getElementById(id); };
   const hrefTo = function (id) { return '#' + encodeURIComponent(id); };
@@ -909,8 +976,12 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
 
   function storageKey() { return 'paper-review/' + review.review_id; }
 
+  function noteOf(s) {
+    return s && typeof s.comment === 'string' ? s.comment.trim() : '';
+  }
+
   function hasInput(s) {
-    return s && (s.status || s.override != null || Object.values(s.logic).some(function (v) { return v.verdict; }));
+    return s && (s.status || s.override != null || noteOf(s) || Object.values(s.logic).some(function (v) { return v.verdict; }));
   }
 
   function persist() {
@@ -920,7 +991,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
       review.items.forEach(function (it) {
         if (hasInput(state[it.id])) items[it.id] = Object.assign({ fp: fingerprint(it) }, state[it.id]);
       });
-      localStorage.setItem(storageKey(), JSON.stringify({ items: items }));
+      localStorage.setItem(storageKey(), JSON.stringify({ items: items, notes: reviewNotes }));
       storageOk = true;
     } catch (e) {
       storageOk = false;
@@ -929,12 +1000,16 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
   }
 
   // A decision is dropped when the generated text or evidence under it has changed.
+  // Notes on the whole review are kept, since they belong to no one point.
   function restore() {
     state = {};
+    reviewNotes = '';
     let dropped = 0;
     if (isBlank()) return dropped;
     try {
-      const saved = JSON.parse(localStorage.getItem(storageKey()) || '{}').items || {};
+      const all = JSON.parse(localStorage.getItem(storageKey()) || '{}');
+      const saved = all.items || {};
+      if (typeof all.notes === 'string') reviewNotes = all.notes;
       review.items.forEach(function (it) {
         const s = saved[it.id];
         if (!s) return;
@@ -966,15 +1041,12 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
 
   // Decisions
 
+  // Accept and Reject each toggle. The wording is kept apart from the decision, so accepting a point
+  // with your wording makes it Edited, and Reset goes back to the generated text without changing the decision.
   function decide(id, action) {
     const s = entry(id);
-    if (action === 'accept') {
-      s.status = s.status === 'accepted' ? null : 'accepted';
-    } else if (s.status === 'rejected') {
-      s.status = s.override != null ? 'accepted' : null;
-    } else {
-      s.status = 'rejected';
-    }
+    const to = action === 'accept' ? 'accepted' : 'rejected';
+    s.status = s.status === to ? null : to;
     s.decided_at = s.status ? stamp() : undefined;
     commit(id);
   }
@@ -986,7 +1058,8 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
   }
 
-  function saveEdit(item) {
+  // Save and accept keeps the wording and accepts the point. Save wording keeps the decision as it is.
+  function saveEdit(item, accept) {
     const text = drafts[item.id].trim();
     if (!text) {
       const err = $('edit-error-' + item.id);
@@ -995,23 +1068,26 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
       return;
     }
     const s = entry(item.id);
+    const before = s.override;
     delete drafts[item.id];
-    if (text === item.revised.trim()) {
-      if (s.override != null) { delete s.override; s.status = null; s.decided_at = undefined; }
-    } else {
-      s.override = text;
-      s.status = 'accepted';
-      s.decided_at = stamp();
-    }
-    commit(item.id, 'action-' + item.id + '-edit');
+    if (text === item.revised.trim()) delete s.override; else s.override = text;
+    if (accept) s.status = 'accepted';
+    if (s.status && (accept || s.override !== before)) s.decided_at = stamp();
+    commit(item.id, 'action-' + item.id + (accept ? '-accept' : '-edit'));
+    if (!accept && s.override != null && s.status !== 'accepted') toast('Wording saved. Accept the point to put it in the final review.');
   }
 
   function undoEdit(id) {
     const s = entry(id);
+    delete drafts[id];
     delete s.override;
-    s.status = null;
-    s.decided_at = undefined;
+    if (s.status) s.decided_at = stamp();
     commit(id, 'action-' + id + '-edit');
+  }
+
+  function openNote(item) {
+    noting[item.id] = true;
+    redrawItem(item.id, 'note-text-' + item.id);
   }
 
   function setLogic(id, evidenceId, verdict) {
@@ -1036,6 +1112,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
   }
 
   function commit(id, focusKey) {
+    if (!noteOf(state[id])) delete noting[id];
     persist();
     redrawItem(id, focusKey);
     refresh();
@@ -1090,47 +1167,68 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     });
     function size() { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 2 + 'px'; }
     requestAnimationFrame(size);
+    const status = statusOf(item.id);
+    const hint = isKept(item) ? 'The point is accepted, so either button puts your wording in the final review.'
+      : 'Save and accept puts your wording in the final review. Save wording keeps the point ' + STATUS_LABEL[status].toLowerCase() + '.';
     return el('div', { class: 'editor' },
       el('div', { class: 'passage-label' }, 'Edit the review text'),
       ta,
       el('div', { class: 'edit-actions' },
-        el('button', { class: 'primary js-save-edit', type: 'button', onclick: function () { saveEdit(item); } }, 'Save edit'),
+        el('button', { class: 'primary js-save-accept', type: 'button', onclick: function () { saveEdit(item, true); } }, '✓ Save and accept'),
+        el('button', { class: 'js-save-edit', type: 'button', onclick: function () { saveEdit(item, false); } }, 'Save wording'),
         el('button', {
           class: 'quiet js-cancel-edit', type: 'button',
           onclick: function () { delete drafts[item.id]; redrawItem(item.id, 'action-' + item.id + '-edit'); },
         }, 'Cancel'),
-        el('span', { class: 'edit-error', id: 'edit-error-' + item.id, role: 'alert', hidden: true })));
+        entry(item.id).override != null ? el('button', {
+          class: 'quiet js-reset-edit', type: 'button', onclick: function () { undoEdit(item.id); },
+        }, 'Reset to the generated text') : null,
+        el('span', { class: 'edit-error', id: 'edit-error-' + item.id, role: 'alert', hidden: true })),
+      el('p', { class: 'edit-hint' }, hint));
+  }
+
+  function drawNoteBox(item, status) {
+    const s = entry(item.id);
+    const rejected = status === 'rejected';
+    return el('div', { class: 'note-box' },
+      el('label', { class: 'note-label', for: 'note-' + item.id }, rejected ? 'Why reject this' : 'Note', el('span', null, 'not part of the review')),
+      el('textarea', {
+        id: 'note-' + item.id, 'data-key': 'note-text-' + item.id, value: s.comment || '',
+        placeholder: rejected ? 'Why reject this? (optional)' : 'A note on this point, for example what to change in the next draft.',
+        oninput: function (ev) { s.comment = ev.target.value; persist(); drawNotes(); },
+      }));
   }
 
   function drawDecide(item, status) {
     const s = entry(item.id);
-    const edited = status === 'edited';
+    const kept = isKept(item);
+    const wording = s.override != null;
+    const showNote = status === 'rejected' || !!noteOf(s) || !!noting[item.id];
     const doubted = evidenceOf(item).some(function (e) { return (s.logic[e.id] || {}).verdict === 'disagree'; });
     return el('div', { class: 'point-foot' },
       el('div', { class: 'actions', role: 'group', 'aria-label': 'Decision on ' + pointName(item) },
         el('button', {
           class: 'accept', type: 'button', 'data-key': 'action-' + item.id + '-accept',
-          'aria-pressed': String(status === 'accepted'), disabled: edited,
-          title: edited ? 'Reset to the generated text to accept it instead' : null,
+          'aria-pressed': String(kept), title: wording ? 'Accept your wording' : null,
+          'aria-label': (wording ? 'Accept your wording for ' : 'Accept ') + pointName(item),
           onclick: function () { decide(item.id, 'accept'); },
         }, '✓ Accept'),
         el('button', {
           class: 'edit-btn', type: 'button', 'data-key': 'action-' + item.id + '-edit',
-          'aria-pressed': String(edited), onclick: function () { startEdit(item); },
+          'aria-pressed': String(wording), onclick: function () { startEdit(item); },
         }, 'Edit'),
         el('button', {
           class: 'reject', type: 'button', 'data-key': 'action-' + item.id + '-reject',
           'aria-pressed': String(status === 'rejected'), onclick: function () { decide(item.id, 'reject'); },
         }, '✕ Reject'),
-        s.override != null ? el('button', {
+        showNote ? null : el('button', {
+          class: 'quiet', type: 'button', 'data-key': 'note-' + item.id, onclick: function () { openNote(item); },
+        }, 'Add a note'),
+        wording ? el('button', {
           class: 'quiet', type: 'button', 'data-key': 'undo-' + item.id, onclick: function () { undoEdit(item.id); },
         }, 'Reset to the generated text') : null),
-      status === 'rejected' ? el('div', { class: 'note-box' }, el('textarea', {
-        id: 'reject-note-' + item.id, value: s.comment || '',
-        placeholder: 'Why reject this? (optional)', 'aria-label': 'Why reject ' + pointName(item),
-        oninput: function (ev) { s.comment = ev.target.value; persist(); },
-      })) : null,
-      doubted && (status === 'accepted' || edited) ? el('p', { class: 'doubt' }, 'You disagreed with a reference for this point, below.') : null);
+      showNote ? drawNoteBox(item, status) : null,
+      doubted && kept ? el('p', { class: 'doubt' }, 'You disagreed with a reference for this point, below.') : null);
   }
 
   function drawReferenceRow(item, e) {
@@ -1233,7 +1331,8 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
       return el('a', { class: 'chapter', href: '#review-' + sec.key, 'data-rail': 'review-' + sec.key },
         el('span', null, sec.label), el('span', { class: 'count', id: 'count-review-' + sec.key }));
     }).concat(
-      el('a', { class: 'chapter after', href: '#final', 'data-rail': 'final' }, el('span', null, 'Final review')),
+      el('a', { class: 'chapter after', href: '#notes', 'data-rail': 'notes' }, el('span', null, 'Notes'), el('span', { class: 'count', id: 'count-notes' })),
+      el('a', { class: 'chapter', href: '#final', 'data-rail': 'final' }, el('span', null, 'Final review')),
       el('a', { class: 'chapter', href: '#machine', 'data-rail': 'machine' }, el('span', null, 'Paper state machine'), el('span', { class: 'count', id: 'count-machine' })));
     $('nav').replaceChildren.apply($('nav'), links);
   }
@@ -1257,6 +1356,24 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
         sec.check ? el('p', { class: 'check', id: 'check-' + sec.key, hidden: !items.length }) : null,
         items.length ? body : el('p', { class: 'empty' }, 'No review text yet.'));
     }));
+  }
+
+  // The Notes section: the notes on the whole review, then every note on a point, in reading order.
+  function drawNotes() {
+    const box = $('review-notes');
+    if (document.activeElement !== box && box.value !== reviewNotes) box.value = reviewNotes;
+    box.disabled = isBlank();
+    const noted = SECTIONS.flatMap(itemsOf).filter(function (it) { return noteOf(state[it.id]); });
+    const count = noted.length + (reviewNotes.trim() ? 1 : 0);
+    $('count-notes').textContent = count ? String(count) : '';
+    $('notes-status').textContent = isBlank() ? '' : count ? count + (count === 1 ? ' note' : ' notes') : 'No notes yet';
+    $('point-notes').replaceChildren(noted.length
+      ? el('ul', { class: 'note-list' }, noted.map(function (it) {
+        return el('li', null,
+          el('div', { class: 'note-where' }, el('a', { href: hrefTo('pt-' + it.id) }, pointName(it)), el('span', null, STATUS_LABEL[statusOf(it.id)])),
+          el('div', { class: 'note-body' }, noteOf(state[it.id])));
+      }))
+      : el('p', { class: 'notes-none' }, isBlank() ? 'Load a review to add notes.' : 'No notes on points yet. Use Add a note under any point.'));
   }
 
   function divider(label) {
@@ -1400,6 +1517,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
       });
       flag.replaceChildren(el('div', null, open.length + (open.length === 1 ? ' point is' : ' points are') + ' undecided and left out: ', links, '.'));
     }
+    drawNotes();
     drawMachine();
     drawRefsToggle();
     if (activeTab === 'connections') drawMap();
@@ -1431,9 +1549,12 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
   function drawDest() {
     const dest = $('dest');
     const blank = isBlank();
+    const where = FS_OK ? 'Save decisions writes to this page’s folder' : 'Save decisions downloads the file';
     dest.className = 'dest ' + (blank ? 'off' : storageOk ? 'on' : 'bad');
     $('dest-text').textContent = blank ? 'Nothing to save yet'
-      : storageOk ? 'Decisions autosave in this browser' : 'Autosave is off in this browser. Use Save decisions.';
+      : storageOk ? 'Decisions autosave in this browser. ' + where + '.' : 'Autosave is off in this browser. Use Save decisions.';
+    dest.title = blank ? '' : FS_OK ? (pageFolder() || 'The folder that holds this review’s review-data.js') : 'Downloads';
+    $('side-links').hidden = blank || !FS_OK;
   }
 
   function drawMasthead() {
@@ -1468,7 +1589,9 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
       return;
     }
     review = data;
+    fromPage = data === window.REVIEW_DATA;
     drafts = {};
+    noting = {};
     refsClosed = {};
     selectedNode = null;
     machineSel = null;
@@ -1477,6 +1600,7 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     drawMasthead();
     drawDest();
     drawAll();
+    loadFolder();
   }
 
   // Drawing the paper state machine
@@ -2466,27 +2590,198 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
       const logic = Object.keys(s.logic).filter(function (k) { return s.logic[k].verdict; }).map(function (k) {
         return { evidence: k, verdict: s.logic[k].verdict, note: s.logic[k].note || '' };
       });
-      if (!s.status && !logic.length) return;
+      const note = noteOf(s);
+      if (!s.status && s.override == null && !note && !logic.length) return;
       const d = { id: it.id, status: s.status || 'undecided', decided_at: s.decided_at || saved, fp: fingerprint(it) };
       if (it.hash) d.hash = it.hash;
       if (s.override != null) d.revised_override = s.override;
-      if (s.status === 'rejected' && s.comment) d.comment = s.comment;
+      if (note) d.comment = note;
       if (logic.length) d.logic = logic;
       decisions.push(d);
     });
-    return { review_id: review.review_id, saved_at: saved, final_text: assemble(), decisions: decisions };
+    const batch = { review_id: review.review_id, saved_at: saved };
+    if (reviewNotes.trim()) batch.notes = reviewNotes.trim();
+    batch.final_text = assemble();
+    batch.decisions = decisions;
+    return batch;
   }
 
-  function saveDecisions() {
-    const batch = buildDecisions();
-    const name = review.review_id + '.decisions.' + batch.saved_at.slice(0, 19).replace(/[-:]/g, '').replace('T', '-') + '.json';
-    const url = URL.createObjectURL(new Blob([JSON.stringify(batch, null, 1) + '\n'], { type: 'application/json' }));
+  // The folder this page is in, as a path to paste into the folder picker. Known only for a page
+  // opened from disk that shows its own review-data.js.
+  function pageFolder() {
+    if (location.protocol !== 'file:' || !fromPage) return '';
+    const p = decodeURIComponent(location.pathname).replace(/\/[^\/]*$/, '');
+    if (location.host) return '\\\\' + location.host + p.replace(/\//g, '\\');
+    if (/^\/[A-Za-z]:/.test(p)) return p.slice(1).replace(/\//g, '\\');
+    return p;
+  }
+  function folderKey() { return (pageFolder() || location.href.replace(/[#?].*$/, '')) + '|' + review.review_id; }
+
+  function idb(mode, fn) {
+    return new Promise(function (resolve, reject) {
+      let open;
+      try { open = window.indexedDB.open('paper-review-folders', 1); } catch (e) { reject(e); return; }
+      open.onupgradeneeded = function () { open.result.createObjectStore('handles'); };
+      open.onerror = function () { reject(open.error); };
+      open.onsuccess = function () {
+        const db = open.result;
+        try {
+          const tx = db.transaction('handles', mode);
+          const req = fn(tx.objectStore('handles'));
+          tx.oncomplete = function () { db.close(); resolve(req ? req.result : undefined); };
+          tx.onerror = tx.onabort = function () { db.close(); reject(tx.error); };
+        } catch (e) { db.close(); reject(e); }
+      };
+    });
+  }
+
+  // The folder remembered for this review, if any. Permission may have lapsed since the last visit,
+  // and the next save asks for it again.
+  async function loadFolder() {
+    dirHandle = null;
+    dirGranted = false;
+    if (!FS_OK || isBlank()) return;
+    const key = folderKey();
+    try {
+      const h = await idb('readonly', function (st) { return st.get(key); });
+      if (!h || key !== folderKey()) return;
+      dirHandle = h;
+      dirGranted = (await h.queryPermission({ mode: 'readwrite' })) === 'granted';
+    } catch (e) {
+      dirHandle = null;
+      dirGranted = false;
+    }
+  }
+
+  async function forgetFolder() {
+    const key = folderKey();
+    dirHandle = null;
+    dirGranted = false;
+    try { await idb('readwrite', function (st) { return st.delete(key); }); } catch (e) { /* nothing stored */ }
+  }
+
+  // '' when the folder holds this review, otherwise why it does not.
+  async function folderProblem(h) {
+    let text;
+    try { text = await (await (await h.getFileHandle('review-data.js')).getFile()).text(); }
+    catch (e) { return 'The folder "' + h.name + '" has no review-data.js, so it is not the folder of this review. Choose the folder shown above.'; }
+    const m = /"review_id"\s*:\s*"((?:[^"\\]|\\.)*)"/.exec(text);
+    let id = null;
+    try { id = m && JSON.parse('"' + m[1] + '"'); } catch (e) { id = null; }
+    if (id !== review.review_id) return 'The folder "' + h.name + '" holds a different review' + (id ? ' (' + id + ')' : '') + '. Choose the folder shown above.';
+    const expect = pageFolder().replace(/[\\\/]+$/, '').split(/[\\\/]/).pop();
+    if (expect && h.name.toLowerCase() !== expect.toLowerCase()) {
+      return 'That folder is named "' + h.name + '", but this page is in "' + expect + '". Choose the folder shown above.';
+    }
+    return '';
+  }
+
+  // Resolves 'folder' once the folder is chosen and checked, 'download', or '' when cancelled.
+  function askFolder() {
+    return new Promise(function (resolve) {
+      const dlg = $('folder-dialog');
+      const err = $('folder-err');
+      const hint = pageFolder();
+      $('folder-path').textContent = hint || 'The folder that holds this review’s review-data.js';
+      $('copy-path').hidden = !hint;
+      err.hidden = true;
+      const done = function (v) {
+        $('pick-folder').onclick = $('dl-instead').onclick = $('cancel-folder').onclick = null;
+        dlg.oncancel = null;
+        if (dlg.open) dlg.close();
+        resolve(v);
+      };
+      const fail = function (text) { err.textContent = text; err.hidden = false; };
+      $('pick-folder').onclick = async function () {
+        try {
+          const h = await window.showDirectoryPicker({ id: 'paper-review', mode: 'readwrite' });
+          if ((await h.queryPermission({ mode: 'readwrite' })) !== 'granted' && (await h.requestPermission({ mode: 'readwrite' })) !== 'granted') {
+            fail('The browser was not allowed to edit files in that folder, so nothing can be saved there.');
+            return;
+          }
+          const why = await folderProblem(h);
+          if (why) { fail(why); return; }
+          dirHandle = h;
+          dirGranted = true;
+          const key = folderKey();
+          try { await idb('readwrite', function (st) { return st.put(h, key); }); } catch (e) { /* asked again next time */ }
+          done('folder');
+        } catch (e) {
+          if (e && e.name === 'AbortError') return;
+          fail('That folder could not be opened (' + ((e && e.message) || e) + ').');
+        }
+      };
+      $('dl-instead').onclick = function () { done('download'); };
+      $('cancel-folder').onclick = function () { done(''); };
+      dlg.oncancel = function (ev) { ev.preventDefault(); done(''); };
+      dlg.showModal();
+    });
+  }
+
+  // The remembered folder when it is still allowed and still holds this review, otherwise the dialog.
+  // Asking the browser for permission again is allowed only during a click, so this runs first.
+  async function ensureFolder() {
+    if (dirHandle) {
+      let p;
+      try { p = await dirHandle.queryPermission({ mode: 'readwrite' }); } catch (e) { p = 'denied'; }
+      if (p === 'prompt') {
+        try { p = await dirHandle.requestPermission({ mode: 'readwrite' }); } catch (e) { p = 'denied'; }
+      }
+      dirGranted = p === 'granted';
+      if (dirGranted) {
+        if (!(await folderProblem(dirHandle))) return 'folder';
+        await forgetFolder();
+      }
+    }
+    return askFolder();
+  }
+
+  async function writeToFolder(name, text) {
+    const fh = await dirHandle.getFileHandle(name, { create: true });
+    const w = await fh.createWritable();
+    await w.write(text);
+    await w.close();
+    const back = await (await fh.getFile()).text();
+    if (back !== text) throw new Error('the file did not read back as written');
+  }
+
+  function download(name, text) {
+    const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
     const a = el('a', { href: url, download: name });
     document.body.append(a);
     a.click();
     a.remove();
     setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
-    toast('Downloaded ' + name);
+  }
+
+  // Save decisions writes into this page's folder where the browser can, and downloads otherwise.
+  // Download instead always downloads.
+  async function saveDecisions(ev) {
+    if (saving || isBlank()) return;
+    const wantDownload = !!(ev && ev.currentTarget && ev.currentTarget.id === 'download-btn');
+    saving = true;
+    let via = 'download';
+    try {
+      if (FS_OK && !wantDownload) {
+        via = await ensureFolder();
+        if (!via) { toast('Not saved. Your decisions are still kept in this browser.'); return; }
+      }
+      const batch = buildDecisions();
+      const name = review.review_id + '.decisions.' + batch.saved_at.slice(0, 19).replace(/[-:]/g, '').replace('T', '-') + '.json';
+      const text = JSON.stringify(batch, null, 1) + '\n';
+      if (via === 'folder') {
+        await writeToFolder(name, text);
+        toast('Saved ' + name + ' in this page’s folder');
+      } else {
+        download(name, text);
+        toast('Downloaded ' + name + ' to your Downloads folder');
+      }
+    } catch (e) {
+      setNotice('The decisions could not be saved in this page’s folder (' + ((e && e.message) || e) + '). They are still kept in this browser. Try Save decisions again, or use Download instead.', 'bad');
+    } finally {
+      saving = false;
+      drawDest();
+    }
   }
 
   function applyDecisions(batch, source) {
@@ -2507,6 +2802,9 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     });
     state = next;
     drafts = {};
+    noting = {};
+    // An older decisions file has no notes field, so the notes typed here are kept.
+    if (typeof batch.notes === 'string') reviewNotes = batch.notes;
     persist();
     setNotice(dropped ? dropped + (dropped === 1 ? ' decision was' : ' decisions were') + ' skipped because the generated text or evidence changed.' : '');
     drawAll();
@@ -2551,14 +2849,35 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
 
   // Controls
 
+  $('notes-heading').prepend(icon('notes'));
   $('final-heading').prepend(icon('final'));
   $('machine-heading').prepend(icon('machine'));
+  $('review-notes').addEventListener('input', function (ev) {
+    reviewNotes = ev.target.value;
+    persist();
+    drawNotes();
+  });
   $('load-btn').addEventListener('click', function () { $('load-file').click(); });
   $('load-file').addEventListener('change', function (ev) {
     if (ev.target.files[0]) readFile(ev.target.files[0]);
     ev.target.value = '';
   });
   document.querySelectorAll('.js-save').forEach(function (b) { b.addEventListener('click', saveDecisions); });
+  $('download-btn').addEventListener('click', saveDecisions);
+  $('copy-path').addEventListener('click', async function () {
+    const btn = this;
+    const text = pageFolder();
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+      const ta = el('textarea', { value: text });
+      $('folder-dialog').append(ta);
+      ta.select();
+      try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
+      ta.remove();
+    }
+    btn.textContent = ok ? 'Copied' : 'Select and copy it';
+    setTimeout(function () { btn.textContent = 'Copy path'; }, 1800);
+  });
   $('copy-btn').addEventListener('click', copyFinal);
   $('print-btn').addEventListener('click', function () { window.print(); });
   $('view-doc').addEventListener('click', function () { setFinalView('doc'); });
@@ -2635,9 +2954,10 @@ textarea.edit { min-height: 120px; font: 16px/1.7 var(--sans); }
     disarm();
     state = {};
     drafts = {};
+    noting = {};
     persist();
     drawAll();
-    toast('Cleared all decisions.');
+    toast('Cleared all decisions, wording, and notes on points. The notes on the whole review are kept.');
   });
 
   drawMasthead();

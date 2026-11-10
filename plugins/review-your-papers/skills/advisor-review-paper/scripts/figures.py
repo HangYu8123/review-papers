@@ -17,7 +17,8 @@ Two modes:
 import argparse, re, subprocess, sys
 from pathlib import Path
 
-CAP = re.compile(r"^\s*(Figure|Fig\.|Table)\s+(\d+)\s*[:.]\s*(.*)", re.I)
+# Numbers such as 3, 4.1 (numbered within a chapter or section), and A.3 (appendices)
+CAP = re.compile(r"^\s*(Figure|Fig\.|Table)\s+([A-Z]?\.?\d+(?:\.\d+)*)\s*[:.](?!\d)\s*(.*)", re.I)
 
 
 def pdf_pages(path):
@@ -57,7 +58,7 @@ def inventory_pdf(path, out):
                     break
                 cap.append(nxt.strip())
             kind = "Table" if m.group(1).lower().startswith("tab") else "Figure"
-            items.append({"kind": kind, "num": int(m.group(2)), "page": p,
+            items.append({"kind": kind, "num": m.group(2).upper(), "page": p,
                           "caption": " ".join(cap)})
     seen, uniq = set(), []
     for it in items:
@@ -65,10 +66,11 @@ def inventory_pdf(path, out):
         if k not in seen:
             seen.add(k); uniq.append(it)
     for it in uniq:
+        num = re.escape(it["num"]) + r"(?!\.?\d)"  # Figure 4 does not count Figure 4.1
         if it["kind"] == "Figure":
-            pat = r"\b(Figure|Fig\.)\s*%d\b" % it["num"]
+            pat = r"\b(Figure|Fig\.)\s*" + num
         else:
-            pat = r"\bTable\s*%d\b" % it["num"]
+            pat = r"\bTable\s*" + num
         it["text_refs"] = max(0, len(re.findall(pat, full, re.I)) - 1)  # minus caption
     pages = sorted({it["page"] for it in uniq})
     for p in pages:

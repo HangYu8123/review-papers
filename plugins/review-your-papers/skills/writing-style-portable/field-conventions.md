@@ -16,7 +16,7 @@ The first three are called the recent writers below, and Matarić and Scassellat
 
 These are the practices that the three recent writers share.
 
-1. State the thesis in one sentence and repeat that sentence in the abstract, the introduction, and the conclusion.
+1. State the thesis in one sentence and set it apart from the paragraph around it. Only Short is recorded as repeating it word for word, in the abstract and the introduction.
 2. Name the gap precisely. Say what prior work covers, what it leaves out, and why.
 3. Show a problem in a short scene before stating it in general terms.
 4. Open each chapter with what it presents and what was found, and say how it follows from the chapter before.
@@ -52,6 +52,30 @@ Rates are per 1,000 words. The last column is the author's dissertation draft of
 | Might | 1.0 | 0.2 | 1.0 | 0.0 | 0.7 | 0.3 |
 | Could | 0.7 | 1.9 | 1.2 | 0.6 | 0.9 | 1.3 |
 
+## Checked against twelve more dissertations
+
+In November 2026, the measures above were repeated on twelve more robotics and HRI dissertations from 2023 to 2026, from the groups of Matarić (Birmingham, Klein), Vázquez (Candon, Thompson, Tsoi), Scassellati (Georgiou, Ghose, Matheus), Fei-Fei Li (Gokmen, Sargent, Wong), and Song (Shi). The counts used the same code and the same text extraction, which reproduces Bobu's column above exactly, on about 374,000 words of running prose.
+
+| Measure | Lowest | Median | Highest | Range of the five above |
+| --- | --- | --- | --- | --- |
+| Mean words per sentence | 19.8 | 22.3 | 23.7 | 20.3 to 26.1 |
+| Sentences of 35 words or more (%) | 8 | 11 | 15 | 6 to 22 |
+| We, our, us | 4.5 | 14.7 | 27.0 | 3.0 to 25.7 |
+| Colons | 3.4 | 4.5 | 11.3 | 2.1 to 6.1 |
+| Semicolons | 0.7 | 1.0 | 8.6 | 0.7 to 2.3 |
+| Question marks | 0.0 | 0.6 | 1.6 | 0.1 to 0.5 |
+| Contractions | 0.0 | 0.1 | 0.4 | 0.0 to 0.9 |
+| Suggest and its forms | 0.1 | 0.5 | 1.3 | 0.1 to 1.3 |
+| May | 0.0 | 1.3 | 2.6 | 0.7 to 1.9 |
+| Might | 0.0 | 0.2 | 0.5 | 0.0 to 1.0 |
+| Could | 0.1 | 0.9 | 2.5 | 0.6 to 1.9 |
+
+- **What held.** Sentence length, the share of long sentences, and contractions fall inside the range of the five, and colons and semicolons are in or above it. The highest colon and semicolon rates (Shi) come partly from algorithm headers and from lists separated by semicolons.
+- **What was wider.** Question marks reach 1.6 per 1,000 words, may 2.6, and could 2.5, above the range of the five.
+- **First person.** All twelve use we, at 4.5 or more per 1,000 words, so none of the seventeen dissertations is impersonal throughout. The impersonal voice in the style guide is the author's choice for their own dissertation.
+- **The thesis sentence.** Eleven of the twelve abstracts could be extracted. None of the eleven dissertations repeats a sentence in the abstract, the introduction, and the conclusion. Five repeat a sentence of the abstract in the introduction, such as The goal of this dissertation is to (Klein) and This dissertation argues that (Candon). Bobu's core insight appears once, on the second page of her introduction.
+- **The final chapter.** Ten of the twelve final chapters run two to four pages. Georgiou's runs nine and Ghose's thirteen. Tsoi adds a separate seven-page Discussion chapter before a two-page Conclusion.
+
 ## The writers in brief
 
 - **Short.** Formal, and impersonal in the parts that frame the work. The longest sentences, often carrying a result with its condition and its interpretation. Each contribution moves through the same verbs, formalized, developed, instantiated, and validated. A chapter opens with a short abstract and ends with a Summary. Claims are graded with some support, limited evidence, and preliminary. Frequent openers are Additionally, However, and Finally.
@@ -84,7 +108,7 @@ Patterns marked *adds* cover ground the style guide does not. Patterns marked *d
 - **People.** Participants inside a study. Outside a study, users, people, or end-users. Each study states the number of participants, how they were recruited, and the limits of the sample.
 - **Imperfect input.** Non-expert input is called noisy or imperfect and is described as input that still carries signal. A claim about it is measured against two reference points, an expert and a random baseline.
 - **Graded words for evidence.** Some support, limited evidence, preliminary evidence, a trend towards, and less conclusive sit next to the number. Demonstrate and show are kept for results with a significant test or a clear margin.
-- **Hedges.** Suggest, may, might, and could each appear between 0.2 and 1.9 times per 1,000 words. Short prefers might and suggesting that, Vázquez could and tend to, and Bobu may.
+- **Hedges.** Suggest, may, might, and could each appear between 0.0 and 1.9 times per 1,000 words, and up to 2.6 times in twelve later dissertations. Short prefers might and suggesting that, Vázquez could and tend to, and Bobu may.
 - **Prior work.** Prior work is the usual phrase. A sentence about it says what the work focused on or assumed, so the next sentence can say what it leaves open.
 - **Evaluative words** *(differs)*. Short is restrained. Bobu writes notoriously challenging, sorely needed, and Unfortunately. A strong word is usually attached to a problem or a need, not to the writer's own result.
 

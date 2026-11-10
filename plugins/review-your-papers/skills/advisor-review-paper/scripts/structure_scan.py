@@ -75,7 +75,12 @@ def pdf_text(path: Path, page: int | None = None, keep_small: bool = False) -> s
     """
     import html
     rng = ["-f", str(page), "-l", str(page)] if page else []
-    bb = subprocess.run(["pdftotext", *rng, "-bbox-layout", str(path), "-"], capture_output=True, text=True).stdout
+    res = subprocess.run(["pdftotext", *rng, "-bbox-layout", str(path), "-"], capture_output=True, text=True)
+    if res.returncode != 0 or "<page" not in res.stdout:
+        # Git for Windows ships Xpdf's pdftotext, which has no -bbox-layout and exits with its usage text.
+        sys.exit(f"pdftotext -bbox-layout failed on {path} (exit {res.returncode}). The scan needs Poppler's "
+                 "pdftotext, such as the one in MiKTeX or in conda's poppler package, first on PATH.")
+    bb = res.stdout
     out_pages = []
     for page in re.findall(r"<page (.*?)</page>", bb, re.S):
         m = re.match(r'width="([\d.]+)" height="([\d.]+)"', page)
@@ -179,12 +184,33 @@ def heading_of(line: str, mode: str):
         if m and len(m.group(2).split()) <= 9 and not s.endswith((",", ";")):
             return m.group(1).count(".") + 1, f"{m.group(1)} {m.group(2)}"
         low = s.lower().rstrip(":")
-        if low in KNOWN_SECTIONS or re.sub(r"^appendix:?\s*", "", low) != low:
+        if low in KNOWN_SECTIONS or (low.startswith("appendix") and len(s.split()) <= 12
+                                     and not re.search(r"\)\.?\s|\.$", s)):
             return 1, s
     return None
 
 
 heading_of.roman_doc = False
+
+
+FUNCTION_WORDS = {"the", "of", "and", "to", "in", "a", "is", "that", "for", "with", "on", "as", "by",
+                  "are", "was", "were", "this", "from", "an", "be", "or", "not", "which", "than", "each"}
+
+
+def is_pdf_artifact(p: str) -> bool:
+    """Text that a PDF puts between paragraphs: running heads, contents leaders, reference entries, table cells."""
+    words = p.split()
+    if re.search(r"(?:\.\s?){5,}", p):        # leaders in a table of contents or list of figures
+        return True
+    if p.isupper() and len(words) < 15:         # running heads such as "CHAPTER 3. METHOD"
+        return True
+    if re.match(r"^\[\d+\]\s+[A-Z]", p):       # an entry of a reference list
+        return True
+    # Table cells, axis ticks, code, and equations have few words and almost no function words.
+    # A results paragraph full of statistics still has its "the", "of", and "and".
+    prose = sum(1 for w in words if re.fullmatch(r"[(\"\u201c]?[A-Za-z][a-z'\u2019-]+[.,;:)\"\u201d]*", w))
+    glue = sum(1 for w in words if w.lower().strip(".,;:()") in FUNCTION_WORDS)
+    return prose < 0.4 * len(words) and glue < 0.1 * len(words)
 
 
 def split_paragraphs(body: str, mode: str):
@@ -203,7 +229,8 @@ def split_paragraphs(body: str, mode: str):
                 merged.append(p)
         paras = merged
     return [p for p in paras if len(p.split()) >= 4 and not re.fullmatch(r"[\d\s.]+", p)
-            and not re.match(r"^(Figure|Fig\.|Table|Algorithm)\s+\d+[:.]", p)
+            and not re.match(r"^(Figure|Fig\.|Table|Algorithm)\s+[A-Z]?\.?\d+(\.\d+)*[:.]", p)
+            and not (mode == "pdf" and is_pdf_artifact(p))
             and not (mode == "pdf" and len(p.split()) < 15 and re.search(
                 r"@|^\*?\d+\s*Corresponding|^\*This work|^\d+\s*\D*(University|Institute|College|School|Department|Laborator)", p))]
 
@@ -257,6 +284,8 @@ def scan(path: Path, long_sent: int, long_para: int):
                     h = None
                 else:
                     last_num = n
+        if h and mode == "pdf" and h[0] == cur["level"] and h[1] == cur["title"]:
+            continue  # a PDF running head repeats the current heading
         if h:
             sections.append(cur)
             cur = {"level": h[0], "title": h[1], "lines": []}
@@ -292,7 +321,9 @@ def scan(path: Path, long_sent: int, long_para: int):
             pinfo.append({"n": i, "words": w, "sentences": len(ss), "start": snippet(p)})
             if w > long_para:
                 flags.append({"type": "long_paragraph", "para": i, "words": w, "start": snippet(p)})
-            if len(ss) <= SHORT_PARA_SENTS and not p.startswith("- ") and w < 60:
+            # In extracted text, a fragment without end punctuation is a heading, label, or list item.
+            ends = mode not in ("pdf", "txt") or re.search(r"[.?!][\"'\u201d)\]]?$", p)
+            if len(ss) <= SHORT_PARA_SENTS and not p.startswith("- ") and w < 60 and ends:
                 flags.append({"type": "short_paragraph", "para": i, "sentences": len(ss), "words": w, "start": snippet(p)})
             for s in ss:
                 sw = wc(s)

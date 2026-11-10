@@ -45,7 +45,7 @@ In the forms below, square brackets mark slots to fill. In the examples, ✗ mar
 14. Move, cut, and correct before writing new sentences. Add a sentence only when asked or when a fact the results depend on is missing.
 15. In text drafted from the author's notes, write what the notes say. Do not add a closing sentence that links the point back to the larger work.
 16. Choose terms the author already uses, listed in [vocabulary.md](vocabulary.md). Define a term the author has only read.
-17. State the thesis of a long work in one sentence, and repeat it in the same words in the abstract, the introduction, and the conclusion.
+17. State the thesis of a long work in one sentence. In the author's own work, repeat it in the same words in the abstract, the introduction, and the conclusion. Field dissertations rarely do this, so its absence is not a fault in another writer's paper or thesis.
 18. On slides, use few words in a spoken, scientific but casual tone. Report results as measured, keep premises plain, and keep the lines the author wrote.
 19. Tell the motivation of a talk or video as a story about the problem, not as a summary of results, and do not overstate what systems can do now.
 20. Write for a reader from a neighboring field. Gloss terms at first use, name the members of any counted set, give one case after a general claim, and give the measure and size of each comparative claim in an abstract, introduction, or summary.
@@ -107,7 +107,7 @@ Words that read as AI-drafted academic prose, such as delve, landscape, pivotal,
 
 ### Voice
 
-Keep the directness of the papers and choose one voice for the document. A paper uses we for what the authors did. A dissertation or thesis uses an impersonal voice, with this dissertation, this chapter, the study, the method, participants, or the results as the subject, and a procedural passive where the procedure deserves emphasis. A chapter or paper can propose, examine, or present, but it does not collect data, find results, or improve anything. Give outcome verbs such as improves or enables to the method or the results. Changing the subject must not change the strength of a claim, so found does not become suggested.
+Keep the directness of the papers and choose one voice for the document. A paper uses we for what the authors did. The author's dissertation uses an impersonal voice, with this dissertation, this chapter, the study, the method, participants, or the results as the subject, and a procedural passive where the procedure deserves emphasis. This is the author's choice and not a field norm, since all seventeen dissertations in [field-conventions.md](field-conventions.md) use we, between 3.0 and 27.0 times per 1,000 words. In another writer's paper or thesis, keep the voice the writer chose. A chapter or paper can propose, examine, or present, but it does not collect data, find results, or improve anything. Give outcome verbs such as improves or enables to the method or the results. Changing the subject must not change the strength of a claim, so found does not become suggested.
 
 **Forms.** We conducted a study → A study was conducted. Our key insight is that → The key insight is that. [Chapter] collected [data] and found [result] → In [chapter], [data] was collected. The results show that [result].
 
@@ -368,7 +368,7 @@ Place especially after a general statement to name the case that matters most, o
 
 ### The thesis in one sentence
 
-A long work can be reduced to one sentence, and the writer provides it. It names the object, such as a model or a method, and what it makes possible. Repeat it in the same words in the abstract, the introduction, and the conclusion.
+A long work can be reduced to one sentence, and the writer provides it. It names the object, such as a model or a method, and what it makes possible. The author repeats it in the same words in the abstract, the introduction, and the conclusion, which field dissertations seldom do (see [field-conventions.md](field-conventions.md)).
 
 **Forms.** The goal of this work is to [verb] [object] for [purpose].
 

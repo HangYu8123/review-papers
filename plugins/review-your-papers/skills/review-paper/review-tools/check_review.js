@@ -30,6 +30,11 @@ const KINDS = ['start', 'end', 'choice', 'state'];
 const BASELINE_LIKE = /baselines?\b|recent (work|method|approach)|more recent|newer (work|method)/i;
 const NOT_EXPERT = /not an expert|would not (argue|defend)/i;
 
+// A guessed cause after an observation. In an external review the point asks the authors instead.
+const EXPLAINS = /\b(?:(?:likely|probably|presumably|possibly|perhaps|maybe) (?:because|due to|caused by|since|from|reflects?)|(?:is|are|was|were) (?:likely|probably|presumably) (?:due to|because|caused by|the result of|a result of)|(?:may|might|could) (?:be|stem|come|result) (?:because|due to|caused by|from|explained by|attributed to|attributable to|the result of|a result of)|this (?:suggests|indicates|implies) that|one (?:possible |likely )?explanation|a (?:likely|possible|plausible) (?:explanation|cause|reason)|(?:can|could) be (?:explained|attributed) (?:by|to)|(?:stems?|stemmed) from|is attributable to)\b/i;
+// Words that ask the authors for something, or say what would resolve the concern.
+const ASKS = /\?|\b(?:please|clarify|clarification|explain|report|specify|discuss|justify|include|provide|add|compare|comparison|show|would (?:help|strengthen|be stronger|resolve|address)|it would help|should|needs? to|narrow(?:ing|ed)?)\b/i;
+
 // Wording to review in assistant drafts. The portable guide also records terms
 // Hang uses, so words such as moreover and leverage are not blanket errors.
 const AI_WORDS = [
@@ -95,6 +100,15 @@ function checkStyle(it) {
   if (/\bwe\b/i.test(t) && it.group !== 'summary') report('NOTE', id, 'Uses "we". The reviewer is "I", and the authors are "the authors".');
   if (/\b(as far as I know|new to me|to me,|I (?:worked through|checked|verified|went through)|I would (?:still )?love to see)\b/i.test(t)) {
     report('WARN', id, 'Has a conversational hedge or review-process narration. State the supported point and move checks or search limits into the evidence.');
+  }
+  if (it.group === 'weakness' || it.group === 'improvement' || it.group === 'recommendation') {
+    const why = t.match(EXPLAINS);
+    if (why) {
+      report('WARN', id, 'Explains an observation ("' + why[0] + '"). In an external review, state the observation and ask the authors to explain or clarify it, and keep any untested cause in the evidence. A review of the author\'s own paper may keep it.');
+    }
+    if (it.group === 'weakness' && !ASKS.test(t)) {
+      report('NOTE', id, 'Neither asks the authors anything nor says what would resolve the concern. End with a question or a request for clarification.');
+    }
   }
   const firstPerson = (t.match(/\b(?:I|me|my)\b/gi) || []).length;
   if (it.group !== 'recommendation' && firstPerson > 1) report('NOTE', id, 'Repeated first person. Prefer the authors, method, or results as the subject.');

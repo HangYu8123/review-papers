@@ -21,7 +21,7 @@ Be considerate through accurate acknowledgment and proportionate requests. Prefe
 
 These are examples of sentence form. Use them only when the current paper supports them. Put derivations, condition-specific values, and additional results in the evidence. A strength needs neither a field-wide novelty claim nor a speculative closing sentence about other applications.
 
-**Weaknesses.** State one concern, one decisive example with its location, and the implication or needed clarification. Usually use two or three sentences and 40 to 90 words. Credit a controlled comparison or acknowledged limitation before explaining the remaining concern. Use "My largest concern is" only when that concern drives the recommendation. Do not repeat all of a table or bundle unrelated concerns to save a bullet.
+**Weaknesses.** State one concern, one decisive example with its location, and the implication or needed clarification. When the concern is an observation the paper does not explain, end with the question for the authors, not a guess at the cause: "Please explain what causes the drop in cluttered scenes, since the robustness claim depends on it." Usually use two or three sentences and 40 to 90 words. Credit a controlled comparison or acknowledged limitation before explaining the remaining concern. Use "My largest concern is" only when that concern drives the recommendation. Do not repeat all of a table or bundle unrelated concerns to save a bullet.
 
 **Areas for improvement.** Give one or two proportionate actions, usually in two or three sentences per point. Prefer clarifications and analyses of available data. Offer narrowing a claim when that resolves the gap, and mark new training or robot experiments as optional when recommending minor revisions. Do not assume work is cheap because a component already appears in a figure.
 
@@ -35,7 +35,7 @@ Read the portable guide's Core philosophy and Quick reference before drafting, a
 2. Give each sentence one main job. Keep a governing condition with its claim and a result with its interpreting clause.
 3. Use few colons and semicolons, and no em dashes. State the relation with because, since, which, or a new sentence.
 4. When a number is essential to the review text, keep its measure, baseline, and condition with it. Distinguish percentage points from relative percentages. Move secondary values into the evidence instead of leaving a vague numerical claim.
-5. Report observations directly, qualify interpretations, and mark untested explanations as possibilities. Use can for a supported capability and may or might for a possible explanation.
+5. Report observations directly and qualify interpretations. In a review of someone else's paper, do not explain an observation the paper leaves unexplained. Ask the authors about it or request a clarification, and keep any untested cause in the evidence (see "Ask the authors, do not explain for them" in the skill). Use can for a supported capability.
 6. A difference that was not detected does not establish equivalence. Use significantly only for a supported statistical claim. A descriptive word such as comparable can be clarified by stating the measured tradeoff.
 7. Use literal wording and complete clauses. Avoid inflated praise, figurative summaries, adjective stacks, and closing sentences that merely restate the point.
 8. Keep value words next to what earns them. Say robust to what, or replace the adjective with the supported result.

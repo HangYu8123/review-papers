@@ -4,11 +4,15 @@ Another agent built a review in `waiting_for_review/<name>/`. Hang will go throu
 
 Point a fresh agent at this file and name the review, for example: "Follow `waiting_for_review/_template/second-agent-brief.md` for `waiting_for_review/reuth-suggestions-review`."
 
+## Use this rarely, and only when it is needed
+
+Every option you add turns a recommendation into a choice Hang has to make, so two options are for occasional use. Add one only where option A is wrong, does not answer the request it names, or loses something (a claim, a citation, a qualification) that Hang should weigh. Do not add one for a different wording that is about as good, or for a matter of taste. Most entries should get no option from you. If you find yourself disagreeing with many entries, keep only the few that matter most and list the rest in your report instead.
+
 ## Steps
 
 1. **Read `<name>/suggestions.md`.** The requests are at the top. Each entry gives the location, why the change is proposed, the original, the proposed text and a Version.
 2. **Check each entry against its source.** Open the `.tex` file at the given line and read the passage around it. Ask whether the edit answers the request it names, whether it is true to the chapter, and whether it fits Hang's writing. The style sources are `writing_style_ref/hangs-writing-style-reference.md` and `committee_style_ref/`.
-3. **Disagree only where you would choose differently and can say why.** Nothing has to be found. Disagreeing with no entries is a fine result, and it is recorded as such.
+3. **Disagree only where it is needed, as above, and you can say why.** Nothing has to be found. Disagreeing with no entries is a fine result, and it is recorded as such.
 4. **Write `<name>/disagreements.txt`** in the format below.
 5. **Build:** `python waiting_for_review/_template/build_review.py waiting_for_review/<name>`. Fix what it reports.
 6. **Test your options on a scratch copy** of the dissertation, not on the real one. Copy `chapters`, `figures`, `main.tex`, `references.bib`, the `.cls` and the review folder to `<scratch>/waiting_for_review/<name>`. Then run `python waiting_for_review/_template/apply_decisions.py <scratch>/waiting_for_review/<name> --accept-all --prefer-second --write`, run it again to confirm nothing changes, and compile there.

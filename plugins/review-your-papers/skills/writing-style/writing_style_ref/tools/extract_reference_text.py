@@ -29,7 +29,8 @@ import vocab_corpus as vc  # noqa: E402
 
 HERE = vc.HERE
 ROOT = HERE.parent
-CANDIDATES = ['pdftotext', r'C:\Program Files\Git\mingw64\bin\pdftotext.exe']
+# Git's Xpdf first: the vocabulary counts were made with it, and Poppler may be first on PATH.
+CANDIDATES = [r'C:\Program Files\Git\mingw64\bin\pdftotext.exe', 'pdftotext']
 
 
 def find_pdftotext():

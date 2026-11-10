@@ -10,5 +10,6 @@ summary, then strengths, then weaknesses, then areas for improvement, and finall
 
 8. Keep the summary short, usually 80 to 140 words in total. Its second paragraph, if needed, should be one or two sentences on the evaluation and main result. Keep strengths to one or two sentences with one supporting fact. Put detailed table values, equation checks, and calculations in the evidence.
 9. Use a professional and restrained tone. Prefer the authors, the method, or the results as the subject. Keep first person for personal concerns and the recommendation, including the expertise caveat. Avoid conversational hedges such as "As far as I know" and accounts of the reviewing process such as "I worked through the equations".
+10. For an external review, that is, a review of a paper that is not my own, do not provide analysis of an observation. Ask questions or ask for clarification rather than trying to explain it.
 
 Reference @writing-style-portable/writing-style-guide.md and its vocabulary companion for writing, with @previous_reviews for review structure and recommendation examples. Hang's current instructions and edited wording take precedence over older examples in @writing_style_ref or previous reviews.

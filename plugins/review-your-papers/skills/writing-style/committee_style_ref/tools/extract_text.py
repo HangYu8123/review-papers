@@ -4,9 +4,13 @@ Run from the dissertation folder:
 
     python committee_style_ref/tools/extract_text.py
 
-It needs pdftotext (Poppler). Git for Windows ships one in mingw64/bin. The
-output goes to committee_style_ref/sources/text/ and is what the build and the
-validation read, so the PDFs are only needed when the text is extracted again.
+It needs the pdftotext that Git for Windows ships in mingw64/bin, which is
+Xpdf 4.00, not Poppler. Xpdf writes each paragraph on one line, and the counts
+in common.py keep only lines of 20 words or more, so Poppler's pdftotext gives
+different measures (for Bobu, 7,772 words and a mean sentence of 15.9 words
+instead of 32,861 and 22.8). The output goes to committee_style_ref/sources/text/
+and is what the build and the validation read, so the PDFs are only needed when
+the text is extracted again.
 """
 import hashlib
 import json
@@ -24,7 +28,8 @@ PDFS = {
     'vazquez': 'Vazquez_2017_CMU_thesis.pdf',
     'bobu': 'Bobu_2023_Berkeley_EECS-2023-200.pdf',
 }
-CANDIDATES = ['pdftotext', r'C:\Program Files\Git\mingw64\bin\pdftotext.exe']
+# Git's Xpdf first: the counts depend on it (see the docstring), and Poppler may be first on PATH.
+CANDIDATES = [r'C:\Program Files\Git\mingw64\bin\pdftotext.exe', 'pdftotext']
 
 
 def find_pdftotext():

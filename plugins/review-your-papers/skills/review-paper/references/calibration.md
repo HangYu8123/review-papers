@@ -6,6 +6,7 @@ A review point is only useful if it holds up when the authors read it. Use these
 
 - Claims about what the paper does not say
 - Not reported is not the same as not done
+- Asking instead of explaining
 - Reading figures
 - Calculations built on assumptions
 - Statistics
@@ -27,6 +28,12 @@ Distinguish the absence of a selection criterion from missing details about how 
 When the paper does not mention training seeds, the number of runs, or matched initial scenes, ask. Do not write as fact that each model was trained once. "The paper does not say how many training runs were used. Please report it, since ..." is fair. "Each variant was trained once" is not, unless the paper says so.
 
 Identical numbers in two rows of a table can be a coincidence. Mention them as something the authors may want to check, if at all, and not as a sign of an error.
+
+## Asking instead of explaining
+
+In an external review, an observation the paper does not explain becomes a question, not a hypothesis. A drop in one condition, a baseline that beats the method on one metric, or a trend that reverses is the authors' to explain. Write what the paper shows, where, and which claim depends on it, then ask. "Possibly because", "likely due to", and "this suggests that" after an observation are the signs of a guessed cause. A guessed cause in the review text can be wrong, and even when right it does the authors' analysis for them. When a possible cause helps decide whether the question matters, keep it in the evidence `reason`, marked as untested.
+
+This does not reduce the checking. Verify that the paper really leaves the observation unexplained before asking, so that the question is not answered on the next page.
 
 ## Reading figures
 
@@ -81,3 +88,4 @@ Go through every item of the draft.
 10. The tone is one Hang would sign. Read the weaknesses as the authors would.
 11. The text follows [review-voice.md](review-voice.md), including no em dashes and few colons and semicolons.
 12. The machine's contributions match the summary, and each weak link matches a weakness.
+13. In an external review, no point explains an observation on the authors' behalf. Each one the paper leaves unexplained ends in a question or a request for clarification, and any guessed cause is in the evidence.

@@ -22,7 +22,7 @@ This skill runs in Claude Code and in Codex, as part of the `review-your-papers`
 | Review rules | [references/guideline.md](references/guideline.md), Hang's guideline for the sections, their order, and the rules for each one |
 | Past reviews, optional | `previous_reviews/previous_reviews` in the folder that holds the paper folder, or a file Hang names. They are confidential, so they are not part of this skill. |
 | Writing style | The [writing-style-portable](../writing-style-portable/SKILL.md) skill. The full references in the `writing-style` skill, `SKILL_DIR/../writing-style/writing_style_ref/` and `SKILL_DIR/../writing-style/committee_style_ref/`, only when needed (see step 5). |
-| Review template | `SKILL_DIR/../html-templates/review_template/`. Its `review.html` header comment (lines 1 to 110) is the specification of `review-data.js`. |
+| Review template | `SKILL_DIR/../html-templates/review_template/`. Its `review.html` header comment (lines 1 to 116) is the specification of `review-data.js`. |
 | Editing template | `SKILL_DIR/../html-templates/edit_template/`. Used only for edits to a manuscript's text (see "Edits to a manuscript's text"). |
 | Checker and format example | `SKILL_DIR/review-tools/check_review.js` and [review-data-format.md](review-tools/review-data-format.md), in this skill |
 | Output | `<paper>/review/review.html`, an unchanged copy of the template, and `<paper>/review/review-data.js` |
@@ -32,6 +32,21 @@ Below, `<review-template>` and `<edit-template>` stand for these two template fo
 When Hang asks to revise an existing review, update that review in place, preserving saved decisions and Hang's wording. Before replacing an existing review with a fresh draft, ask whether to replace it or write to `<paper>/review-<YYYYMMDD>/` instead.
 
 Treat the manuscript as confidential, since review copies are marked "For review only". Search the web for related work by topic and title, but never paste manuscript text into a web form, a search engine, or an external tool.
+
+## Ask the authors, do not explain for them
+
+A review of someone else's paper is an external review, and it is the usual case for this skill. Treat a review as external unless Hang says the paper is Hang's own or a co-author's.
+
+In an external review, do not analyze an observation on the authors' behalf. When a point rests on something the paper shows but does not explain, such as an unexpected result, a gap between two conditions, identical numbers in two rows, or a step that does not seem to follow, state the observation with its location and ask the authors to explain or clarify it. A reviewer's guess at the cause can be wrong, it answers the question for the authors, and the authors may read it as a claim they now have to rebut.
+
+- Write "Table 2 shows a lower success rate for the method in cluttered scenes than in open scenes (p. 6). Please explain what causes this drop, since the claim of robustness to clutter depends on it." Do not write "The drop is likely because the sampler cannot find collision-free grasps in clutter."
+- Do not follow an observation with "likely because", "possibly due to", "this suggests that", or "one explanation is". If a possible cause helps Hang judge whether the question is worth asking, put it in the evidence `reason`, marked as untested, and keep the review text to the observation and the question.
+- Keep the question tied to what depends on it. Name the claim that the answer affects, as a weakness already does, so the authors know why it is asked.
+- Checking is still part of the review. Search the paper, recompute numbers, and work through a derivation before asking, so the question is about what the paper really leaves open and not about something it states. This rule is about what the review text says, not about how much you verify.
+
+The rule applies to the weaknesses, the areas for improvement, and the recommendation. The summary and the strengths describe what the paper establishes and need no questions.
+
+When the paper is Hang's own or a co-author's, an explanation of an observation and a suggested fix are useful, since the author can act on them. Mark such an explanation as a reading, not a finding.
 
 ## Workflow
 
@@ -51,11 +66,12 @@ While reading, keep notes in `<scratchpad>/notes.md`:
 - **Method**, separating what is new from what is taken from earlier work.
 - **Experiments**, each with environment, workload (scenes, trials, runs, seeds), baselines, metrics, headline numbers, and location.
 - **Limitations the authors state themselves.**
+- **Open questions**, each an observation the paper does not explain, with its location and the claim that depends on it. In an external review these become questions for the authors, not explanations (see "Ask the authors, do not explain for them").
 - **Venue and submission id**, usually in the page header, and the review form options if known.
 
 ### 2. Check the claims against the evidence
 
-This step produces the weaknesses, so spend real time on it. For each claimed contribution, ask what supports it, whether that support isolates it (an ablation, a controlled baseline), whether it is tested in the setting the claim names (real robot or simulation, the objects or users it claims), how large the test is, and whether uncertainty is reported. Recompute derived numbers such as speedups, ratios, and percentages from counts. When the method's validity rests on a derivation or an equation, work through it instead of flagging it as unclear.
+This step produces the weaknesses, so spend real time on it. For each claimed contribution, ask what supports it, whether that support isolates it (an ablation, a controlled baseline), whether it is tested in the setting the claim names (real robot or simulation, the objects or users it claims), how large the test is, and whether uncertainty is reported. Recompute derived numbers such as speedups, ratios, and percentages from counts. When the method's validity rests on a derivation or an equation, work through it instead of flagging it as unclear. When a result is unexpected and the paper does not say why, record it as an open question. In an external review it stays a question for the authors, even when you have a likely explanation.
 
 Read [references/calibration.md](references/calibration.md) before drafting any weakness. It lists the ways earlier drafts went wrong, such as claiming the paper omits something it states, or treating a rough calculation as proof of a discrepancy.
 
@@ -84,7 +100,7 @@ Write the items in this order, with these ids: `summary-1`, `summary-2`, `streng
 
 **Strengths** (about three to six points). Lead with what is new and why it matters, then what the community gains, then rigor and clarity. Usually use one or two sentences and 25 to 60 words per point, with one supporting fact. Explain what an ablation establishes without reciting its rows. Put exact values, extra conditions, equation checks, and related-work comparisons in the evidence. Do not narrate the review process with "I worked through" or "I checked". Generic praise needs the fact that earns it.
 
-**Weaknesses** (usually three to five points, most important first). Focus on what is really insufficient, such as unclear contributions, insufficient evidence for a claimed contribution, or wrong or very outdated methods. Ignore minor issues, such as typos, one more sensitivity sweep, or a missing citation that changes nothing. Use at most two points of the "more baselines" or "more recent work" kind. Use a restrained and considerate tone, usually two or three sentences and 40 to 90 words. Each point states one concern, gives one decisive example and location, explains which claim it affects, and briefly says what would resolve it. Credit what the authors already did or acknowledged. Move additional examples and calculations into the evidence. Use "My largest concern is" only for the point that really drives the recommendation.
+**Weaknesses** (usually three to five points, most important first). Focus on what is really insufficient, such as unclear contributions, insufficient evidence for a claimed contribution, or wrong or very outdated methods. Ignore minor issues, such as typos, one more sensitivity sweep, or a missing citation that changes nothing. Use at most two points of the "more baselines" or "more recent work" kind. Use a restrained and considerate tone, usually two or three sentences and 40 to 90 words. Each point states one concern, gives one decisive example and location, explains which claim it affects, and briefly says what would resolve it. In an external review, a concern that rests on an observation the paper does not explain ends with a question or a request for clarification, not a guess at the cause. Credit what the authors already did or acknowledged. Move additional examples and calculations into the evidence. Use "My largest concern is" only for the point that really drives the recommendation.
 
 **Areas for improvement** (one or two points, usually two or three sentences each). Say what would make the paper better or acceptable with a reasonable workload. This is different from a weakness. A weakness says what is missing or wrong, and an improvement says what to do. Prefer actions that use what the authors already have, offer a cheaper path next to an experiment (such as narrowing a claim), and mark larger work as optional. Do not claim that a piece of work is small unless the paper shows it. Prefer "Please clarify ..." or "The comparison would be stronger with ..." to conversational requests such as "I would love to see ...".
 
@@ -120,7 +136,7 @@ Use about 8 to 16 states, listed by role in that order, and link each state to t
 
 ### 9. Verify before writing the files
 
-Reread the draft as a skeptical co-reviewer who wants to catch you being unfair or wrong. Go through the checklist at the end of [references/calibration.md](references/calibration.md). In short, search `paper.txt` for every quote, check every number against the table image, grep for synonyms before writing that the paper does not state something, redo every calculation, and make sure each request is proportionate to the recommendation. When a point fails, fix or drop it. Do not keep a flawed point and hope Hang catches it.
+Reread the draft as a skeptical co-reviewer who wants to catch you being unfair or wrong. Go through the checklist at the end of [references/calibration.md](references/calibration.md). In short, search `paper.txt` for every quote, check every number against the table image, grep for synonyms before writing that the paper does not state something, redo every calculation, make sure each request is proportionate to the recommendation, and, in an external review, make sure no point explains an observation on the authors' behalf. When a point fails, fix or drop it. Do not keep a flawed point and hope Hang catches it.
 
 ### 10. Write the files and check them
 
@@ -149,13 +165,14 @@ Then wait for Hang's decisions. Do not write a final review elsewhere or submit 
 
 ## Revising after Hang's decisions
 
-The page's "Save decisions" button downloads `<review_id>.decisions.<timestamp>.json`, usually into Downloads. When Hang brings one back, or says which points to change:
+The page's "Save decisions" button writes `<review_id>.decisions.<timestamp>.json` into the page's own folder, `<paper>/review/`, in browsers that can write to a folder (Chrome and Edge). The first save asks Hang to choose that folder once. In other browsers, or when Hang picks "Download instead", the file goes to Downloads. When Hang says the decisions are saved, look in the review folder first, then in Downloads, and take the newest file for this `review_id`. When Hang brings one back, or says which points to change:
 
-- An accepted point stays as it is. A point with `revised_override` takes Hang's text as its new `revised`, since that is Hang's own wording. A rejected point with a `comment` is rewritten as the comment asks, or dropped. A reference with `verdict: "disagree"` and a note means the evidence or the point is wrong, so fix it.
+- An accepted point stays as it is. A point with `revised_override` takes Hang's text as its new `revised`, since that is Hang's own wording, whether or not Hang accepted it yet. A `comment` is Hang's note on that point, on any status: follow it. On a rejected point it says why, so rewrite the point as it asks, or drop it. A reference with `verdict: "disagree"` and a note means the evidence or the point is wrong, so fix it.
+- The top-level `notes` are Hang's notes on the whole review, such as a point to add or a change across sections. Act on each one, and say in the summary how, or why not.
 - Read all relevant saved batches in time order, with later decisions taking precedence. Hang's edited wording carries more weight than an acceptance without edits. Do not infer pending decisions unless Hang asks; when asked, record inferred decisions separately from explicit choices and explain the basis. Preserve claims, data, citations, and terms, make each change as narrow as possible, and do not propose a rejected change again without addressing the rejection.
 - Keep the ids of unchanged items. The page drops a saved decision only when the text or evidence under it changes, so unchanged points keep their decisions.
 - Update `generated`, rerun the checker, and summarize what changed.
-- Hang's edits and rejections are the strongest evidence of the reviewing style. If Hang wants them kept, offer to put the decisions file in the review folder and run `python SKILL_DIR/../writing-style/writing_style_ref/tools/import_review.py <paper>/review`, and ask before running it, since it changes the shared style reference. An installed copy is replaced on the next install or plugin update, so run it on the repository's copy (`plugins/review-your-papers/skills/writing-style/`) and update the installation.
+- Hang's edits and rejections are the strongest evidence of the reviewing style. If Hang wants them kept, offer to move a decisions file that went to Downloads into the review folder and run `python SKILL_DIR/../writing-style/writing_style_ref/tools/import_review.py <paper>/review`, and ask before running it, since it changes the shared style reference. An installed copy is replaced on the next install or plugin update, so run it on the repository's copy (`plugins/review-your-papers/skills/writing-style/`) and update the installation.
 
 ## Edits to a manuscript's text
 
