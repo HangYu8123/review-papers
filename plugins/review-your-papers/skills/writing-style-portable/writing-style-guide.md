@@ -50,6 +50,8 @@ In the forms below, square brackets mark slots to fill. In the examples, ✗ mar
 19. Tell the motivation of a talk or video as a story about the problem, not as a summary of results, and do not overstate what systems can do now.
 20. Write for a reader from a neighboring field. Gloss terms at first use, name the members of any counted set, give one case after a general claim, and give the measure and size of each comparative claim in an abstract, introduction, or summary.
 21. Before changing a sentence, check any record of the author's earlier decisions on it. Raise a declined change again only as a question.
+22. In text that an assistant drafts or revises, remove the patterns that read as machine-written. The most common are a contrast with a claim that nobody made, importance claimed in general terms, a sentence that announces that a point matters, a trailing clause that only comments, a set of three by habit, stacked hedges, and a closing sentence that restates its paragraph. Judge them by how often they recur in the draft rather than by one occurrence, and do not reword a sentence the author wrote only to remove one.
+23. Keep most sentences plain and descriptive, and do not use absolute words such as the only, completely, always, or never unless the claim is literally true or the word is part of a technical term. Keep the story of the research, which is the problem, why it matters, the key intuition, and the contributions, to the abstract, the introduction, the conclusion, and the few sentences that state the main point of a method or results section. Use a turn of argument and evaluative wording only there, so that these passages stand out and a reader who reads only them learns the main contributions.
 
 ## 1. Word choice
 
@@ -71,7 +73,7 @@ Prefer the operation to a vague benefit, such as predict feedback values, infer 
 
 ### Prior work and gaps
 
-Write prior work and narrow it to the relevant methods or studies. State the particular assumption, representation, or missing comparison. Claims such as few studies, none, and first need literature support. Interprets, assumes, and relies on make different claims, so choose the one the cited work supports. In a long work, refer to its own earlier studies by chapter or section, not by paper.
+Write prior work and narrow it to the relevant methods or studies. State the particular assumption, representation, or missing comparison. Claims such as few studies, none, and first need literature support. Interprets, assumes, and relies on make different claims, so choose the one the cited work supports. In a long work, refer to its own earlier studies by chapter or section, not by paper. Attribute a claim about the literature to the work that makes it. Studies have shown and researchers argue need a citation and a statement of what the cited work found. Instead of a list of five citations after many methods exist, name the one or two closest works and the assumption each makes.
 
 **Forms.** Prior [method family] assumes [assumption]. Few studies have examined [specific relationship].
 
@@ -83,6 +85,8 @@ Each modal has its own job. Can is for a supported capability or possibility, ma
 - ✗ “which should matter more when …” → ✓ “would be expected to matter more when …”
 - ✗ “relatively high correlations” → ✓ “positive associations with feedback accuracy, with correlations of 0.25 and 0.16, respectively”
 
+Use one hedge for one uncertainty. Could potentially, may possibly, and might perhaps put two words on one doubt, so keep the one that states it. Replace a degree word that stands in for a value, such as somewhat, relatively, fairly, or to some extent, with the value or the comparison. A hedge that carries the strength of the evidence stays, since removing it would overstate the claim.
+
 ### Value words and novelty
 
 Use effective, robust, informative, promising, and similar words sparingly, next to the result or mechanism that gives them meaning. Robust must say robust to what. Prefer a concrete contribution to a claim of importance, and replace a claim of being the first with what the work does. Under-explored as [role] states a gap without claiming that a thing is new.
@@ -90,6 +94,8 @@ Use effective, robust, informative, promising, and similar words sparingly, next
 - ✗ “feedback magnitudes deserve attention” → ✓ “differences between teachers appear mainly in the magnitude of feedback”
 - ✗ “this is the first work that systematically characterizes” → ✓ “This chapter systematically characterizes”
 - ✗ “STEADY is the first algorithm that enables” → ✓ “STEADY enables”
+
+Do not claim importance in general terms. Plays a crucial role in, paves the way for, sheds light on, opens new avenues for, and is a testament to say that something matters without saying what changes. Name what the result changes, for which task or reader, and by how much, or cut the claim. Replace an intensifier that stands in for a count, such as extensive experiments, a wide range of tasks, or numerous studies, with the count or the list.
 
 ### Small word choices
 
@@ -132,6 +138,8 @@ Choose the reporting form by its job. The analysis found and the results showed 
 - ✗ a suggestion that deleted “Current results indicate that” → ✓ the author put back “Results indicate that”
 - ✗ “non-expert feedback is shaped by” → ✓ “non-expert feedback is associated with”
 - ✗ “and they support the selection of what to annotate” → ✓ “This motivates the selection of demonstrations to annotate”
+
+Do not end a sentence with a clause that comments on it without adding a fact, such as highlighting the importance of [topic], underscoring the need for [method], or showcasing the potential of [approach]. Give the fact that the clause points to, or cut the clause. A trailing clause that states a bounded interpretation, such as suggesting that [interpretation], reports a result and stays.
 
 ### Differences that were not detected
 
@@ -208,7 +216,7 @@ Ground the motivation in what a system needs to learn, what users can provide, a
 
 ### Direct subjects and concrete details
 
-Open a sentence with its subject, not with a That clause. Follow an abstract claim with the task, object, count, or observation that makes it checkable. Concrete detail comes from the study, never from an invented scenario presented as data.
+Open a sentence with its subject, not with a That clause. Follow an abstract claim with the task, object, count, or observation that makes it checkable. Concrete detail comes from the study, never from an invented scenario presented as data. A sentence that could appear unchanged in another paper says nothing about this one. Replace it with a fact, mechanism, or result of this work, or cut it.
 
 - ✗ “That progress alignment discounts sidetracks is therefore an inference” → ✓ “The expectation that progress alignment discounts sidetracks is therefore an inference”
 - ✗ “associated with who the teacher was” → ✓ “associated with the characteristics of the teacher”
@@ -248,7 +256,7 @@ Separate a direct measurement from its interpretation and from a possible cause.
 
 ### Literal wording
 
-State the relation between findings with literal verbs, such as suggest, are consistent with, help explain, were evaluated separately, and provided. Prefer a concrete scenario to a figurative summary. Keep the register formal, with no contractions or idioms.
+State the relation between findings with literal verbs, such as suggest, are consistent with, help explain, were evaluated separately, and provided. Prefer a concrete scenario to a figurative summary. Keep the register formal, with no contractions or idioms. Use is, has, and can where they are accurate. Serves as, stands as, and functions as often only avoid is, and has the ability to and due to the fact that are longer forms of can and because.
 
 - ✗ “Read together, the two studies point to three sources” → ✓ “Together, these findings suggest three sources”
 - ✗ “point in the same direction” → ✓ “are consistent with each other”
@@ -256,9 +264,21 @@ State the relation between findings with literal verbs, such as suggest, are con
 - ✗ “by two routes” → ✓ “in two ways”
 - ✗ “were lost at similar kinds of points” → ✓ “failed at similar kinds of steps”
 
+### A plain tone, with the story in a few places
+
+Write most sentences in a plain and descriptive tone. A method passage says what the method takes as input, what it computes, and what it returns. A results passage says what was measured, under which condition, and what was found. These passages need no evaluative adjectives, no wording that carries feeling or a stance, and no turn of argument, so the reader can read most of the paper at an even pace.
+
+Keep the story of the research to a few places. The story is the problem, why it matters, the key intuition, and what the work contributes. It belongs in the abstract, the introduction, and the conclusion, and in the few sentences that state the main point of a method or results section, such as its key intuition or its main finding. In these places the writing can turn from what prior work assumes to what it overlooks, as in However, [prior assumption] overlooks [behavior], and it can use evaluative and vivid wording, such as a key problem, the central insight, or a sentence on why the problem matters for [task or users]. A reader who reads only these passages should learn the problem, the insight, and the main contributions. If every paragraph is written this way, the paper is tiring to read and no point stands out.
+
+What a sentence does decides which kind it is, not its connector. A contrast that reports a difference is description and can appear anywhere, as in [A] was higher than [B], whereas [C] did not change, or However, no difference in [measure] was detected for [B]. A turn that builds tension sets the work against an assumption or a problem, and it belongs to the story passages.
+
+Do not use absolute or extreme words, such as the only, completely, entirely, fully, totally, perfectly, absolutely, always, never, fundamentally, dramatically, drastically, vastly, and extremely. Where the evidence shows a degree, give the value or the comparison. An absolute word stays when the claim is literally true and the text shows it, as in [condition] was the only condition in which [measure] changed, and in a technical term, such as fully complete and totally incomplete for the endpoints of a progress scale. The story passages follow this rule too, since their force comes from the problem and the evidence. The rules on importance claimed in general terms and on the words that the papers do not use, listed in [vocabulary.md](vocabulary.md), hold in every section.
+
 ### Emphasis
 
 Use italics for a technical signal name and, selectively, for a key intuition. Use bold for run-in headings. Quotation marks can mark an informal label. Emphasize sparingly, since repeated bold or italic sentences compete for attention.
+
+Do not announce that a point matters. It is worth noting that, it should be noted that, it is important to note that, importantly, interestingly, and needless to say tell the reader how to weigh a sentence instead of giving a reason. Delete the announcement. If the point still needs weight, give the reason or the size of the effect. A frame that introduces content, such as The key insight is that [statement], is the author's form and stays.
 
 ## 4. Sentence style
 
@@ -283,7 +303,7 @@ Parentheses hold a compact example, count, abbreviation, statistic, or figure re
 
 ### Connectors
 
-Use However at the start of a sentence for a contrast, Thus or Therefore for a supported consequence, Specifically for an elaboration, For instance for a case, First, Then, and Finally for a real sequence, and In addition, Additionally, or Moreover for an added point. Many sentences need no connector. Do not rotate connectors to avoid repetition. Consequently claims that the sentence follows from the one before.
+Use However at the start of a sentence for a contrast, Thus or Therefore for a supported consequence, Specifically for an elaboration, For instance for a case, First, Then, and Finally for a real sequence, and In addition, Additionally, or Moreover for an added point. Many sentences need no connector. Do not rotate connectors to avoid repetition. Consequently claims that the sentence follows from the one before. Do not open consecutive sentences, or most paragraphs of a section, with connectors such as In addition, Additionally, Moreover, and Furthermore. When each sentence adds one more point, join the related points in one sentence or state how they relate.
 
 - ✗ “Consequently, interactions are hard to identify” → ✓ “In addition, interactions are hard to identify”
 - ✗ “They suggest, however, that” → ✓ “However, they suggest that”
@@ -320,7 +340,7 @@ Use While [granted point], [main point] to grant a benefit or shared property be
 
 ### Parallel items and comparisons
 
-Keep paired factors, endpoints, operations, and list items at the same grammatical level. Describe two compared objects with stable subjects and the same dimensions in the same order, then say why the difference matters. In the former case and in the latter suit two cases. Use not only … but also sparingly.
+Keep paired factors, endpoints, operations, and list items at the same grammatical level. Describe two compared objects with stable subjects and the same dimensions in the same order, then say why the difference matters. In the former case and in the latter suit two cases. Use not only … but also sparingly. List as many items as the content has. Three adjectives or nouns in a row, such as efficient, robust, and scalable, need three claims that the work supports, and the evidence often covers one or two. Do not repeat one sentence form through a paragraph, such as the same subject and verb at the start of each sentence.
 
 - ✗ “can inform completion shaping, negative reward samples, and better data coverage” → ✓ “can inform completion shaping, provide negative reward samples, and improve data coverage”
 
@@ -330,6 +350,8 @@ Use rather than or instead of to make a real alternative clear, with both sides 
 
 - ✗ “…; an agent that optimizes a reward may stay there” → ✓ “…, whereas an agent that optimizes a reward may stay there”
 - ✓ “were evaluated separately, not end to end”
+
+Do not set a claim against one that nobody made, as in [X] is not just [Y], it is [Z], or The challenge is not [A] but [B]. State the claim directly. Keep a contrast when its negative half corrects a claim that cited work makes or a belief that the reader is likely to hold. A run of negations before the point, as in not [A], not [B], but [C], is the same pattern.
 
 ### Purpose and means
 
@@ -377,6 +399,8 @@ A long work can be reduced to one sentence, and the writer provides it. It names
 Build the introduction around the practical task and one particular assumption in prior work. Say what that assumption may overlook, why it matters, and the bounded question that follows. Then give the insight, the approach, the study, the main findings, and the contribution. Name the gap precisely, with what prior work covers, what it leaves out, and why. A short concrete scene can show the problem before it is stated in general terms. Reach the statement of what the work does early. These moves are an organizing default, not a fixed paragraph count. Do not dismiss prior work or present a later finding as already established.
 
 **Forms.** Practical stake → prior assumption → overlooked behavior → question → approach → findings → contribution.
+
+Do not open a paper, an abstract, or a section with a stock sentence about the field, such as In recent years, [topic] has attracted increasing attention, With the rapid development of [technology], or Despite recent advances in [field]. Open with the practical task or the specific limitation that the work addresses.
 
 ### Openings of a chapter or paper
 
@@ -428,6 +452,8 @@ Close a passage of related work with the specific difference in population, ques
 
 End a chapter or paper with what it showed and what that provides for the next step. Link forward only when the next part addresses the named question. Keep a final chapter short, and close a long work on what it is for rather than on a summary.
 
+End a paragraph on its last specific point. Do not add a sentence that restates the paragraph, turns it into a general lesson, or says why the field should care. Cut a closing sentence that only repeats the preceding sentences or adds an unsupported claim of importance. Keep a concise synthesis, bounded implication, or transition when it helps the reader understand the argument and is supported by the source. A paragraph that opens with In summary or In conclusion and only repeats earlier text is the clearest case. A last sentence stays when it states a consequence that the next paragraph builds on.
+
 ### Tables that compare studies
 
 Keep each cell short and leave procedures to the text, with a caption that says so. Keep what a reader needs to compare the studies, which is the setting with its place, the size of each group, any pilot, and a word such as non-expert that describes the participants. Write each cell as a phrase that reads on its own.
@@ -454,6 +480,10 @@ Prefer moving, cutting, and correcting the author's sentences to writing new one
 
 - ✓ an added fact that was missing, “scalar feedback was collected on the same range as progress, from 0 to 100” (accepted)
 - ✗ an inserted limitation, “an agreement statistic between the annotators is not reported” (declined)
+
+### Remove a pattern without adding another
+
+When revising text to remove a pattern that reads as machine-written, change only what the pattern needs. Do not replace it with another pattern, such as short fragments for rhythm, a rhetorical question, a first-person aside, or a figure of speech. Do not add a number, name, or example that the source does not contain, and do not drop a hedge, a condition, or a number to make a sentence plainer. When the fix needs a fact that is missing, mark the gap for the author.
 
 ### Write from the author's notes
 

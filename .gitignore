@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 .DS_Store
 dist/
+
+# Local working folders (kept on disk, not in the repo)
+/tmp/
+/validation_set/
+/waiting_for_review/
+/dissertation_reference/

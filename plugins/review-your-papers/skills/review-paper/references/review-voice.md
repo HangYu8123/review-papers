@@ -10,6 +10,8 @@ State what the evidence establishes. Replace "As far as I know" and "new to me" 
 
 Be considerate through accurate acknowledgment and proportionate requests. Prefer "Please clarify ...", "The comparison would be stronger with ...", and "It would help to ...". Avoid "I would love to see", repeated "I appreciate", "a bit", "quite", and conversational fillers. Acknowledging uncertainty does not require a first-person hedge. For example, write "The number of training runs is not reported" rather than assuming that each model was trained once.
 
+Do not say or suggest that the paper was written with an AI tool. Wording patterns do not establish who or what wrote a text, detectors misclassify the writing of non-native English speakers at high rates, and the venue's policy decides which uses of such tools are allowed. When the writing hurts clarity, name the passage and the problem, such as a claim without its measure, as with any other weakness.
+
 ## Section forms
 
 **Summary.** Open with "In this work, the authors proposed [method] for [problem]." Explain the central approach and contribution in about three sentences. A second paragraph gives the evaluation setting and main result in one or two sentences. Usually keep the whole summary to 80 to 140 words and the second paragraph to 45 words or fewer. Avoid a second statement of novelty and lists of implementation details or timings.
